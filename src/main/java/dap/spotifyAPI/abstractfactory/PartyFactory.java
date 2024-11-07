@@ -8,12 +8,14 @@ import dap.spotifyAPI.products.reggaeton.ReggaetonProduct;
 public class PartyFactory implements PlaylistFactory {
     @Override
     public PopProduct createPop() {
-        return new PartyPop();
+        return null;
+/*        return new PartyPop();*/
     }
 
     @Override
     public JazzProduct createJazz() {
-        return new PartyJazz();
+        return null;
+/*        return new PartyJazz();*/
     }
 
     @Override
