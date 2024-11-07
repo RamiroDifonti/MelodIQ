@@ -8,6 +8,6 @@ import se.michaelthelin.spotify.SpotifyApi;
 import java.util.List;
 
 public abstract class ReggaetonProduct {
-    protected Logger _logger = LoggerFactory.getLogger(ReggaetonProduct.class);
+    protected static Logger _logger = LoggerFactory.getLogger(ReggaetonProduct.class);
     public abstract List<Song> create(SpotifyApi spotifyApi, int amount);
 }
