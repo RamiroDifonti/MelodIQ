@@ -1,13 +1,14 @@
 package dap.spotifyAPI;
 
-import abstractfactory.PartyFactory;
-import abstractfactory.PlaylistFactory;
-import abstractfactory.SportFactory;
-import abstractfactory.StudyFactory;
+import dap.spotifyAPI.abstractfactory.PartyFactory;
+
+import dap.spotifyAPI.abstractfactory.SportFactory;
+import dap.spotifyAPI.abstractfactory.StudyFactory;
+import dap.spotifyAPI.abstractfactory.PlaylistFactory;
 import org.apache.hc.core5.http.ParseException;
-import products.jazz.JazzProduct;
-import products.pop.PopProduct;
-import products.reggaetton.ReggaettonProduct;
+import dap.spotifyAPI.products.jazz.JazzProduct;
+import dap.spotifyAPI.products.pop.PopProduct;
+import dap.spotifyAPI.products.reggaetton.ReggaettonProduct;
 import se.michaelthelin.spotify.SpotifyApi;
 import se.michaelthelin.spotify.exceptions.SpotifyWebApiException;
 import se.michaelthelin.spotify.requests.authorization.client_credentials.ClientCredentialsRequest;
