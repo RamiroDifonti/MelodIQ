@@ -9,8 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public interface PlaylistFactory {
-    List<Song> playlist = new ArrayList<>();
-    PopProduct addPop();
-    JazzProduct addJazz();
-    ReggaettonProduct addReggaetton();
+    PopProduct createPop();
+    JazzProduct createJazz();
+    ReggaettonProduct createReggaetton();
 }
