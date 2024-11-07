@@ -19,7 +19,7 @@ import com.neovisionaries.i18n.CountryCode;
 import java.io.IOException;
 
 public class test {
-    Logger logger = LoggerFactory.getLogger(test.class);
+    static Logger logger = LoggerFactory.getLogger(test.class);
     public static void main(String[] args) throws IOException, ParseException, SpotifyWebApiException {
         // For all requests an access token is needed
 /*        SpotifyApi spotifyApi = new SpotifyApi.Builder()
@@ -43,9 +43,9 @@ public class test {
         }
         // Enlace a Bad Bunny:
 
-        String genero = "dembow";
+        String genero = "Reggaetón Dembow";
         int limite = 10;
-        SearchTracksRequest searchTracksRequest = spotifyApi.searchTracks("genre:\"" + genero + "\"")
+        SearchTracksRequest searchTracksRequest = spotifyApi.searchTracks(genero)
                 .limit(limite)
                 .build();
         Track[] songs;
