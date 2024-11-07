@@ -15,8 +15,9 @@ import java.util.List;
 
 public class PartyReggaeton extends ReggaetonProduct {
     public List<Song> create(SpotifyApi spotifyApi, int amount) {
-        String genero = "dembow";
-        SearchTracksRequest searchTracksRequest = spotifyApi.searchTracks("genre:\"" + genero + "\"")
+        // Subgenero del reggaeton para fiesta
+        String subgenero = "Reggaetón Dembow";
+        SearchTracksRequest searchTracksRequest = spotifyApi.searchTracks(subgenero)
                 .limit(amount)
                 .build();
         List<Song> songs = new ArrayList<>();
@@ -24,20 +25,15 @@ public class PartyReggaeton extends ReggaetonProduct {
             // Realizar la solicitud y obtener los resultados
             Paging<Track> trackPaging = searchTracksRequest.execute();
 
-            // Procesar y mostrar los resultados
+            // Procesar y crear las canciones
             Track[] tracks = trackPaging.getItems();
 
             for (int i = 0; i < tracks.length; i++) {
-                Track track = tracks[i];
-                System.out.println(track);
-        /*            System.out.println((i + 1) + ". " + track.getName() + " - " +
-                            track.getArtists()[0].getName() +
-                            " (Album: " + track.getAlbum().getName() + ")");
-                    System.out.println("   URL: " + track.getExternalUrls().getExternalUrls().get("spotify"));*/
+                songs.add(new Song(tracks[i]));
             }
         } catch (IOException | SpotifyWebApiException | ParseException e) {
             _logger.info("Error al obtener las canciones de reggaeton de fiesta: " + e.getMessage());
         }
-        return null;
+        return songs;
     }
 }
