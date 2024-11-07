@@ -19,7 +19,7 @@ import com.neovisionaries.i18n.CountryCode;
 import java.io.IOException;
 
 public class test {
-    private static final Logger logger = LoggerFactory.getLogger(test.class);
+    Logger logger = LoggerFactory.getLogger(test.class);
     public static void main(String[] args) throws IOException, ParseException, SpotifyWebApiException {
         // For all requests an access token is needed
 /*        SpotifyApi spotifyApi = new SpotifyApi.Builder()
@@ -42,31 +42,27 @@ public class test {
             System.out.println("Error: " + e.getMessage());
         }
         // Enlace a Bad Bunny:
-        // https://open.spotify.com/artist/4q3ewBCX7sLwd24euuV69X?si=db397108ad8c49c6
-        String artistId = "4q3ewBCX7sLwd24euuV69X";
-        GetArtistsAlbumsRequest albums = spotifyApi.getArtistsAlbums(artistId).build();
 
-        for (AlbumSimplified album : albums.execute().getItems()) {
-            System.out.println(album.getName());
-        }
-        String genero = "rock";
+        String genero = "dembow";
         int limite = 10;
         SearchTracksRequest searchTracksRequest = spotifyApi.searchTracks("genre:\"" + genero + "\"")
                 .limit(limite)
                 .build();
-
+        Track[] songs;
         try {
             // Realizar la solicitud y obtener los resultados
             Paging<Track> trackPaging = searchTracksRequest.execute();
 
             // Procesar y mostrar los resultados
-            Track[] tracks = trackPaging.getItems();
-            for (int i = 0; i < tracks.length; i++) {
-                Track track = tracks[i];
-                System.out.println((i + 1) + ". " + track.getName() + " - " +
-                        track.getArtists()[0].getName() +
-                        " (Album: " + track.getAlbum().getName() + ")");
-                System.out.println("   URL: " + track.getExternalUrls().getExternalUrls().get("spotify"));
+            songs = trackPaging.getItems();
+
+            for (int i = 0; i < songs.length; i++) {
+                Track track = songs[i];
+                System.out.println(track);
+        /*            System.out.println((i + 1) + ". " + track.getName() + " - " +
+                            track.getArtists()[0].getName() +
+                            " (Album: " + track.getAlbum().getName() + ")");
+                    System.out.println("   URL: " + track.getExternalUrls().getExternalUrls().get("spotify"));*/
             }
         } catch (IOException | SpotifyWebApiException | ParseException e) {
             logger.info("¡Hola, Spotify!");
