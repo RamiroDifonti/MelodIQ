@@ -1,11 +1,11 @@
 package dap.spotifyAPI.products.reggaetton;
 
+import dap.spotifyAPI.utils.Song;
 import se.michaelthelin.spotify.SpotifyApi;
-import utils.Song;
 
 import java.util.List;
 
-public class SportReggaeton extends ReggaettonProduct {
+public class SportReggaeton extends ReggaetonProduct {
     public List<Song> create(SpotifyApi spotifyApi, int amount) {
         return null;
     }
