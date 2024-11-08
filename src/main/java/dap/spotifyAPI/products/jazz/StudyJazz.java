@@ -1,6 +1,13 @@
 package dap.spotifyAPI.products.jazz;
 
 import dap.spotifyAPI.utils.Song;
+import org.apache.hc.core5.http.ParseException;
+import org.apache.log4j.LogMF;
+import se.michaelthelin.spotify.SpotifyApi;
+import se.michaelthelin.spotify.exceptions.SpotifyWebApiException;
+import se.michaelthelin.spotify.model_objects.specification.Paging;
+import se.michaelthelin.spotify.model_objects.specification.Track;
+import se.michaelthelin.spotify.requests.data.search.simplified.SearchTracksRequest;
 
 import java.io.IOException;
 import java.util.ArrayList;
