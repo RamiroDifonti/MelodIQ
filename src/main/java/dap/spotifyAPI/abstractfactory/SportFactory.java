@@ -1,6 +1,7 @@
 package dap.spotifyAPI.abstractfactory;
 
 import dap.spotifyAPI.products.jazz.JazzProduct;
+import dap.spotifyAPI.products.jazz.SportJazz;
 import dap.spotifyAPI.products.pop.PopProduct;
 import dap.spotifyAPI.products.reggaeton.ReggaetonProduct;
 
