@@ -1,15 +1,13 @@
 package dap.spotifyAPI.abstractfactory;
 
-import products.jazz.JazzProduct;
-import products.pop.PopProduct;
-import products.reggaetton.ReggaettonProduct;
-import utils.Song;
+import dap.spotifyAPI.products.jazz.JazzProduct;
+import dap.spotifyAPI.products.pop.PopProduct;
+import dap.spotifyAPI.products.reggaeton.ReggaetonProduct;
 
-import java.util.ArrayList;
-import java.util.List;
 
 public interface PlaylistFactory {
     PopProduct createPop();
     JazzProduct createJazz();
-    ReggaettonProduct createReggaetton();
+    ReggaetonProduct createReggaeton();
+
 }
