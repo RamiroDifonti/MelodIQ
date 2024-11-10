@@ -1,0 +1,39 @@
+package dap.spotifyAPI.products.pop;
+
+import dap.spotifyAPI.utils.Song;
+import org.apache.hc.core5.http.ParseException;
+import se.michaelthelin.spotify.SpotifyApi;
+import se.michaelthelin.spotify.exceptions.SpotifyWebApiException;
+import se.michaelthelin.spotify.model_objects.specification.Paging;
+import se.michaelthelin.spotify.model_objects.specification.Track;
+import se.michaelthelin.spotify.requests.data.search.simplified.SearchTracksRequest;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+public class StudyPop extends PopProduct {
+    public List<Song> create(SpotifyApi spotifyApi, int amount) {
+        String genero = "pop";
+        SearchTracksRequest searchTracksRequest = spotifyApi.searchTracks("genre:\"" + genero + "\" mood:study")
+                .limit(amount)
+                .build();
+        List<Song> songs = new ArrayList<>();
+
+        try {
+            // Realizar la solicitud y obtener los resultados
+            Paging<Track> trackPaging = searchTracksRequest.execute();
+
+            // Procesar y mostrar los resultados
+            Track[] tracks = trackPaging.getItems();
+
+            for (Track track : tracks) {
+                System.out.println("Nombre: " + track.getName() + "\nArtista: " + track.getArtists()[0].getName() + "\nURI: " + track.getUri());
+                // songs.add(new Song(track.getName(), track.getArtists()[0].getName(), track.getUri()));
+            }
+        } catch (IOException | SpotifyWebApiException | ParseException e) {
+            _logger.info("Error al obtener canciones de pop para estudio: " + e.getMessage());
+        }
+        return songs;
+    }
+}
