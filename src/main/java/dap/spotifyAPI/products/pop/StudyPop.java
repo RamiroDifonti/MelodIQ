@@ -25,11 +25,11 @@ public class StudyPop extends PopProduct {
      * @return Lista de canciones de pop para estudio.
      */
     public List<Song> create(SpotifyApi spotifyApi, int amount) {
-        String genero = "pop";
-        SearchTracksRequest searchTracksRequest = spotifyApi.searchTracks("genre:\"" + genero + "\" mood:study")
+        List<Song> songs = new ArrayList<>();
+        // Realizar la solicitud a la API de Spotify para obtener las canciones de Pop para estudio
+        SearchTracksRequest searchTracksRequest = spotifyApi.searchTracks("genre:\"pop\" mood:study")
                 .limit(amount)
                 .build();
-        List<Song> songs = new ArrayList<>();
 
         try {
             // Realizamos la solicitud y obtenemos los resultados

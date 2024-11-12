@@ -15,9 +15,9 @@ import java.util.List;
 
 public class PartyPop extends PopProduct {
     public List<Song> create(SpotifyApi spotifyApi, int amount) {
-        String genero = "pop";
         List<Song> songs = new ArrayList<>();
-        SearchTracksRequest searchTracksRequest = spotifyApi.searchTracks("genre:\"" + genero + "\" mood:party")
+        // Realizar la solicitud a la API de Spotify para obtener las canciones de Pop para fiesta
+        SearchTracksRequest searchTracksRequest = spotifyApi.searchTracks("genre:\"pop\" mood:party")
                 .limit(amount)
                 .build();
 

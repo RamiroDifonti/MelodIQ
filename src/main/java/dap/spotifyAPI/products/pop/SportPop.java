@@ -28,10 +28,11 @@ public class SportPop extends PopProduct {
     public List<Song> create(SpotifyApi spotifyApi, int amount) {
         // Lista de canciones que se van a añadir a la playlist.
         List<Song> songs = new ArrayList<>();
-        String genre = "pop";
-        SearchTracksRequest searchTracksRequest = spotifyApi.searchTracks("genre:\"" + genre + "\" mood:sport")
+        // Realizamos la solicitud a la API de Spotify para obtener las canciones de Pop para deporte.
+        SearchTracksRequest searchTracksRequest = spotifyApi.searchTracks("genre:\"pop\" mood:work")
                 .limit(amount)
                 .build();
+
         try {
             // Solicitamos los tracks a la API de Spotify y los añadimos a la lista de canciones.
             Paging<Track> trackPaging = searchTracksRequest.execute();
