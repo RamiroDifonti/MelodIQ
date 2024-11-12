@@ -189,21 +189,53 @@ class Frame extends JFrame {
         JPanel songsPanel = new JPanel();
         songsPanel.setLayout(new BoxLayout(songsPanel, BoxLayout.Y_AXIS));
         if (_genres[0]) {
-            List<Song> popSongs = pp.create(_spotifyApi, numSongs[0]);
+            List <Song> popSongs = new ArrayList<>();
+            try {
+                popSongs = pp.create(_spotifyApi, numSongs[0]);
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "No se han encontrado canciones de Pop.");
+                remove(_panel);
+                _amount = 0;
+                _playlistName = "Default";
+                _genres = new Boolean[]{false, false, false};
+                Start();
+                return;
+            }
+
             for (Song song : popSongs) {
                 songsPanel.add(song.getLayout());
             }
         }
-        System.out.println();
         if (_genres[1]) {
-            List<Song> jazzSongs = jp.create(_spotifyApi, numSongs[1]);
+            List <Song> jazzSongs = new ArrayList<>();
+            try {
+                jazzSongs = jp.create(_spotifyApi, numSongs[1]);
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "No se han encontrado canciones de Jazz.");
+                remove(_panel);
+                _amount = 0;
+                _playlistName = "Default";
+                _genres = new Boolean[]{false, false, false};
+                Start();
+                return;
+            }
             for (Song song : jazzSongs) {
                 songsPanel.add(song.getLayout());
             }
         }
-        System.out.println();
         if (_genres[2]) {
-            List<Song> reggaetonSongs = rp.create(_spotifyApi, numSongs[2]);
+            List <Song> reggaetonSongs = new ArrayList<>();
+            try {
+                reggaetonSongs = rp.create(_spotifyApi, numSongs[2]);
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "No se han encontrado canciones de Reggaeton.");
+                remove(_panel);
+                _amount = 0;
+                _playlistName = "Default";
+                _genres = new Boolean[]{false, false, false};
+                Start();
+                return;
+            }
             for (Song song : reggaetonSongs) {
                 songsPanel.add(song.getLayout());
             }
