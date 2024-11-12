@@ -1,9 +1,11 @@
 package dap.spotifyAPI.abstractfactory;
 
 import dap.spotifyAPI.products.jazz.JazzProduct;
+import dap.spotifyAPI.products.jazz.StudyJazz;
 import dap.spotifyAPI.products.pop.PopProduct;
 import dap.spotifyAPI.products.pop.StudyPop;
 import dap.spotifyAPI.products.reggaeton.ReggaetonProduct;
+import dap.spotifyAPI.products.reggaeton.StudyReggaeton;
 
 /**
  * Al igual que pasa en el resto de clases concretas, esta clase implementa la interfaz PlaylistFactory y
