@@ -40,7 +40,7 @@ public class StudyPop extends PopProduct {
 
             // Se recorren las canciones obtenidas y se muestran en consola
             for (Track track : tracks) {
-                songs.add(new Song(track)); // Añadir la canción a la lista
+                songs.add(new Song(track)); // Añadir la canción a la lista de canciones
             }
         } catch (IOException | SpotifyWebApiException | ParseException e) {
             _logger.info("Error al obtener canciones de pop para estudio: " + e.getMessage());

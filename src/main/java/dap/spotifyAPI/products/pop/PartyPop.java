@@ -2,6 +2,7 @@ package dap.spotifyAPI.products.pop;
 
 import dap.spotifyAPI.utils.Song;
 import org.apache.hc.core5.http.ParseException;
+import org.apache.log4j.LogMF;
 import se.michaelthelin.spotify.SpotifyApi;
 import se.michaelthelin.spotify.exceptions.SpotifyWebApiException;
 import se.michaelthelin.spotify.model_objects.specification.Paging;
@@ -16,7 +17,7 @@ public class PartyPop extends PopProduct {
     public List<Song> create(SpotifyApi spotifyApi, int amount) {
         String genero = "pop";
         List<Song> songs = new ArrayList<>();
-        SearchTracksRequest searchTracksRequest = spotifyApi.searchTracks("genre:\"" + genero + "\"")
+        SearchTracksRequest searchTracksRequest = spotifyApi.searchTracks("genre:\"" + genero + "\" mood:party")
                 .limit(amount)
                 .build();
 
@@ -28,7 +29,7 @@ public class PartyPop extends PopProduct {
             Track[] tracks = trackPaging.getItems();
 
             for (Track track : tracks) {
-                songs.add(new Song(track)); // Añadir la canción a la lista
+                songs.add(new Song(track)); // Añadimos la canción a la lista de canciones
             }
         } catch (IOException | SpotifyWebApiException | ParseException e) {
             _logger.info("Error al obtener canciones de pop para fiesta: " + e.getMessage());
