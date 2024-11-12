@@ -26,12 +26,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+
 /**
- * Clase que representa la interfaz gráfica de usuario para la creación de una playlist personalizada
- * basada en géneros y actividades utilizando la API de Spotify.
- *
- * Esta clase se encarga de la configuración inicial de la interfaz gráfica, la recopilación de los datos
- * ingresados por el usuario, y la creación de la playlist mediante una factoría de productos (géneros de música).
+ * Clase principal para la creación de una playlist personalizada basada en géneros y actividades.
+ * Utiliza la API de Spotify para generar una playlist.
  */
 class Frame extends JFrame {
 
@@ -47,9 +45,10 @@ class Frame extends JFrame {
     private Boolean[] _genres = new Boolean[]{false, false, false};
 
     /**
-     * Constructor de la clase Frame que inicializa la API de Spotify y llama al método de configuración inicial.
+     * Constructor de la clase Frame.
+     * Inicializa la interfaz gráfica y la API de Spotify.
      *
-     * @param spotifyApi Instancia de la API de Spotify que se usará para generar la playlist.
+     * @param spotifyApi La API de Spotify que se utilizará para crear la playlist.
      */
     public Frame(SpotifyApi spotifyApi) {
         _spotifyApi = spotifyApi;
@@ -57,13 +56,12 @@ class Frame extends JFrame {
     }
 
     /**
-     * Método que configura la interfaz gráfica de usuario, donde se recogen los datos del usuario como el nombre
-     * de la playlist, la actividad, el número de canciones y los géneros seleccionados.
+     * Método que configura la interfaz gráfica con los componentes necesarios para la creación de la playlist.
+     * Incluye campos de texto para el nombre de la playlist, selección de actividad, número de canciones y géneros.
      */
     public void Start() {
         setLayout(new FlowLayout());
-
-        // Crear un panel con un BoxLayout para agregar los componentes verticalmente
+        // Crear un BoxLayout para ir introduciendo los objetos
         _panel = new JPanel();
         _panel.setLayout(new BoxLayout(_panel, BoxLayout.Y_AXIS));
         _panel.setBorder(new EmptyBorder(40, 20, 20, 20));
@@ -75,13 +73,11 @@ class Frame extends JFrame {
         JTextField playlistField = new JTextField("");
         playlistField.setAlignmentX(Component.CENTER_ALIGNMENT);
         _panel.add(playlistField);
-
-        // Título de actividad
+        // Titulo
         JLabel title = new JLabel("Seleccione la actividad que desea realizar:");
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
         _panel.add(title);
-
-        // Selección de tipo de actividad (Deporte, Estudio, Fiesta)
+        // Tipo de actividad
         JPanel activities = new JPanel();
         activities.setLayout(new BoxLayout(activities, BoxLayout.X_AXIS));
         JRadioButton sport = new JRadioButton("Deporte");
@@ -96,8 +92,7 @@ class Frame extends JFrame {
         options.add(sport);
         options.add(study);
         options.add(party);
-
-        // Número de canciones
+        // Número de canciones de la playlist
         JLabel songTitle = new JLabel("Seleccione el número de canciones de la playlist:");
         songTitle.setAlignmentX(Component.CENTER_ALIGNMENT);
         _panel.add(songTitle);
@@ -105,12 +100,11 @@ class Frame extends JFrame {
         numberField.setAlignmentX(Component.CENTER_ALIGNMENT);
         _panel.add(numberField);
 
-        // Géneros de la playlist
+        // Tipos de genero
         JLabel genreTitle = new JLabel("Seleccione los tipos de género que quieres tener en la playlist:");
         genreTitle.setAlignmentX(Component.CENTER_ALIGNMENT);
         _panel.add(genreTitle);
-
-        // Selección de géneros (Pop, Jazz, Reggaeton)
+        // Crear tres JCheckBox
         JPanel genres = new JPanel();
         genres.setLayout(new BoxLayout(genres, BoxLayout.X_AXIS));
         JCheckBox pop = new JCheckBox("Pop");
@@ -121,16 +115,14 @@ class Frame extends JFrame {
         genres.add(reggaeton);
         _panel.add(genres);
 
-        // Botón para generar la playlist
+        // Generar playlist
         JButton confirm = new JButton("Generar");
         confirm.setAlignmentX(Component.CENTER_ALIGNMENT);
         _panel.add(confirm);
 
-        // Acción del botón para generar la playlist
         confirm.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Validación del número de canciones
                 if (!numberField.getText().isEmpty() && numberField.getText().matches("\\d*")) {
                     int numSongs = Integer.parseInt(numberField.getText());
                     if (numSongs <= 0) {
@@ -142,13 +134,10 @@ class Frame extends JFrame {
                     JOptionPane.showMessageDialog(null, "No has escrito un número valido de canciones.");
                     return;
                 }
-
-                // Actualización del nombre de la playlist si se ha ingresado un valor
                 if(!playlistField.getText().isEmpty()) {
                     _playlistName = playlistField.getText();
                 }
 
-                // Determinación de la factoría en base a la actividad seleccionada
                 if (sport.isSelected()) {
                     _factory = new SportFactory();
                 } else if (study.isSelected()) {
@@ -159,8 +148,6 @@ class Frame extends JFrame {
                     JOptionPane.showMessageDialog(null, "No has seleccionado ninguna opción.");
                     return;
                 }
-
-                // Actualización de los géneros seleccionados
                 if (pop.isSelected()) {
                     _genres[0] = true;
                 }
@@ -170,8 +157,6 @@ class Frame extends JFrame {
                 if (reggaeton.isSelected()) {
                     _genres[2] = true;
                 }
-
-                // Validación de la selección de géneros
                 if (!_genres[0] && !_genres[1] && !_genres[2]) {
                     JOptionPane.showMessageDialog(null, "No has seleccionado ningún género.");
                     return;
@@ -179,18 +164,18 @@ class Frame extends JFrame {
                 createPlaylist();
             }
         });
-
         add(_panel);
         revalidate();
         repaint();
         setSize(1000, 850);
         setVisible(true);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+
     }
 
     /**
-     * Método que genera la playlist con los géneros seleccionados y el número de canciones especificado.
-     * Llama a los productos de cada factoría para crear las canciones de cada género.
+     * Método que genera la playlist según los géneros seleccionados y el número de canciones.
+     * Llama a los métodos de las factorías para crear las canciones de cada género.
      */
     public void createPlaylist() {
         // Eliminar y limpiar jframe
@@ -199,12 +184,12 @@ class Frame extends JFrame {
         _panel.setLayout(new BoxLayout(_panel, BoxLayout.Y_AXIS));
         _panel.setBorder(new EmptyBorder(40, 20, 20, 20));
 
-        // Llamar a los productos de la factoría
+        // Llamar a los productos
         JazzProduct jp = _factory.createJazz();
         PopProduct pp = _factory.createPop();
         ReggaetonProduct rp = _factory.createReggaeton();
 
-        // Cálculo de la distribución de canciones entre géneros
+        // Canciones de cada género
         int sumGenres = 0;
         for (Boolean genre : _genres) {
             if (genre) {
@@ -224,14 +209,10 @@ class Frame extends JFrame {
                 }
             }
         }
-
-        // Crear el panel de canciones
         JPanel songsPanel = new JPanel();
         songsPanel.setLayout(new BoxLayout(songsPanel, BoxLayout.Y_AXIS));
-
-        // Agregar canciones de Pop, Jazz y Reggaeton a la lista de canciones
         if (_genres[0]) {
-            List<Song> popSongs = new ArrayList<>();
+            List <Song> popSongs = new ArrayList<>();
             try {
                 popSongs = pp.create(_spotifyApi, numSongs[0]);
             } catch (Exception e) {
@@ -243,12 +224,13 @@ class Frame extends JFrame {
                 Start();
                 return;
             }
+
             for (Song song : popSongs) {
                 songsPanel.add(song.getLayout());
             }
         }
         if (_genres[1]) {
-            List<Song> jazzSongs = new ArrayList<>();
+            List <Song> jazzSongs = new ArrayList<>();
             try {
                 jazzSongs = jp.create(_spotifyApi, numSongs[1]);
             } catch (Exception e) {
@@ -265,7 +247,7 @@ class Frame extends JFrame {
             }
         }
         if (_genres[2]) {
-            List<Song> reggaetonSongs = new ArrayList<>();
+            List <Song> reggaetonSongs = new ArrayList<>();
             try {
                 reggaetonSongs = rp.create(_spotifyApi, numSongs[2]);
             } catch (Exception e) {
@@ -281,13 +263,41 @@ class Frame extends JFrame {
                 songsPanel.add(song.getLayout());
             }
         }
+        // Panel scroll que se mueve de arriba a abajo
+        JScrollPane scrollPane = new JScrollPane(songsPanel);
+        scrollPane.setPreferredSize(new Dimension(400, 600));
+        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
-        _panel.add(songsPanel);
+        // Titulo de la playlist
+        JLabel playlistTitle = new JLabel(_playlistName);
+        playlistTitle.setAlignmentX(Component.CENTER_ALIGNMENT);
+        _panel.add(playlistTitle);
+        _panel.add(scrollPane);
+        // Botón para volver
+        // Generar playlist
+        JButton ret = new JButton("Volver");
+        ret.setAlignmentX(Component.CENTER_ALIGNMENT);
+        _panel.add(ret);
+
+        ret.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                remove(_panel);
+                _amount = 0;
+                _playlistName = "Default";
+                _genres = new Boolean[]{false, false, false};
+                Start();
+            }
+        });
         add(_panel);
         revalidate();
         repaint();
     }
 }
+
+
+
 
 /**
  * Clase principal de la interfaz gráfica de usuario (GUI) que interactúa con la API de Spotify.
