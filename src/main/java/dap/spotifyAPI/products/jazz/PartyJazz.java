@@ -15,12 +15,11 @@ import java.util.List;
 
 public class PartyJazz extends JazzProduct {
   public List<Song> create(SpotifyApi spotifyApi, int amount) {
-    String genero = "dembow";
+    String genero = "jazz";
+    List<Song> songs = new ArrayList<>();
     SearchTracksRequest searchTracksRequest = spotifyApi.searchTracks("genre:\"" + genero + "\"")
             .limit(amount)
             .build();
-    List<Song> songs = new ArrayList<>();
-
     try {
       // Realizar la solicitud y obtener los resultados
       Paging<Track> trackPaging = searchTracksRequest.execute();
@@ -28,17 +27,12 @@ public class PartyJazz extends JazzProduct {
       // Procesar y mostrar los resultados
       Track[] tracks = trackPaging.getItems();
 
-      for (int i = 0; i < tracks.length; i++) {
-        Track track = tracks[i];
-        System.out.println(track);
-        /*            System.out.println((i + 1) + ". " + track.getName() + " - " +
-                            track.getArtists()[0].getName() +
-                            " (Album: " + track.getAlbum().getName() + ")");
-                    System.out.println("   URL: " + track.getExternalUrls().getExternalUrls().get("spotify"));*/
+      for (Track track : tracks) {
+        songs.add(new Song(track)); // Añadir la canción a la lista
       }
     } catch (IOException | SpotifyWebApiException | ParseException e) {
       _logger.info("Error al obtener las canciones de jazz de fiesta: " + e.getMessage());
     }
-    return null;
+    return songs;
   }
 }
