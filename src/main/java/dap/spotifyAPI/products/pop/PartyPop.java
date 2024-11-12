@@ -13,7 +13,25 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Clase que representa un producto de pop para fiestas.
+ *
+ * Esta clase extiende {@link PopProduct} y sobrecarga el método {@link #create(SpotifyApi, int)}
+ * para obtener una lista de canciones de pop específicamente para fiestas, utilizando los parámetros
+ * adecuados en la búsqueda a través de la API de Spotify.
+ */
 public class PartyPop extends PopProduct {
+
+    /**
+     * Crea una lista de canciones de pop para fiestas.
+     *
+     * Este método realiza una búsqueda en la API de Spotify utilizando el género "pop" y el estado de ánimo "party",
+     * y devuelve una lista de canciones obtenidas según la cantidad especificada.
+     *
+     * @param spotifyApi La instancia de la API de Spotify utilizada para realizar la búsqueda de canciones.
+     * @param amount El número de canciones que se desean obtener.
+     * @return Una lista de objetos {@link Song} que representan las canciones obtenidas.
+     */
     public List<Song> create(SpotifyApi spotifyApi, int amount) {
         List<Song> songs = new ArrayList<>();
         // Realizar la solicitud a la API de Spotify para obtener las canciones de Pop para fiesta
@@ -37,3 +55,4 @@ public class PartyPop extends PopProduct {
         return songs;
     }
 }
+
