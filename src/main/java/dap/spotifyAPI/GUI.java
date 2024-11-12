@@ -66,17 +66,38 @@ class Frame extends JFrame {
         _panel.setLayout(new BoxLayout(_panel, BoxLayout.Y_AXIS));
         _panel.setBorder(new EmptyBorder(40, 20, 20, 20));
 
+        // Mostrar la imagen primero
+        ImageIcon logo = new ImageIcon("src/files/Logo1.png");
+        // ajustamos el tamaño de la imagen más pequeño
+        Image img = logo.getImage();
+        Image newimg = img.getScaledInstance(200, 200,  java.awt.Image.SCALE_SMOOTH);
+        logo = new ImageIcon(newimg);
+        JLabel logoLabel = new JLabel(logo);
+        logoLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        _panel.add(logoLabel);
+
+
         // Nombre de la playlist
         JLabel name = new JLabel("Introduzca el nombre de la playlist:");
         name.setAlignmentX(Component.CENTER_ALIGNMENT);
         _panel.add(name);
+
         JTextField playlistField = new JTextField("");
         playlistField.setAlignmentX(Component.CENTER_ALIGNMENT);
         _panel.add(playlistField);
-        // Titulo
+
+        // insertamos una linea en horizontal para diferenciar
+        JSeparator separator = new JSeparator();
+        separator.setAlignmentX(Component.CENTER_ALIGNMENT);
+        // añadimos un espacio en blanco entre los elementos
+        _panel.add(Box.createRigidArea(new Dimension(0, 20)));
+        _panel.add(separator);
+        _panel.add(Box.createRigidArea(new Dimension(0, 10)));
+
         JLabel title = new JLabel("Seleccione la actividad que desea realizar:");
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
         _panel.add(title);
+
         // Tipo de actividad
         JPanel activities = new JPanel();
         activities.setLayout(new BoxLayout(activities, BoxLayout.X_AXIS));
@@ -87,11 +108,17 @@ class Frame extends JFrame {
         activities.add(study);
         activities.add(party);
         _panel.add(activities);
-
         ButtonGroup options = new ButtonGroup();
         options.add(sport);
         options.add(study);
         options.add(party);
+
+        // insertamos una linea en horizontal para diferenciar
+        _panel.add(Box.createRigidArea(new Dimension(0, 20)));
+        JSeparator separator1 = new JSeparator();
+        _panel.add(separator1);
+        _panel.add(Box.createRigidArea(new Dimension(0, 10)));
+
         // Número de canciones de la playlist
         JLabel songTitle = new JLabel("Seleccione el número de canciones de la playlist:");
         songTitle.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -99,6 +126,12 @@ class Frame extends JFrame {
         JTextField numberField = new JTextField(10);
         numberField.setAlignmentX(Component.CENTER_ALIGNMENT);
         _panel.add(numberField);
+
+        // insertamos una linea en horizontal para diferenciar
+        _panel.add(Box.createRigidArea(new Dimension(0, 20)));
+        JSeparator separator2 = new JSeparator();
+        _panel.add(separator2);
+        _panel.add(Box.createRigidArea(new Dimension(0, 10)));
 
         // Tipos de genero
         JLabel genreTitle = new JLabel("Seleccione los tipos de género que quieres tener en la playlist:");
@@ -115,10 +148,22 @@ class Frame extends JFrame {
         genres.add(reggaeton);
         _panel.add(genres);
 
+        _panel.add(Box.createRigidArea(new Dimension(0, 10)));
+        JSeparator separator3 = new JSeparator();
+        _panel.add(separator3);
+        _panel.add(Box.createRigidArea(new Dimension(0, 10)));
+
         // Generar playlist
         JButton confirm = new JButton("Generar");
-        confirm.setAlignmentX(Component.CENTER_ALIGNMENT);
-        _panel.add(confirm);
+        // boton de salir
+        JButton exit = new JButton("Salir");
+        // ponemos los dos botones seguidos
+        JPanel buttons = new JPanel();
+        buttons.setLayout(new BoxLayout(buttons, BoxLayout.X_AXIS));
+        buttons.add(confirm);
+        buttons.add(exit);
+        _panel.add(buttons);
+
 
         confirm.addActionListener(new ActionListener() {
             @Override
@@ -164,10 +209,18 @@ class Frame extends JFrame {
                 createPlaylist();
             }
         });
+
+        exit.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.exit(0);
+            }
+        });
+
         add(_panel);
         revalidate();
         repaint();
-        setSize(1000, 850);
+        setSize(700, 700);
         setVisible(true);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
@@ -183,6 +236,18 @@ class Frame extends JFrame {
         _panel = new JPanel();
         _panel.setLayout(new BoxLayout(_panel, BoxLayout.Y_AXIS));
         _panel.setBorder(new EmptyBorder(40, 20, 20, 20));
+
+        // Mostrar la imagen primero
+        ImageIcon logo = new ImageIcon("src/files/Logo1.png");
+        // ajustamos el tamaño de la imagen más pequeño
+        Image img = logo.getImage();
+        Image newimg = img.getScaledInstance(50, 50,  java.awt.Image.SCALE_SMOOTH);
+        logo = new ImageIcon(newimg);
+        JLabel logoLabel = new JLabel(logo);
+        logoLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        _panel.add(logoLabel);
+
+        _panel.add(Box.createRigidArea(new Dimension(0, 20)));
 
         // Llamar a los productos
         JazzProduct jp = _factory.createJazz();
@@ -272,9 +337,13 @@ class Frame extends JFrame {
         // Titulo de la playlist
         JLabel playlistTitle = new JLabel(_playlistName);
         playlistTitle.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        // Ponemos en cursiva y máas grande el título
+        playlistTitle.setFont(new Font("Serif", Font.ITALIC + Font.BOLD, 20));
         _panel.add(playlistTitle);
+        _panel.add(Box.createRigidArea(new Dimension(0, 10)));
         _panel.add(scrollPane);
-        // Botón para volver
+
         // Generar playlist
         JButton ret = new JButton("Volver");
         ret.setAlignmentX(Component.CENTER_ALIGNMENT);
