@@ -8,13 +8,17 @@ import dap.spotifyAPI.products.reggaeton.ReggaetonProduct;
 import dap.spotifyAPI.products.reggaeton.StudyReggaeton;
 
 /**
- * Al igual que pasa en el resto de clases concretas, esta clase implementa la interfaz PlaylistFactory y
- * sobreescribe los métodos de creación de productos de la interfaz para crear una playlist de estudio.
+ * Implementación concreta de la interfaz {@link PlaylistFactory} para la creación de productos de playlists
+ * orientados al estudio.
+ * Esta clase implementa los métodos para crear productos de playlists en los géneros Pop, Jazz y Reggaeton,
+ * con un enfoque adecuado para el estudio.
  */
 public class StudyFactory implements PlaylistFactory {
+
     /**
-     * Metodo que crea una lista de canciones con las características de Jazz.
-     * @return JazzProduct
+     * Método que crea una playlist de Jazz con características adecuadas para el estudio.
+     *
+     * @return Un objeto de tipo {@link JazzProduct} representando una playlist de Jazz para estudio.
      */
     @Override
     public JazzProduct createJazz() {
@@ -22,8 +26,9 @@ public class StudyFactory implements PlaylistFactory {
     }
 
     /**
-     * Metodo que crea una lista de canciones con las características de Pop.
-     * @return PopProduct
+     * Método que crea una playlist de Pop con características adecuadas para el estudio.
+     *
+     * @return Un objeto de tipo {@link PopProduct} representando una playlist de Pop para estudio.
      */
     @Override
     public PopProduct createPop() {
@@ -31,8 +36,9 @@ public class StudyFactory implements PlaylistFactory {
     }
 
     /**
-     * Metodo que crea una lista de canciones con las características de Reggaeton.
-     * @return ReggaetonProduct
+     * Método que crea una playlist de Reggaeton con características adecuadas para el estudio.
+     *
+     * @return Un objeto de tipo {@link ReggaetonProduct} representando una playlist de Reggaeton para estudio.
      */
     @Override
     public ReggaetonProduct createReggaeton() {

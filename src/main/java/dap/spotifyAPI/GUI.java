@@ -26,6 +26,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+
+/**
+ * Clase principal para la creación de una playlist personalizada basada en géneros y actividades.
+ * Utiliza la API de Spotify para generar una playlist.
+ */
 class Frame extends JFrame {
 
     private JPanel _panel;
@@ -39,10 +44,21 @@ class Frame extends JFrame {
     private String _playlistName = "Default";
     private Boolean[] _genres = new Boolean[]{false, false, false};
 
+    /**
+     * Constructor de la clase Frame.
+     * Inicializa la interfaz gráfica y la API de Spotify.
+     *
+     * @param spotifyApi La API de Spotify que se utilizará para crear la playlist.
+     */
     public Frame(SpotifyApi spotifyApi) {
         _spotifyApi = spotifyApi;
         Start();
     }
+
+    /**
+     * Método que configura la interfaz gráfica con los componentes necesarios para la creación de la playlist.
+     * Incluye campos de texto para el nombre de la playlist, selección de actividad, número de canciones y géneros.
+     */
     public void Start() {
         setLayout(new FlowLayout());
         // Crear un BoxLayout para ir introduciendo los objetos
@@ -156,6 +172,11 @@ class Frame extends JFrame {
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
     }
+
+    /**
+     * Método que genera la playlist según los géneros seleccionados y el número de canciones.
+     * Llama a los métodos de las factorías para crear las canciones de cada género.
+     */
     public void createPlaylist() {
         // Eliminar y limpiar jframe
         remove(_panel);
@@ -275,22 +296,45 @@ class Frame extends JFrame {
     }
 }
 
+/**
+ * Clase principal de la interfaz gráfica de usuario (GUI) que interactúa con la API de Spotify.
+ * Esta clase configura la autenticación a través de la API de Spotify utilizando las credenciales
+ * del cliente, obtiene un token de acceso y pasa dicho token a un objeto {@link SpotifyApi} para
+ * realizar futuras solicitudes.
+ */
 public class GUI {
+
+    /**
+     * Método principal que configura la autenticación con la API de Spotify y lanza la interfaz gráfica.
+     *
+     * @param args Argumentos de línea de comandos (no utilizados en esta implementación).
+     */
     public static void main(String[] args) {
+        // Identificador de cliente proporcionado por Spotify para la autenticación
         String client_id = "75399c2bdb7948b882f6647795204070";
+
+        // Secreto de cliente proporcionado por Spotify para la autenticación
         String client_secret = "484b0ac5151f4288a40c06e8ae7a4dc4";
+
+        // Construcción de la instancia de la API de Spotify utilizando las credenciales del cliente
         SpotifyApi spotifyApi = new SpotifyApi.Builder()
                 .setClientId(client_id)
                 .setClientSecret(client_secret)
                 .build();
+
+        // Construcción de la solicitud de credenciales del cliente para obtener el token de acceso
         ClientCredentialsRequest clientCredentialsRequest = spotifyApi.clientCredentials().build();
+
         try {
+            // Obtención del token de acceso y configuración de la API de Spotify para realizar solicitudes
             String accessToken = clientCredentialsRequest.execute().getAccessToken();
-            // Utiliza el token de acceso para hacer otras solicitudes
-            spotifyApi.setAccessToken(accessToken);
+            spotifyApi.setAccessToken(accessToken); // Establece el token de acceso en el objeto spotifyApi
         } catch (IOException | SpotifyWebApiException | ParseException e) {
+            // Manejo de errores durante la obtención del token de acceso
             System.out.println("Error: " + e.getMessage());
         }
+
+        // Crea y muestra la interfaz gráfica de usuario con el objeto spotifyApi
         new Frame(spotifyApi);
     }
 }

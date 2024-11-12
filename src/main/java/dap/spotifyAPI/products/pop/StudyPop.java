@@ -14,37 +14,47 @@ import java.util.List;
 
 /**
  * Clase concreta que define el comportamiento de los productos de tipo Pop para estudio en la aplicación.
- * Esta clase extiende de la clase PopProduct y sobreescribe el metodo create para crear una lista de canciones
- * de pop para estudio.
+ *
+ * Esta clase extiende de {@link PopProduct} y sobreescribe el método {@link #create(SpotifyApi, int)} para
+ * crear una lista de canciones de pop relacionadas con el estado de ánimo de estudio.
  */
 public class StudyPop extends PopProduct {
+
     /**
-     * Metodo que crea una lista de canciones de pop para estudio.
-     * @param spotifyApi Objeto que se encarga de realizar las solicitudes a la API de Spotify.
-     * @param amount Cantidad de canciones que se van a crear en la playlist.
-     * @return Lista de canciones de pop para estudio.
+     * Método que crea una lista de canciones de pop para estudiar.
+     *
+     * Realiza una solicitud a la API de Spotify para obtener canciones de pop relacionadas con el estado de ánimo
+     * de estudio y las agrega a una lista de canciones de tipo {@link Song}.
+     *
+     * @param spotifyApi Objeto que se encarga de la comunicación con la API de Spotify.
+     * @param amount La cantidad de canciones que se van a añadir a la playlist.
+     * @return Lista de canciones de tipo {@link Song} correspondientes al subgénero de Pop para estudiar.
      */
     public List<Song> create(SpotifyApi spotifyApi, int amount) {
+        // Lista de canciones que se van a añadir a la playlist.
         List<Song> songs = new ArrayList<>();
-        // Realizar la solicitud a la API de Spotify para obtener las canciones de Pop para estudio
+
+        // Realizamos la solicitud a la API de Spotify para obtener las canciones de Pop para estudiar.
         SearchTracksRequest searchTracksRequest = spotifyApi.searchTracks("genre:\"pop\" mood:study")
                 .limit(amount)
                 .build();
 
         try {
-            // Realizamos la solicitud y obtenemos los resultados
+            // Solicitamos los tracks a la API de Spotify y los añadimos a la lista de canciones.
             Paging<Track> trackPaging = searchTracksRequest.execute();
 
-            // Se procesan y se muestran los resultados
+            // Se procesan los tracks obtenidos.
             Track[] tracks = trackPaging.getItems();
 
-            // Se recorren las canciones obtenidas y se muestran en consola
+            // Se recorren los tracks obtenidos y se añaden a la lista de canciones.
             for (Track track : tracks) {
-                songs.add(new Song(track)); // Añadir la canción a la lista de canciones
+                songs.add(new Song(track));  // Añadimos la canción a la lista.
             }
         } catch (IOException | SpotifyWebApiException | ParseException e) {
             _logger.info("Error al obtener canciones de pop para estudio: " + e.getMessage());
         }
-        return songs;
+
+        return songs;  // Retornamos la lista de canciones obtenidas.
     }
 }
+

@@ -1,0 +1,57 @@
+\doxysection{dap.\+spotify\+API.\+products.\+pop.\+Party\+Pop Class Reference}
+\hypertarget{classdap_1_1spotify_a_p_i_1_1products_1_1pop_1_1_party_pop}{}\label{classdap_1_1spotify_a_p_i_1_1products_1_1pop_1_1_party_pop}\index{dap.spotifyAPI.products.pop.PartyPop@{dap.spotifyAPI.products.pop.PartyPop}}
+Inheritance diagram for dap.\+spotify\+API.\+products.\+pop.\+Party\+Pop\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classdap_1_1spotify_a_p_i_1_1products_1_1pop_1_1_party_pop}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+List$<$ \mbox{\hyperlink{classdap_1_1spotify_a_p_i_1_1utils_1_1_song}{Song}} $>$ \mbox{\hyperlink{classdap_1_1spotify_a_p_i_1_1products_1_1pop_1_1_party_pop_a2951e64d7bec247dd8b6d5516b2f5908}{create}} (Spotify\+Api spotify\+Api, int amount)
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{classdap_1_1spotify_a_p_i_1_1products_1_1pop_1_1_pop_product}{dap.\+spotify\+API.\+products.\+pop.\+Pop\+Product}}}
+\doxysubsubsection*{Additional Inherited Members}
+\doxysubsection*{Protected Attributes inherited from \mbox{\hyperlink{classdap_1_1spotify_a_p_i_1_1products_1_1pop_1_1_pop_product}{dap.\+spotify\+API.\+products.\+pop.\+Pop\+Product}}}
+\begin{DoxyCompactItemize}
+\item 
+Logger \mbox{\hyperlink{classdap_1_1spotify_a_p_i_1_1products_1_1pop_1_1_pop_product_a2ad75bd9da7ff93bcabb0435dbdcec57}{\+\_\+logger}} = Logger\+Factory.\+get\+Logger(Pop\+Product.\+class)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Clase que representa un producto de pop para fiestas.
+
+Esta clase extiende {\ttfamily \doxylink{classdap_1_1spotify_a_p_i_1_1products_1_1pop_1_1_pop_product}{Pop\+Product}} y sobrecarga el método {\ttfamily \doxylink{classdap_1_1spotify_a_p_i_1_1products_1_1pop_1_1_party_pop_a2951e64d7bec247dd8b6d5516b2f5908}{create(\+Spotify\+Api, int)}} para obtener una lista de canciones de pop específicamente para fiestas, utilizando los parámetros adecuados en la búsqueda a través de la API de Spotify. 
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classdap_1_1spotify_a_p_i_1_1products_1_1pop_1_1_party_pop_a2951e64d7bec247dd8b6d5516b2f5908}\index{dap.spotifyAPI.products.pop.PartyPop@{dap.spotifyAPI.products.pop.PartyPop}!create@{create}}
+\index{create@{create}!dap.spotifyAPI.products.pop.PartyPop@{dap.spotifyAPI.products.pop.PartyPop}}
+\doxysubsubsection{\texorpdfstring{create()}{create()}}
+{\footnotesize\ttfamily \label{classdap_1_1spotify_a_p_i_1_1products_1_1pop_1_1_party_pop_a2951e64d7bec247dd8b6d5516b2f5908} 
+List$<$ \mbox{\hyperlink{classdap_1_1spotify_a_p_i_1_1utils_1_1_song}{Song}} $>$ dap.\+spotify\+API.\+products.\+pop.\+Party\+Pop.\+create (\begin{DoxyParamCaption}\item[{Spotify\+Api}]{spotify\+Api}{, }\item[{int}]{amount}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Crea una lista de canciones de pop para fiestas.
+
+Este método realiza una búsqueda en la API de Spotify utilizando el género "{}pop"{} y el estado de ánimo "{}party"{}, y devuelve una lista de canciones obtenidas según la cantidad especificada.
+
+
+\begin{DoxyParams}{Parameters}
+{\em spotify\+Api} & La instancia de la API de Spotify utilizada para realizar la búsqueda de canciones. \\
+\hline
+{\em amount} & El número de canciones que se desean obtener. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Una lista de objetos {\ttfamily \doxylink{}{Song}} que representan las canciones obtenidas. 
+\end{DoxyReturn}
+
+
+Reimplemented from \mbox{\hyperlink{classdap_1_1spotify_a_p_i_1_1products_1_1pop_1_1_pop_product_ab5256ec3f697ca79f8b4d61e8e11792d}{dap.\+spotify\+API.\+products.\+pop.\+Pop\+Product}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+src/main/java/dap/spotify\+API/products/pop/Party\+Pop.\+java\end{DoxyCompactItemize}

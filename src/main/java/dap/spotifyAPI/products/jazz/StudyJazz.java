@@ -13,26 +13,46 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Clase concreta que define el comportamiento de los productos de tipo Jazz para estudio.
+ * Esta clase extiende la clase {@link JazzProduct} y sobreescribe el método {@link #create(SpotifyApi, int)}
+ * para crear una lista de canciones de jazz adecuadas para estudiar.
+ */
 public class StudyJazz extends JazzProduct {
+
+  /**
+   * Método que crea una lista de canciones de jazz para estudiar.
+   * Realiza una búsqueda en la API de Spotify utilizando el género "jazz" y el estado de ánimo "study".
+   *
+   * @param spotifyApi Objeto que se encarga de realizar la comunicación con la API de Spotify.
+   * @param amount Cantidad de canciones que se van a añadir a la playlist.
+   * @return Lista de canciones de jazz para estudiar.
+   */
+  @Override
   public List<Song> create(SpotifyApi spotifyApi, int amount) {
     String genero = "jazz";
     List<Song> songs = new ArrayList<>();
+
+    // Realizar la solicitud a la API de Spotify para obtener las canciones de jazz para estudiar
     SearchTracksRequest searchTracksRequest = spotifyApi.searchTracks("genre:\"jazz\" mood:study")
             .limit(amount)
             .build();
+
     try {
-      // Realizar la solicitud y obtener los resultados
+      // Realizamos la solicitud y obtenemos los resultados
       Paging<Track> trackPaging = searchTracksRequest.execute();
 
-      // Procesar y mostrar los resultados
+      // Se procesan los resultados y se añaden las canciones a la lista
       Track[] tracks = trackPaging.getItems();
 
       for (Track track : tracks) {
         songs.add(new Song(track)); // Añadir la canción a la lista
       }
     } catch (IOException | SpotifyWebApiException | ParseException e) {
-      _logger.info("Error al obtener las canciones de jazz de estudiar: " + e.getMessage());
+      // Si ocurre un error al obtener las canciones, se registra un mensaje en los logs
+      _logger.info("Error al obtener las canciones de jazz para estudiar: " + e.getMessage());
     }
+
     return songs;
   }
 }

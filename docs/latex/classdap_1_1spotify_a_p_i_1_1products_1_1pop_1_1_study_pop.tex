@@ -1,0 +1,57 @@
+\doxysection{dap.\+spotify\+API.\+products.\+pop.\+Study\+Pop Class Reference}
+\hypertarget{classdap_1_1spotify_a_p_i_1_1products_1_1pop_1_1_study_pop}{}\label{classdap_1_1spotify_a_p_i_1_1products_1_1pop_1_1_study_pop}\index{dap.spotifyAPI.products.pop.StudyPop@{dap.spotifyAPI.products.pop.StudyPop}}
+Inheritance diagram for dap.\+spotify\+API.\+products.\+pop.\+Study\+Pop\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classdap_1_1spotify_a_p_i_1_1products_1_1pop_1_1_study_pop}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+List$<$ \mbox{\hyperlink{classdap_1_1spotify_a_p_i_1_1utils_1_1_song}{Song}} $>$ \mbox{\hyperlink{classdap_1_1spotify_a_p_i_1_1products_1_1pop_1_1_study_pop_aa3fe20e7c4ff626d2bef1c85123c843e}{create}} (Spotify\+Api spotify\+Api, int amount)
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{classdap_1_1spotify_a_p_i_1_1products_1_1pop_1_1_pop_product}{dap.\+spotify\+API.\+products.\+pop.\+Pop\+Product}}}
+\doxysubsubsection*{Additional Inherited Members}
+\doxysubsection*{Protected Attributes inherited from \mbox{\hyperlink{classdap_1_1spotify_a_p_i_1_1products_1_1pop_1_1_pop_product}{dap.\+spotify\+API.\+products.\+pop.\+Pop\+Product}}}
+\begin{DoxyCompactItemize}
+\item 
+Logger \mbox{\hyperlink{classdap_1_1spotify_a_p_i_1_1products_1_1pop_1_1_pop_product_a2ad75bd9da7ff93bcabb0435dbdcec57}{\+\_\+logger}} = Logger\+Factory.\+get\+Logger(Pop\+Product.\+class)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Clase concreta que define el comportamiento de los productos de tipo Pop para estudio en la aplicación.
+
+Esta clase extiende de {\ttfamily \doxylink{classdap_1_1spotify_a_p_i_1_1products_1_1pop_1_1_pop_product}{Pop\+Product}} y sobreescribe el método {\ttfamily \doxylink{classdap_1_1spotify_a_p_i_1_1products_1_1pop_1_1_study_pop_aa3fe20e7c4ff626d2bef1c85123c843e}{create(\+Spotify\+Api, int)}} para crear una lista de canciones de pop relacionadas con el estado de ánimo de estudio. 
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classdap_1_1spotify_a_p_i_1_1products_1_1pop_1_1_study_pop_aa3fe20e7c4ff626d2bef1c85123c843e}\index{dap.spotifyAPI.products.pop.StudyPop@{dap.spotifyAPI.products.pop.StudyPop}!create@{create}}
+\index{create@{create}!dap.spotifyAPI.products.pop.StudyPop@{dap.spotifyAPI.products.pop.StudyPop}}
+\doxysubsubsection{\texorpdfstring{create()}{create()}}
+{\footnotesize\ttfamily \label{classdap_1_1spotify_a_p_i_1_1products_1_1pop_1_1_study_pop_aa3fe20e7c4ff626d2bef1c85123c843e} 
+List$<$ \mbox{\hyperlink{classdap_1_1spotify_a_p_i_1_1utils_1_1_song}{Song}} $>$ dap.\+spotify\+API.\+products.\+pop.\+Study\+Pop.\+create (\begin{DoxyParamCaption}\item[{Spotify\+Api}]{spotify\+Api}{, }\item[{int}]{amount}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Método que crea una lista de canciones de pop para estudiar.
+
+Realiza una solicitud a la API de Spotify para obtener canciones de pop relacionadas con el estado de ánimo de estudio y las agrega a una lista de canciones de tipo {\ttfamily \doxylink{}{Song}}.
+
+
+\begin{DoxyParams}{Parameters}
+{\em spotify\+Api} & Objeto que se encarga de la comunicación con la API de Spotify. \\
+\hline
+{\em amount} & La cantidad de canciones que se van a añadir a la playlist. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Lista de canciones de tipo {\ttfamily \doxylink{}{Song}} correspondientes al subgénero de Pop para estudiar. 
+\end{DoxyReturn}
+
+
+Reimplemented from \mbox{\hyperlink{classdap_1_1spotify_a_p_i_1_1products_1_1pop_1_1_pop_product_ab5256ec3f697ca79f8b4d61e8e11792d}{dap.\+spotify\+API.\+products.\+pop.\+Pop\+Product}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+src/main/java/dap/spotify\+API/products/pop/Study\+Pop.\+java\end{DoxyCompactItemize}

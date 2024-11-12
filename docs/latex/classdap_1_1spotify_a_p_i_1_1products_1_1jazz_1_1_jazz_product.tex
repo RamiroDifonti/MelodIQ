@@ -1,0 +1,62 @@
+\doxysection{dap.\+spotify\+API.\+products.\+jazz.\+Jazz\+Product Class Reference}
+\hypertarget{classdap_1_1spotify_a_p_i_1_1products_1_1jazz_1_1_jazz_product}{}\label{classdap_1_1spotify_a_p_i_1_1products_1_1jazz_1_1_jazz_product}\index{dap.spotifyAPI.products.jazz.JazzProduct@{dap.spotifyAPI.products.jazz.JazzProduct}}
+Inheritance diagram for dap.\+spotify\+API.\+products.\+jazz.\+Jazz\+Product\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=1.464052cm]{classdap_1_1spotify_a_p_i_1_1products_1_1jazz_1_1_jazz_product}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+abstract List$<$ \mbox{\hyperlink{classdap_1_1spotify_a_p_i_1_1utils_1_1_song}{Song}} $>$ \mbox{\hyperlink{classdap_1_1spotify_a_p_i_1_1products_1_1jazz_1_1_jazz_product_a967ebe7a29f0a0d695f04938e3cba6a9}{create}} (Spotify\+Api spotify\+Api, int amount)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+Logger \mbox{\hyperlink{classdap_1_1spotify_a_p_i_1_1products_1_1jazz_1_1_jazz_product_a2cd77fe334f7ccd39f869c0f6536d220}{\+\_\+logger}} = Logger\+Factory.\+get\+Logger(Jazz\+Product.\+class)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Clase abstracta que define el comportamiento de los productos de tipo Jazz.
+
+Esta clase proporciona un esquema para las clases concretas que crearán listas de canciones de jazz en función de diferentes criterios, como el estado de ánimo o la actividad. 
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classdap_1_1spotify_a_p_i_1_1products_1_1jazz_1_1_jazz_product_a967ebe7a29f0a0d695f04938e3cba6a9}\index{dap.spotifyAPI.products.jazz.JazzProduct@{dap.spotifyAPI.products.jazz.JazzProduct}!create@{create}}
+\index{create@{create}!dap.spotifyAPI.products.jazz.JazzProduct@{dap.spotifyAPI.products.jazz.JazzProduct}}
+\doxysubsubsection{\texorpdfstring{create()}{create()}}
+{\footnotesize\ttfamily \label{classdap_1_1spotify_a_p_i_1_1products_1_1jazz_1_1_jazz_product_a967ebe7a29f0a0d695f04938e3cba6a9} 
+abstract List$<$ \mbox{\hyperlink{classdap_1_1spotify_a_p_i_1_1utils_1_1_song}{Song}} $>$ dap.\+spotify\+API.\+products.\+jazz.\+Jazz\+Product.\+create (\begin{DoxyParamCaption}\item[{Spotify\+Api}]{spotify\+Api}{, }\item[{int}]{amount}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [abstract]}}
+
+Método abstracto que debe ser implementado por las clases concretas para crear una lista de canciones de tipo {\ttfamily \doxylink{}{Song}} de jazz.
+
+
+\begin{DoxyParams}{Parameters}
+{\em spotify\+Api} & Objeto que se encarga de la comunicación con la API de Spotify. \\
+\hline
+{\em amount} & Cantidad de canciones que se van a añadir a la playlist. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Lista de canciones de tipo {\ttfamily \doxylink{}{Song}} correspondientes al tipo de jazz específico. 
+\end{DoxyReturn}
+
+
+Reimplemented in \mbox{\hyperlink{classdap_1_1spotify_a_p_i_1_1products_1_1jazz_1_1_party_jazz_a9d0a4154bc3416ca5176433800fe33f2}{dap.\+spotify\+API.\+products.\+jazz.\+Party\+Jazz}}, \mbox{\hyperlink{classdap_1_1spotify_a_p_i_1_1products_1_1jazz_1_1_sport_jazz_adf263a81e7d6162a3069c0d96ed14fd0}{dap.\+spotify\+API.\+products.\+jazz.\+Sport\+Jazz}}, and \mbox{\hyperlink{classdap_1_1spotify_a_p_i_1_1products_1_1jazz_1_1_study_jazz_acceb4452e64660458af8f4406836f64d}{dap.\+spotify\+API.\+products.\+jazz.\+Study\+Jazz}}.
+
+
+
+\doxysubsection{Member Data Documentation}
+\Hypertarget{classdap_1_1spotify_a_p_i_1_1products_1_1jazz_1_1_jazz_product_a2cd77fe334f7ccd39f869c0f6536d220}\index{dap.spotifyAPI.products.jazz.JazzProduct@{dap.spotifyAPI.products.jazz.JazzProduct}!\_logger@{\_logger}}
+\index{\_logger@{\_logger}!dap.spotifyAPI.products.jazz.JazzProduct@{dap.spotifyAPI.products.jazz.JazzProduct}}
+\doxysubsubsection{\texorpdfstring{\_logger}{\_logger}}
+{\footnotesize\ttfamily \label{classdap_1_1spotify_a_p_i_1_1products_1_1jazz_1_1_jazz_product_a2cd77fe334f7ccd39f869c0f6536d220} 
+Logger dap.\+spotify\+API.\+products.\+jazz.\+Jazz\+Product.\+\_\+logger = Logger\+Factory.\+get\+Logger(Jazz\+Product.\+class)\hspace{0.3cm}{\ttfamily [protected]}}
+
+Objeto que se encarga de registrar los eventos y errores de la clase {\ttfamily \doxylink{classdap_1_1spotify_a_p_i_1_1products_1_1jazz_1_1_jazz_product}{Jazz\+Product}}. 
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+src/main/java/dap/spotify\+API/products/jazz/Jazz\+Product.\+java\end{DoxyCompactItemize}

@@ -1,0 +1,66 @@
+\doxysection{dap.\+spotify\+API.\+products.\+pop.\+Pop\+Product Class Reference}
+\hypertarget{classdap_1_1spotify_a_p_i_1_1products_1_1pop_1_1_pop_product}{}\label{classdap_1_1spotify_a_p_i_1_1products_1_1pop_1_1_pop_product}\index{dap.spotifyAPI.products.pop.PopProduct@{dap.spotifyAPI.products.pop.PopProduct}}
+Inheritance diagram for dap.\+spotify\+API.\+products.\+pop.\+Pop\+Product\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=1.493333cm]{classdap_1_1spotify_a_p_i_1_1products_1_1pop_1_1_pop_product}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+abstract List$<$ \mbox{\hyperlink{classdap_1_1spotify_a_p_i_1_1utils_1_1_song}{Song}} $>$ \mbox{\hyperlink{classdap_1_1spotify_a_p_i_1_1products_1_1pop_1_1_pop_product_ab5256ec3f697ca79f8b4d61e8e11792d}{create}} (Spotify\+Api spotify\+Api, int amount)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+Logger \mbox{\hyperlink{classdap_1_1spotify_a_p_i_1_1products_1_1pop_1_1_pop_product_a2ad75bd9da7ff93bcabb0435dbdcec57}{\+\_\+logger}} = Logger\+Factory.\+get\+Logger(Pop\+Product.\+class)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Clase abstracta que define el comportamiento de los productos de tipo Pop.
+
+Esta clase sirve como base para otros productos relacionados con el género Pop. Define un método abstracto {\ttfamily \doxylink{classdap_1_1spotify_a_p_i_1_1products_1_1pop_1_1_pop_product_ab5256ec3f697ca79f8b4d61e8e11792d}{create(\+Spotify\+Api, int)}} que debe ser implementado por las clases derivadas para crear listas de canciones basadas en el género Pop. 
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classdap_1_1spotify_a_p_i_1_1products_1_1pop_1_1_pop_product_ab5256ec3f697ca79f8b4d61e8e11792d}\index{dap.spotifyAPI.products.pop.PopProduct@{dap.spotifyAPI.products.pop.PopProduct}!create@{create}}
+\index{create@{create}!dap.spotifyAPI.products.pop.PopProduct@{dap.spotifyAPI.products.pop.PopProduct}}
+\doxysubsubsection{\texorpdfstring{create()}{create()}}
+{\footnotesize\ttfamily \label{classdap_1_1spotify_a_p_i_1_1products_1_1pop_1_1_pop_product_ab5256ec3f697ca79f8b4d61e8e11792d} 
+abstract List$<$ \mbox{\hyperlink{classdap_1_1spotify_a_p_i_1_1utils_1_1_song}{Song}} $>$ dap.\+spotify\+API.\+products.\+pop.\+Pop\+Product.\+create (\begin{DoxyParamCaption}\item[{Spotify\+Api}]{spotify\+Api}{, }\item[{int}]{amount}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [abstract]}}
+
+Lista de canciones que se van a crear en la playlist.
+
+Este método abstracto debe ser implementado en las clases derivadas para crear una lista de canciones basada en parámetros específicos, como el número de canciones y la API de Spotify.
+
+
+\begin{DoxyParams}{Parameters}
+{\em spotify\+Api} & La instancia de la API de Spotify utilizada para realizar la búsqueda de canciones. \\
+\hline
+{\em amount} & El número de canciones que se desean obtener. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Una lista de objetos {\ttfamily \doxylink{}{Song}} que representan las canciones que se agregarán a la playlist. 
+\end{DoxyReturn}
+
+
+Reimplemented in \mbox{\hyperlink{classdap_1_1spotify_a_p_i_1_1products_1_1pop_1_1_party_pop_a2951e64d7bec247dd8b6d5516b2f5908}{dap.\+spotify\+API.\+products.\+pop.\+Party\+Pop}}, \mbox{\hyperlink{classdap_1_1spotify_a_p_i_1_1products_1_1pop_1_1_sport_pop_a75864299bdac53b11b24bbd7f6b9bbbc}{dap.\+spotify\+API.\+products.\+pop.\+Sport\+Pop}}, and \mbox{\hyperlink{classdap_1_1spotify_a_p_i_1_1products_1_1pop_1_1_study_pop_aa3fe20e7c4ff626d2bef1c85123c843e}{dap.\+spotify\+API.\+products.\+pop.\+Study\+Pop}}.
+
+
+
+\doxysubsection{Member Data Documentation}
+\Hypertarget{classdap_1_1spotify_a_p_i_1_1products_1_1pop_1_1_pop_product_a2ad75bd9da7ff93bcabb0435dbdcec57}\index{dap.spotifyAPI.products.pop.PopProduct@{dap.spotifyAPI.products.pop.PopProduct}!\_logger@{\_logger}}
+\index{\_logger@{\_logger}!dap.spotifyAPI.products.pop.PopProduct@{dap.spotifyAPI.products.pop.PopProduct}}
+\doxysubsubsection{\texorpdfstring{\_logger}{\_logger}}
+{\footnotesize\ttfamily \label{classdap_1_1spotify_a_p_i_1_1products_1_1pop_1_1_pop_product_a2ad75bd9da7ff93bcabb0435dbdcec57} 
+Logger dap.\+spotify\+API.\+products.\+pop.\+Pop\+Product.\+\_\+logger = Logger\+Factory.\+get\+Logger(Pop\+Product.\+class)\hspace{0.3cm}{\ttfamily [protected]}}
+
+Objeto que se encarga de registrar los eventos de la clase \doxylink{classdap_1_1spotify_a_p_i_1_1products_1_1pop_1_1_pop_product}{Pop\+Product}.
+
+Este logger se utiliza para registrar información y errores relacionados con el comportamiento de los productos Pop en la aplicación. 
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+src/main/java/dap/spotify\+API/products/pop/Pop\+Product.\+java\end{DoxyCompactItemize}
