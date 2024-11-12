@@ -244,6 +244,7 @@ class Frame extends JFrame {
         }
         // Panel scroll que se mueve de arriba a abajo
         JScrollPane scrollPane = new JScrollPane(songsPanel);
+        scrollPane.setPreferredSize(new Dimension(400, 600));
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
@@ -252,7 +253,6 @@ class Frame extends JFrame {
         playlistTitle.setAlignmentX(Component.CENTER_ALIGNMENT);
         _panel.add(playlistTitle);
         _panel.add(scrollPane);
-
         // Botón para volver
         // Generar playlist
         JButton ret = new JButton("Volver");
