@@ -1,7 +1,7 @@
 <h1 align="center">SpotifySearch</h1>
 <h3 align="center">Práctica grupal de la asignatura Diseño Arquitectónico y Patrones.</h3>
 
-- 🌱 Programa para crear listas de música en base a los gustos **Jazz, Reggeaton y Pop** y la finalidad de la playlist **Estudio, Deporte y Fiesta**. 
+Programa para crear listas de música en base a los gustos **Jazz, Reggeaton y Pop** y la finalidad de la playlist **Estudio, Deporte y Fiesta**. 
 
 <h3 align="left">Miembros del equipo:</h3>
 
