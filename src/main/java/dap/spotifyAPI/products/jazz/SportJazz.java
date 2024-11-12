@@ -15,7 +15,7 @@ import java.util.List;
 
 public class SportJazz extends JazzProduct {
   public List<Song> create(SpotifyApi spotifyApi, int amount) {
-    String genero = "jazz";
+    String genero = "jazz fusion";
     List<Song> songs = new ArrayList<>();
     SearchTracksRequest searchTracksRequest = spotifyApi.searchTracks("genre:\"" + genero + "\"")
             .limit(amount)
