@@ -296,9 +296,6 @@ class Frame extends JFrame {
     }
 }
 
-
-
-
 /**
  * Clase principal de la interfaz gráfica de usuario (GUI) que interactúa con la API de Spotify.
  * Esta clase configura la autenticación a través de la API de Spotify utilizando las credenciales
