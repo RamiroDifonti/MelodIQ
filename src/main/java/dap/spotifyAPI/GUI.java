@@ -130,6 +130,7 @@ class Frame extends JFrame {
                     _factory = new PartyFactory();
                 } else {
                     JOptionPane.showMessageDialog(null, "No has seleccionado ninguna opción.");
+                    return;
                 }
                 if (pop.isSelected()) {
                     _genres[0] = true;
@@ -142,6 +143,7 @@ class Frame extends JFrame {
                 }
                 if (!_genres[0] && !_genres[1] && !_genres[2]) {
                     JOptionPane.showMessageDialog(null, "No has seleccionado ningún género.");
+                    return;
                 }
                 createPlaylist();
             }
