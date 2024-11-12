@@ -38,12 +38,10 @@ public class SportPop extends PopProduct {
 
             // Iteramos sobre los tracks obtenidos y los añadimos a la lista de canciones.
             for (Track track : trackPaging.getItems()) {
-                songs.add(new Song(track.getName(), track.getArtists()[0].getName()));
-                System.out.println("Nombre: " + track.getName() + "\nArtista: " + track.getArtists()[0].getName() + "\nURI: " + track.getUri());
+                songs.add(new Song(track));
             }
-
         } catch (IOException | SpotifyWebApiException | ParseException e) {
-            _logger.info("Error al obtener las canciones de Pop para la playlist de deporte: ", e.getMessage());
+            _logger.info("Error al obtener canciones de pop para deporte: " + e.getMessage());
         }
         return songs;
     }
