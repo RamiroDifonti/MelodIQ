@@ -12,9 +12,27 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Clase que representa un producto de reggaetón para deportes.
+ *
+ * Esta clase extiende {@link ReggaetonProduct} y implementa el método {@link #create(SpotifyApi, int)}
+ * para obtener una lista de canciones de reggaetón con un subgénero específico, en este caso,
+ * canciones de "Trap latino" para actividades deportivas.
+ */
 public class SportReggaeton extends ReggaetonProduct {
+
+    /**
+     * Crea una lista de canciones de reggaetón con el subgénero "Trap latino" para deportes.
+     *
+     * Este método realiza una búsqueda en la API de Spotify con el subgénero "Trap latino" y
+     * devuelve una lista de canciones obtenidas según la cantidad especificada.
+     *
+     * @param spotifyApi La instancia de la API de Spotify utilizada para realizar la búsqueda de canciones.
+     * @param amount El número de canciones que se desean obtener.
+     * @return Una lista de objetos {@link Song} que representan las canciones obtenidas.
+     */
     public List<Song> create(SpotifyApi spotifyApi, int amount) {
-        // Subgenero del reggaeton para deporte
+        // Subgénero del reggaetón para deporte
         String subgenero = "Trap latino";
         SearchTracksRequest searchTracksRequest = spotifyApi.searchTracks(subgenero)
                 .limit(amount)
@@ -36,3 +54,4 @@ public class SportReggaeton extends ReggaetonProduct {
         return songs;
     }
 }
+
