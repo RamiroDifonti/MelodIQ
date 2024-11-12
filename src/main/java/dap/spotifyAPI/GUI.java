@@ -157,6 +157,9 @@ class Frame extends JFrame {
     public void createPlaylist() {
         // Eliminar y limpiar jframe
         remove(_panel);
+        _panel = new JPanel();
+        _panel.setLayout(new BoxLayout(_panel, BoxLayout.Y_AXIS));
+        _panel.setBorder(new EmptyBorder(40, 20, 20, 20));
 
         // Llamar a los productos
         JazzProduct jp = _factory.createJazz();
@@ -191,12 +194,14 @@ class Frame extends JFrame {
                 songsPanel.add(song.getLayout());
             }
         }
+        System.out.println();
         if (_genres[1]) {
             List<Song> jazzSongs = jp.create(_spotifyApi, numSongs[1]);
             for (Song song : jazzSongs) {
                 songsPanel.add(song.getLayout());
             }
         }
+        System.out.println();
         if (_genres[2]) {
             List<Song> reggaetonSongs = rp.create(_spotifyApi, numSongs[2]);
             for (Song song : reggaetonSongs) {
@@ -224,6 +229,9 @@ class Frame extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 remove(_panel);
+                _amount = 0;
+                _playlistName = "Default";
+                _genres = new Boolean[]{false, false, false};
                 Start();
             }
         });
@@ -232,11 +240,6 @@ class Frame extends JFrame {
         repaint();
     }
 }
-
-// archivos para hacer testing:
-// xml: https://www.w3schools.com/xml/simple.xml
-// json: https://microsoftedge.github.io/Demos/json-dummy-data/64KB-min.json
-// csv: https://people.sc.fsu.edu/~jburkardt/data/csv/ford_escort.csv
 
 public class GUI {
     public static void main(String[] args) {
@@ -249,8 +252,6 @@ public class GUI {
         ClientCredentialsRequest clientCredentialsRequest = spotifyApi.clientCredentials().build();
         try {
             String accessToken = clientCredentialsRequest.execute().getAccessToken();
-            System.out.println("Token de acceso: " + accessToken);
-
             // Utiliza el token de acceso para hacer otras solicitudes
             spotifyApi.setAccessToken(accessToken);
         } catch (IOException | SpotifyWebApiException | ParseException e) {
