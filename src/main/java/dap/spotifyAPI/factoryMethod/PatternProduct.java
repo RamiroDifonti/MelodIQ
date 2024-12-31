@@ -1,2 +1,5 @@
-package dap.spotifyAPI.factoryMethod;public interface PatternProduct {
+package dap.spotifyAPI.factoryMethod;
+
+public interface PatternProduct {
+    public void display();
 }
