@@ -5,6 +5,9 @@ public class StrategyFactory implements PatternFactory {
     public PatternProduct createPattern() {
         System.out.println("Strategy Pattern");
 
+        // crear nombre:
+
+
         return new StrategyProduct();
     }
 }
