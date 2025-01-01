@@ -1,6 +1,5 @@
 package dap.spotifyAPI.template;
 
-import dap.spotifyAPI.proxy.Spotify;
 import dap.spotifyAPI.proxy.SpotifyInterface;
 import se.michaelthelin.spotify.model_objects.specification.Track;
 
