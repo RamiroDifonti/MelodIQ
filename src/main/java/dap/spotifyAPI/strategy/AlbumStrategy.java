@@ -25,17 +25,23 @@ public class AlbumStrategy implements Strategy {
             return;
         }
 
-        List<AlbumSimplified> selectedAlbums = selectAlbums(albums);
-
-        for (AlbumSimplified album : selectedAlbums) {
+        System.out.println("Álbumes encontrados:" + albums.size());
+        for (AlbumSimplified album : albums) {
             System.out.println(album.getName());
         }
 
-        List<TrackSimplified> playlistTracks = mergeTracks(selectedAlbums);
 
-        for (TrackSimplified track : playlistTracks) {
-            System.out.println(track.getName());
-        }
+        List<AlbumSimplified> selectedAlbums = selectAlbums(albums);
+
+//        for (AlbumSimplified album : selectedAlbums) {
+//            System.out.println(album.getName());
+//        }
+//
+        List<TrackSimplified> playlistTracks = mergeTracks(selectedAlbums);
+//
+//        for (TrackSimplified track : playlistTracks) {
+//            System.out.println(track.getName());
+//        }
 
 
         if (!playlistTracks.isEmpty()) {

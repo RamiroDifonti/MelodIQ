@@ -24,6 +24,11 @@ public class SongStrategy implements Strategy {
             return;
         }
 
+        System.out.println("Canciones encontradas:" + tracks.size());
+        for (TrackSimplified track : tracks) {
+            System.out.println(track.getName());
+        }
+
         List<TrackSimplified> selectedTracks = selectTracks(tracks);
 
         if (!selectedTracks.isEmpty()) {
