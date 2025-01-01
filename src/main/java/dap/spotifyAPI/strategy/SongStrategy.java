@@ -70,12 +70,12 @@ public class SongStrategy implements Strategy {
 
         frame.setVisible(true);
 
-        while (frame.isDisplayable()) {
-            try {
-                Thread.sleep(100); // Espera hasta que se cierre la ventana
-            } catch (InterruptedException ignored) {
-            }
-        }
+//        while (frame.isDisplayable()) {
+//            try {
+//                Thread.sleep(100); // Espera hasta que se cierre la ventana
+//            } catch (InterruptedException ignored) {
+//            }
+//        }
 
         return selectedTracks;
     }
