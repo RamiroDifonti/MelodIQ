@@ -1,4 +1,4 @@
 package dap.spotifyAPI.strategy;
 
-public class StrategyContext {
+public class ContextStrategy {
 }
