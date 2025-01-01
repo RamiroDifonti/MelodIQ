@@ -36,7 +36,7 @@ public class Spotify implements SpotifyInterface {
             Artist artist = artistPaging.getItems()[0];
             String artistId = artist.getId();
             List<AlbumSimplified> allAlbums = new ArrayList<>();
-            int limit = 50; // Máximo por solicitud
+            int limit = 10; // Máximo por solicitud
             int offset = 0; // Desplazamiento inicial
 
             while (true) {
@@ -73,7 +73,7 @@ public class Spotify implements SpotifyInterface {
         List<AlbumSimplified> albums = getAlbumsByArtist(artistName);
         List<TrackSimplified> tracks = new ArrayList<>();
         for (AlbumSimplified album : albums) {
-            int limit = 50;
+            int limit = 10;
             int offset = 0;
 
             while (true) {
@@ -104,7 +104,7 @@ public class Spotify implements SpotifyInterface {
     @Override
     public List<PlaylistSimplified> getPlaylistsByUser(String userId) {
         List<PlaylistSimplified> allPlaylists = new ArrayList<>();
-        int limit = 50; // Máximo por solicitud
+        int limit = 10; // Máximo por solicitud
         int offset = 0; // Desplazamiento inicial
 
         while (true) {
