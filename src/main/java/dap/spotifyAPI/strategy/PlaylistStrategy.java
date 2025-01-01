@@ -5,6 +5,7 @@ import se.michaelthelin.spotify.model_objects.specification.PlaylistSimplified;
 import se.michaelthelin.spotify.model_objects.specification.TrackSimplified;
 
 import javax.swing.*;
+import java.awt.*;
 import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.List;
@@ -33,9 +34,49 @@ public class PlaylistStrategy implements Strategy {
     }
 
     private List<PlaylistSimplified> selectPlaylists(List<PlaylistSimplified> playlists) {
-        // Interfaz gráfica para seleccionar playlists
-        return playlists; // Retorna todos por ahora
+        JFrame frame = new JFrame("Seleccionar Playlists");
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frame.setSize(400, 500);
+
+        JPanel panel = new JPanel();
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+
+        List<JCheckBox> checkboxes = new ArrayList<>();
+        for (PlaylistSimplified playlist : playlists) {
+            JCheckBox checkbox = new JCheckBox(playlist.getName());
+            checkbox.setAlignmentX(Component.LEFT_ALIGNMENT);
+            panel.add(checkbox);
+            checkboxes.add(checkbox);
+        }
+
+        JScrollPane scrollPane = new JScrollPane(panel);
+        frame.add(scrollPane, BorderLayout.CENTER);
+
+        JButton confirmButton = new JButton("Confirmar Selección");
+        frame.add(confirmButton, BorderLayout.SOUTH);
+
+        List<PlaylistSimplified> selectedPlaylists = new ArrayList<>();
+        confirmButton.addActionListener(e -> {
+            for (int i = 0; i < checkboxes.size(); i++) {
+                if (checkboxes.get(i).isSelected()) {
+                    selectedPlaylists.add(playlists.get(i));
+                }
+            }
+            frame.dispose();
+        });
+
+        frame.setVisible(true);
+
+        while (frame.isDisplayable()) {
+            try {
+                Thread.sleep(100); // Espera hasta que se cierre la ventana
+            } catch (InterruptedException ignored) {
+            }
+        }
+
+        return selectedPlaylists;
     }
+
 
     private List<TrackSimplified> mergeTracks(List<PlaylistSimplified> playlists) {
         List<TrackSimplified> allTracks = new ArrayList<>();
