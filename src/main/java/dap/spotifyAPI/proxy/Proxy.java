@@ -3,72 +3,52 @@ package dap.spotifyAPI.proxy;
 import se.michaelthelin.spotify.model_objects.specification.*;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Proxy implements SpotifyInterface {
     private final SpotifyInterface _spotify;
-    private final Map<String, Album> _albumcache = new HashMap<>();
-    private final Map<String, Track> _trackcache = new HashMap<>();
-    private final Map<String, Playlist> _playlistcache = new HashMap<>();
-    private final Map<String, User> _usercache = new HashMap<>();
-    private final Map<String, Artist> _artistcache = new HashMap<>();
+    private final Map<String, List<AlbumSimplified>> _albumcache = new HashMap<>();
+    private final Map<String, List<TrackSimplified>> _trackcache = new HashMap<>();
+    private final Map<String, List<PlaylistSimplified>> _playlistcache = new HashMap<>();
 
     public Proxy(SpotifyInterface spotify) {
         this._spotify = spotify;
     }
     
     @Override
-    public Album getAlbum(String albumId) {
-        if (_albumcache.containsKey(albumId)) {
-            return _albumcache.get(albumId);
+    public List<AlbumSimplified> getAlbumsByArtist(String artistId) {
+        List<AlbumSimplified> albums = _albumcache.get(artistId);
+        if (albums != null) {
+            return albums;
         } else {
-            Album album = _spotify.getAlbum(albumId);
-            _albumcache.put(albumId, album);
-            return album;
+            albums = _spotify.getAlbumsByArtist(artistId);
+            _albumcache.put(artistId, albums);
+            return albums;
         }
     }
 
     @Override
-    public Track getTrack(String trackId) {
-        if (_trackcache.containsKey(trackId)) {
-            return _trackcache.get(trackId);
+    public List<TrackSimplified> getTracksByArtist(String artistId) {
+        List<TrackSimplified> tracks = _trackcache.get(artistId);
+        if (tracks != null) {
+            return tracks;
         } else {
-            Track track = _spotify.getTrack(trackId);
-            _trackcache.put(trackId, track);
-            return track;
+            tracks = _spotify.getTracksByArtist(artistId);
+            _trackcache.put(artistId, tracks);
+            return tracks;
         }
     }
 
     @Override
-    public Playlist getPlaylist(String playlistId) {
-        if (_playlistcache.containsKey(playlistId)) {
-            return _playlistcache.get(playlistId);
+    public List<PlaylistSimplified> getPlaylistsByUser(String userId) {
+        List<PlaylistSimplified> playlists = _spotify.getPlaylistsByUser(userId);
+        if (playlists != null) {
+            return playlists;
         } else {
-            Playlist playlist = _spotify.getPlaylist(playlistId);
-            _playlistcache.put(playlistId, playlist);
-            return playlist;
-        }
-    }
-
-    @Override
-    public User getUser(String userId) {
-        if (_usercache.containsKey(userId)) {
-            return _usercache.get(userId);
-        } else {
-            User user = _spotify.getUser(userId);
-            _usercache.put(userId, user);
-            return user;
-        }
-    }
-
-    @Override
-    public Artist getArtist(String artistId) {
-        if (_artistcache.containsKey(artistId)) {
-            return _artistcache.get(artistId);
-        } else {
-            Artist artist = _spotify.getArtist(artistId);
-            _artistcache.put(artistId, artist);
-            return artist;
+            playlists = _spotify.getPlaylistsByUser(userId);
+            _playlistcache.put(userId, playlists);
+            return playlists;
         }
     }
 }

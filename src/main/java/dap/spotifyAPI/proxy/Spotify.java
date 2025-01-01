@@ -2,6 +2,14 @@ package dap.spotifyAPI.proxy;
 
 import se.michaelthelin.spotify.SpotifyApi;
 import se.michaelthelin.spotify.model_objects.specification.*;
+import se.michaelthelin.spotify.requests.data.albums.GetAlbumsTracksRequest;
+import se.michaelthelin.spotify.requests.data.artists.GetArtistsAlbumsRequest;
+import se.michaelthelin.spotify.requests.data.playlists.GetListOfUsersPlaylistsRequest;
+import se.michaelthelin.spotify.requests.data.search.SearchItemRequest;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class Spotify implements SpotifyInterface {
     private final SpotifyApi _spotifyApi;
@@ -20,9 +28,39 @@ public class Spotify implements SpotifyInterface {
     }
 
     @Override
-    public Album getAlbum(String albumId) {
+    public List<AlbumSimplified> getAlbumsByArtist(String artistName) {
+        SearchItemRequest searchRequest = _spotifyApi.searchItem(artistName, "artist").limit(1).build();
         try {
-            return _spotifyApi.getAlbum(albumId).build().execute();
+            Paging<Artist> artistPaging = searchRequest.execute().getArtists();
+            Artist artist = artistPaging.getItems()[0];
+            String artistId = artist.getId();
+            List<AlbumSimplified> allAlbums = new ArrayList<>();
+            int limit = 50; // Máximo por solicitud
+            int offset = 0; // Desplazamiento inicial
+
+            while (true) {
+                // Crear y ejecutar la solicitud para los álbumes del artista
+                GetArtistsAlbumsRequest albumsRequest = _spotifyApi
+                        .getArtistsAlbums(artistId)
+                        .limit(limit)
+                        .offset(offset)
+                        .build();
+                Paging<AlbumSimplified> albumsPaging = albumsRequest.execute();
+
+                // Agregar los álbumes obtenidos a la lista
+                AlbumSimplified[] items = albumsPaging.getItems();
+                for (AlbumSimplified album : items) {
+                    allAlbums.add(album);
+                }
+
+                // Verificar si hay más páginas
+                if (albumsPaging.getNext() == null) {
+                    break;
+                }
+
+                offset += limit;
+            }
+            return allAlbums;
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());
             return null;
@@ -30,42 +68,72 @@ public class Spotify implements SpotifyInterface {
     }
 
     @Override
-    public Track getTrack(String trackId) {
-        try {
-            return _spotifyApi.getTrack(trackId).build().execute();
-        } catch (Exception e) {
-            System.out.println("Error: " + e.getMessage());
-            return null;
+    public List<TrackSimplified> getTracksByArtist(String artistName) {
+        List<AlbumSimplified> albums = getAlbumsByArtist(artistName);
+        List<TrackSimplified> tracks = new ArrayList<>();
+        for (AlbumSimplified album : albums) {
+            int limit = 50;
+            int offset = 0;
+
+            while (true) {
+                GetAlbumsTracksRequest tracksRequest = _spotifyApi
+                        .getAlbumsTracks(album.getId())
+                        .limit(limit)
+                        .offset(offset)
+                        .build();
+                Paging<TrackSimplified> trackPaging;
+                try {
+                    trackPaging = tracksRequest.execute();
+                } catch (Exception e) {
+                    System.out.println("Error: " + e.getMessage());
+                    return null;
+                }
+                tracks.addAll(Arrays.asList(trackPaging.getItems()));
+
+                if (trackPaging.getNext() == null) {
+                    break;
+                }
+
+                offset += limit;
+            }
         }
+        return tracks;
     }
 
     @Override
-    public Playlist getPlaylist(String playlistId) {
-        try {
-            return _spotifyApi.getPlaylist(playlistId).build().execute();
-        } catch (Exception e) {
-            System.out.println("Error: " + e.getMessage());
-            return null;
-        }
-    }
+    public List<PlaylistSimplified> getPlaylistsByUser(String userId) {
+        List<PlaylistSimplified> allPlaylists = new ArrayList<>();
+        int limit = 50; // Máximo por solicitud
+        int offset = 0; // Desplazamiento inicial
 
-    @Override
-    public User getUser(String userId) {
-        try {
-            return _spotifyApi.getUsersProfile(userId).build().execute();
-        } catch (Exception e) {
-            System.out.println("Error: " + e.getMessage());
-            return null;
-        }
-    }
+        while (true) {
+            // Crear y ejecutar la solicitud de playlists
+            GetListOfUsersPlaylistsRequest playlistsRequest = _spotifyApi
+                    .getListOfUsersPlaylists(userId)
+                    .limit(limit)
+                    .offset(offset)
+                    .build();
 
-    @Override
-    public Artist getArtist(String artistId) {
-        try {
-            return _spotifyApi.getArtist(artistId).build().execute();
-        } catch (Exception e) {
-            System.out.println("Error: " + e.getMessage());
-            return null;
+            Paging<PlaylistSimplified> playlistsPaging;
+            try {
+                playlistsPaging = playlistsRequest.execute();
+            } catch (Exception e) {
+                System.out.println("Error: " + e.getMessage());
+                return null;
+            }
+
+            // Agregar las playlists obtenidas
+            PlaylistSimplified[] items = playlistsPaging.getItems();
+            allPlaylists.addAll(Arrays.asList(items));
+
+            // Verificar si hay más páginas
+            if (playlistsPaging.getNext() == null) {
+                break;
+            }
+
+            offset += limit;
         }
+
+        return allPlaylists;
     }
 }
