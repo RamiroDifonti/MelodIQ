@@ -3,33 +3,39 @@ package dap.spotifyAPI.proxy;
 import se.michaelthelin.spotify.model_objects.specification.*;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Proxy implements SpotifyInterface {
     private final SpotifyInterface _spotify;
-    private final Map<String, Album> _albumcache = new HashMap<>();
-    private final Map<String, Track> _trackcache = new HashMap<>();
-    private final Map<String, Playlist> _playlistcache = new HashMap<>();
-    private final Map<String, User> _usercache = new HashMap<>();
-    private final Map<String, Artist> _artistcache = new HashMap<>();
+    private final Map<String, List<AlbumSimplified>> _albumcache = new HashMap<>();
+    //private final Map<String, Track> _trackcache = new HashMap<>();
+    private final Map<String, List<PlaylistSimplified>> _playlistcache = new HashMap<>();
 
     public Proxy(SpotifyInterface spotify) {
         this._spotify = spotify;
     }
     
     @Override
-    public Album getAlbum(String albumId) {
-        if (_albumcache.containsKey(albumId)) {
+    public List<AlbumSimplified> getAlbumsByArtist(String artistId) {
+        List<AlbumSimplified> albums = _albumcache.get(artistId);
+
+        if (albums != null) {
+            for (AlbumSimplified album : albums) {
+                if (album.getId().equals(albumId)) {
+                    return List.of(album);
+                }
+            }
             return _albumcache.get(albumId);
         } else {
-            Album album = _spotify.getAlbum(albumId);
-            _albumcache.put(albumId, album);
-            return album;
+            List<AlbumSimplified> albums = _spotify.getAlbumByArtist(artistId, albumId);
+            _albumcache.put(albumId, albums);
+            return albums;
         }
     }
 
     @Override
-    public Track getTrack(String trackId) {
+    public Track getTracksByArtist(String artistId) {
         if (_trackcache.containsKey(trackId)) {
             return _trackcache.get(trackId);
         } else {
@@ -40,35 +46,13 @@ public class Proxy implements SpotifyInterface {
     }
 
     @Override
-    public Playlist getPlaylist(String playlistId) {
+    public List<PlaylistSimplified> getPlaylistsByUser(String userId) {
         if (_playlistcache.containsKey(playlistId)) {
             return _playlistcache.get(playlistId);
         } else {
-            Playlist playlist = _spotify.getPlaylist(playlistId);
-            _playlistcache.put(playlistId, playlist);
-            return playlist;
-        }
-    }
-
-    @Override
-    public User getUser(String userId) {
-        if (_usercache.containsKey(userId)) {
-            return _usercache.get(userId);
-        } else {
-            User user = _spotify.getUser(userId);
-            _usercache.put(userId, user);
-            return user;
-        }
-    }
-
-    @Override
-    public Artist getArtist(String artistId) {
-        if (_artistcache.containsKey(artistId)) {
-            return _artistcache.get(artistId);
-        } else {
-            Artist artist = _spotify.getArtist(artistId);
-            _artistcache.put(artistId, artist);
-            return artist;
+            List<PlaylistSimplified> playlists = _spotify.getPlaylistByUser(userId, playlistId);
+            _playlistcache.put(playlistId, playlists);
+            return playlists;
         }
     }
 }

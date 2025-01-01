@@ -2,10 +2,10 @@ package dap.spotifyAPI.proxy;
 
 import se.michaelthelin.spotify.model_objects.specification.*;
 
+import java.util.List;
+
 public interface SpotifyInterface {
-    Album getAlbum(String albumId);
-    Track getTrack(String trackId);
-    Playlist getPlaylist(String playlistId);
-    User getUser(String userId);
-    Artist getArtist(String artistId);
+    List<AlbumSimplified> getAlbumsByArtist(String artistId);
+    Track getTrackByArtist(String artistId);
+    List<PlaylistSimplified> getPlaylistsByUser(String userId);
 }
