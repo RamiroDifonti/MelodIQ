@@ -1,6 +1,7 @@
 package dap.spotifyAPI.proxy;
 
 import se.michaelthelin.spotify.SpotifyApi;
+import se.michaelthelin.spotify.model_objects.IPlaylistItem;
 import se.michaelthelin.spotify.model_objects.specification.*;
 import se.michaelthelin.spotify.requests.data.albums.GetAlbumsTracksRequest;
 import se.michaelthelin.spotify.requests.data.artists.GetArtistsAlbumsRequest;
@@ -35,7 +36,7 @@ public class Spotify implements SpotifyInterface {
             Artist artist = artistPaging.getItems()[0];
             String artistId = artist.getId();
             List<AlbumSimplified> allAlbums = new ArrayList<>();
-            int limit = 50; // Máximo por solicitud
+            int limit = 10; // Máximo por solicitud
             int offset = 0; // Desplazamiento inicial
 
             while (true) {
@@ -72,7 +73,7 @@ public class Spotify implements SpotifyInterface {
         List<AlbumSimplified> albums = getAlbumsByArtist(artistName);
         List<TrackSimplified> tracks = new ArrayList<>();
         for (AlbumSimplified album : albums) {
-            int limit = 50;
+            int limit = 10;
             int offset = 0;
 
             while (true) {
@@ -103,7 +104,7 @@ public class Spotify implements SpotifyInterface {
     @Override
     public List<PlaylistSimplified> getPlaylistsByUser(String userId) {
         List<PlaylistSimplified> allPlaylists = new ArrayList<>();
-        int limit = 50; // Máximo por solicitud
+        int limit = 10; // Máximo por solicitud
         int offset = 0; // Desplazamiento inicial
 
         while (true) {
@@ -135,5 +136,22 @@ public class Spotify implements SpotifyInterface {
         }
 
         return allPlaylists;
+    }
+
+    @Override
+    public List<Track> getPlaylistTracks(String playlistId) {
+        List<Track> allTracks = new ArrayList<>();
+        try {
+            Playlist pl = _spotifyApi.getPlaylist(playlistId).build().execute();
+            for (PlaylistTrack playlistTrack : pl.getTracks().getItems()) {
+                String trackId = playlistTrack.getTrack().getId();
+                Track track = _spotifyApi.getTrack(trackId).build().execute();
+                allTracks.add(track);
+            }
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
+            return null;
+        }
+        return allTracks;
     }
 }
