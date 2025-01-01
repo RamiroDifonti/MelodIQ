@@ -85,7 +85,8 @@ public class Spotify implements SpotifyInterface {
                 try {
                     trackPaging = tracksRequest.execute();
                 } catch (Exception e) {
-                    throw new RuntimeException(e);
+                    System.out.println("Error: " + e.getMessage());
+                    return null;
                 }
                 tracks.addAll(Arrays.asList(trackPaging.getItems()));
 
@@ -96,6 +97,7 @@ public class Spotify implements SpotifyInterface {
                 offset += limit;
             }
         }
+        return tracks;
     }
 
     @Override
