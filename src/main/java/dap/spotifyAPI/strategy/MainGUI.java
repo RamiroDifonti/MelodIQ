@@ -1,5 +1,7 @@
 package dap.spotifyAPI.strategy;
 
+import dap.spotifyAPI.proxy.Proxy;
+import dap.spotifyAPI.proxy.Spotify;
 import dap.spotifyAPI.proxy.SpotifyInterface;
 
 import javax.swing.*;
@@ -26,19 +28,31 @@ public class MainGUI {
         JButton albumButton = new JButton("Álbumes");
         albumButton.addActionListener(e -> {
             context.setStrategy(new AlbumStrategy(spotify));
-            new AlbumGUI(context);
+            // Abrir ventana para ingresar el nombre del artista
+            String artistName = JOptionPane.showInputDialog(frame, "Introduce el nombre del artista:");
+            if (artistName != null && !artistName.trim().isEmpty()) {
+                context.executeStrategy(artistName);
+            }
         });
 
         JButton songButton = new JButton("Canciones");
         songButton.addActionListener(e -> {
             context.setStrategy(new SongStrategy(spotify));
-            new SongGUI(context);
+            // Abrir ventana para ingresar el nombre del artista
+            String artistName = JOptionPane.showInputDialog(frame, "Introduce el nombre del artista:");
+            if (artistName != null && !artistName.trim().isEmpty()) {
+                context.executeStrategy(artistName);
+            }
         });
 
         JButton playlistButton = new JButton("Playlists");
         playlistButton.addActionListener(e -> {
             context.setStrategy(new PlaylistStrategy(spotify));
-            new PlaylistGUI(context);
+            // Abrir ventana para ingresar el nombre del usuario
+            String userId = JOptionPane.showInputDialog(frame, "Introduce el nombre del usuario:");
+            if (userId != null && !userId.trim().isEmpty()) {
+                context.executeStrategy(userId);
+            }
         });
 
         panel.add(albumButton);
@@ -50,8 +64,24 @@ public class MainGUI {
     }
 
     public static void main(String[] args) {
+        String client_id = "75399c2bdb7948b882f6647795204070";
+        String client_secret = "484b0ac5151f4288a40c06e8ae7a4dc4";
+
+
         // Pasar el Proxy conectado a la API real
-        SpotifyInterface proxy = new Proxy(new Spotify("clientId", "clientSecret"));
+        SpotifyInterface proxy = new Proxy(new Spotify(client_id, client_secret));
         new MainGUI(proxy);
     }
 }
+
+
+//public static void main(String[] args) {
+//    String client_id = "75399c2bdb7948b882f6647795204070";
+//    String client_secret = "484b0ac5151f4288a40c06e8ae7a4dc4";
+//
+//    SpotifyInterface spotify = new Spotify(client_id, client_secret);
+//    SpotifyInterface manager = new Proxy(spotify);
+//
+//    String artistId = "grela2235";
+//    System.out.println("Track name: " + manager.getPlaylistsByUser(artistId));
+//}
