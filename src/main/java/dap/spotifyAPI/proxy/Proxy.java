@@ -11,6 +11,7 @@ public class Proxy implements SpotifyInterface {
     private final Map<String, List<AlbumSimplified>> _albumcache = new HashMap<>();
     private final Map<String, List<TrackSimplified>> _trackcache = new HashMap<>();
     private final Map<String, List<PlaylistSimplified>> _playlistcache = new HashMap<>();
+    private final Map<String, List<Track>> _playlistTracksCache = new HashMap<>();
 
     public Proxy(SpotifyInterface spotify) {
         this._spotify = spotify;
@@ -49,6 +50,18 @@ public class Proxy implements SpotifyInterface {
             playlists = _spotify.getPlaylistsByUser(userId);
             _playlistcache.put(userId, playlists);
             return playlists;
+        }
+    }
+
+    @Override
+    public List<Track> getPlaylistTracks(String playlistId) {
+        List<Track> tracks = _playlistTracksCache.get(playlistId);
+        if (tracks != null) {
+            return tracks;
+        } else {
+            tracks = _spotify.getPlaylistTracks(playlistId);
+            _playlistTracksCache.put(playlistId, tracks);
+            return tracks;
         }
     }
 }
