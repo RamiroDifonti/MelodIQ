@@ -1,23 +1,20 @@
 package dap.spotifyAPI.proxy;
 
-import se.michaelthelin.spotify.model_objects.specification.Album;
-import se.michaelthelin.spotify.model_objects.specification.Playlist;
-import se.michaelthelin.spotify.model_objects.specification.Track;
+import se.michaelthelin.spotify.model_objects.specification.*;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class Proxy implements SpotifyInterface {
     private final SpotifyInterface _spotify;
-    private final Map<String, Album> _albumcache;
-    private final Map<String, Track> _trackcache;
-    private final Map<String, Playlist> _playlistcache;
-    
+    private final Map<String, Album> _albumcache = new HashMap<>();
+    private final Map<String, Track> _trackcache = new HashMap<>();
+    private final Map<String, Playlist> _playlistcache = new HashMap<>();
+    private final Map<String, User> _usercache = new HashMap<>();
+    private final Map<String, Artist> _artistcache = new HashMap<>();
+
     public Proxy(SpotifyInterface spotify) {
         this._spotify = spotify;
-        this._albumcache = new HashMap<>();
-        this._trackcache = new HashMap<>();
-        this._playlistcache = new HashMap<>();
     }
     
     @Override
@@ -50,6 +47,28 @@ public class Proxy implements SpotifyInterface {
             Playlist playlist = _spotify.getPlaylist(playlistId);
             _playlistcache.put(playlistId, playlist);
             return playlist;
+        }
+    }
+
+    @Override
+    public User getUser(String userId) {
+        if (_usercache.containsKey(userId)) {
+            return _usercache.get(userId);
+        } else {
+            User user = _spotify.getUser(userId);
+            _usercache.put(userId, user);
+            return user;
+        }
+    }
+
+    @Override
+    public Artist getArtist(String artistId) {
+        if (_artistcache.containsKey(artistId)) {
+            return _artistcache.get(artistId);
+        } else {
+            Artist artist = _spotify.getArtist(artistId);
+            _artistcache.put(artistId, artist);
+            return artist;
         }
     }
 }
