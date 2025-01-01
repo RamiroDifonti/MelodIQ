@@ -1,6 +1,8 @@
 package dap.spotifyAPI.template;
 
+import dap.spotifyAPI.utils.Song;
 import se.michaelthelin.spotify.model_objects.specification.PlaylistSimplified;
+import se.michaelthelin.spotify.model_objects.specification.Track;
 
 import java.util.List;
 
@@ -18,12 +20,16 @@ public class Playlist extends SearchTemplate {
 
     @Override
     public boolean hasSong() {
-        // TODO Auto-generated method stub
-        return false;
+        return true;
+       // return _songs.isEmpty();
     }
 
     @Override
     public void fetchSong() {
-        // TODO Auto-generated method stub
+        Track track = _songs.get(0);
+        System.out.println("entra2");
+        _songs.remove(0);
+        Song song = new Song(track);
+        System.out.println("Song: " + track.getName());
     }
 }
