@@ -8,6 +8,7 @@ public interface SpotifyInterface {
     List<AlbumSimplified> getAlbumsByArtist(String artistId);
     List<TrackSimplified> getTracksByArtist(String artistId);
     List<PlaylistSimplified> getPlaylistsByUser(String userId);
+    List<Track> getPlaylistTracks(String playlistId);
 }
 
 // 1. Añadir canciones al subject (las antiguas)

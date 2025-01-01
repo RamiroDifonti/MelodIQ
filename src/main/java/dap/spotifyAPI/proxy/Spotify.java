@@ -1,6 +1,7 @@
 package dap.spotifyAPI.proxy;
 
 import se.michaelthelin.spotify.SpotifyApi;
+import se.michaelthelin.spotify.model_objects.IPlaylistItem;
 import se.michaelthelin.spotify.model_objects.specification.*;
 import se.michaelthelin.spotify.requests.data.albums.GetAlbumsTracksRequest;
 import se.michaelthelin.spotify.requests.data.artists.GetArtistsAlbumsRequest;
@@ -135,5 +136,22 @@ public class Spotify implements SpotifyInterface {
         }
 
         return allPlaylists;
+    }
+
+    @Override
+    public List<Track> getPlaylistTracks(String playlistId) {
+        List<Track> allTracks = new ArrayList<>();
+        try {
+            Playlist pl = _spotifyApi.getPlaylist(playlistId).build().execute();
+            for (PlaylistTrack playlistTrack : pl.getTracks().getItems()) {
+                String trackId = playlistTrack.getTrack().getId();
+                Track track = _spotifyApi.getTrack(trackId).build().execute();
+                allTracks.add(track);
+            }
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
+            return null;
+        }
+        return allTracks;
     }
 }
