@@ -13,6 +13,6 @@ public class proxyTest {
         SpotifyInterface manager = new Proxy(spotify);
 
         String trackId = "3n3Ppam7vgaVa1iaRUc9Lp";
-        System.out.println("Track name: " + manager.getTrack(trackId).getName());
+        System.out.println("Track name: " + manager.getTracksByArtist(trackId));
     }
 }

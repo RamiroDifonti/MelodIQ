@@ -9,7 +9,7 @@ import java.util.Map;
 public class Proxy implements SpotifyInterface {
     private final SpotifyInterface _spotify;
     private final Map<String, List<AlbumSimplified>> _albumcache = new HashMap<>();
-    //private final Map<String, Track> _trackcache = new HashMap<>();
+    private final Map<String, Track> _trackcache = new HashMap<>();
     private final Map<String, List<PlaylistSimplified>> _playlistcache = new HashMap<>();
 
     public Proxy(SpotifyInterface spotify) {
@@ -19,17 +19,11 @@ public class Proxy implements SpotifyInterface {
     @Override
     public List<AlbumSimplified> getAlbumsByArtist(String artistId) {
         List<AlbumSimplified> albums = _albumcache.get(artistId);
-
         if (albums != null) {
-            for (AlbumSimplified album : albums) {
-                if (album.getId().equals(albumId)) {
-                    return List.of(album);
-                }
-            }
-            return _albumcache.get(albumId);
+            return albums;
         } else {
-            List<AlbumSimplified> albums = _spotify.getAlbumByArtist(artistId, albumId);
-            _albumcache.put(albumId, albums);
+            albums = _spotify.getAlbumsByArtist(artistId);
+            _albumcache.put(artistId, albums);
             return albums;
         }
     }
@@ -47,11 +41,12 @@ public class Proxy implements SpotifyInterface {
 
     @Override
     public List<PlaylistSimplified> getPlaylistsByUser(String userId) {
-        if (_playlistcache.containsKey(playlistId)) {
-            return _playlistcache.get(playlistId);
+        List<PlaylistSimplified> playlists = _spotify.getPlaylistsByUser(userId);
+        if (playlists != null) {
+            return playlists;
         } else {
-            List<PlaylistSimplified> playlists = _spotify.getPlaylistByUser(userId, playlistId);
-            _playlistcache.put(playlistId, playlists);
+            playlists = _spotify.getPlaylistsByUser(userId);
+            _playlistcache.put(userId, playlists);
             return playlists;
         }
     }

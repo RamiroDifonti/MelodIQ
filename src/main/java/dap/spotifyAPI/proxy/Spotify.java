@@ -2,6 +2,7 @@ package dap.spotifyAPI.proxy;
 
 import se.michaelthelin.spotify.SpotifyApi;
 import se.michaelthelin.spotify.model_objects.specification.*;
+import se.michaelthelin.spotify.requests.data.albums.GetAlbumsTracksRequest;
 import se.michaelthelin.spotify.requests.data.artists.GetArtistsAlbumsRequest;
 import se.michaelthelin.spotify.requests.data.playlists.GetListOfUsersPlaylistsRequest;
 import se.michaelthelin.spotify.requests.data.search.SearchItemRequest;
@@ -67,12 +68,33 @@ public class Spotify implements SpotifyInterface {
     }
 
     @Override
-    public Track getTrackByArtist(String trackId) {
-        try {
-            return _spotifyApi.getTrack(trackId).build().execute();
-        } catch (Exception e) {
-            System.out.println("Error: " + e.getMessage());
-            return null;
+    public List<TrackSimplified> getTracksByArtist(String artistName) {
+        List<AlbumSimplified> albums = getAlbumsByArtist(artistName);
+        List<TrackSimplified> tracks = new ArrayList<>();
+        for (AlbumSimplified album : albums) {
+            int limit = 50;
+            int offset = 0;
+
+            while (true) {
+                GetAlbumsTracksRequest tracksRequest = _spotifyApi
+                        .getAlbumsTracks(album.getId())
+                        .limit(limit)
+                        .offset(offset)
+                        .build();
+                Paging<TrackSimplified> trackPaging;
+                try {
+                    trackPaging = tracksRequest.execute();
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+                tracks.addAll(Arrays.asList(trackPaging.getItems()));
+
+                if (trackPaging.getNext() == null) {
+                    break;
+                }
+
+                offset += limit;
+            }
         }
     }
 
