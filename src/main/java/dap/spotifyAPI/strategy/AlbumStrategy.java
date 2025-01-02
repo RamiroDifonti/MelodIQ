@@ -3,7 +3,6 @@ package dap.spotifyAPI.strategy;
 import dap.spotifyAPI.proxy.SpotifyInterface;
 import dap.spotifyAPI.utils.Song;
 import se.michaelthelin.spotify.model_objects.specification.AlbumSimplified;
-import se.michaelthelin.spotify.model_objects.specification.TrackSimplified;
 
 import javax.swing.*;
 import java.awt.*;
@@ -26,24 +25,8 @@ public class AlbumStrategy implements Strategy {
             return;
         }
 
-        System.out.println("Álbumes encontrados:" + albums.size());
-        for (AlbumSimplified album : albums) {
-            System.out.println(album.getName());
-        }
-
-
         List<AlbumSimplified> selectedAlbums = selectAlbums(albums);
-
-//        for (AlbumSimplified album : selectedAlbums) {
-//            System.out.println(album.getName());
-//        }
-//
-        List<TrackSimplified> playlistTracks = mergeTracks(selectedAlbums);
-//
-//        for (TrackSimplified track : playlistTracks) {
-//            System.out.println(track.getName());
-//        }
-
+        List<Song> playlistTracks = mergeTracks(selectedAlbums);
 
         if (!playlistTracks.isEmpty()) {
             savePlaylist(playlistTracks);
@@ -84,21 +67,20 @@ public class AlbumStrategy implements Strategy {
 
         frame.setVisible(true);
 
-//        while (frame.isDisplayable()) {
-//            try {
-//                Thread.sleep(100); // Espera hasta que se cierre la ventana
-//            } catch (InterruptedException ignored) {
-//            }
-//        }
+        while (frame.isDisplayable()) {
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException ignored) {
+            }
+        }
 
         return selectedAlbums;
     }
 
-
-    private List<TrackSimplified> mergeTracks(List<AlbumSimplified> albums) {
-        List<TrackSimplified> allTracks = new ArrayList<>();
+    private List<Song> mergeTracks(List<AlbumSimplified> albums) {
+        List<Song> allTracks = new ArrayList<>();
         for (AlbumSimplified album : albums) {
-            List<TrackSimplified> tracks = spotify.getTracksByArtist(album.getId());
+            List<Song> tracks = spotify.getAlbumTracks(album.getId());
             if (tracks != null) {
                 allTracks.addAll(tracks);
             }
@@ -106,10 +88,10 @@ public class AlbumStrategy implements Strategy {
         return allTracks;
     }
 
-    private void savePlaylist(List<TrackSimplified> tracks) {
+    private void savePlaylist(List<Song> tracks) {
         try (FileWriter writer = new FileWriter("playlist.txt")) {
-            for (TrackSimplified track : tracks) {
-                writer.write(track.getName() + "\n");
+            for (Song track : tracks) {
+                writer.write(track.name + "\n");
             }
             System.out.println("Playlist guardada correctamente.");
         } catch (Exception e) {
