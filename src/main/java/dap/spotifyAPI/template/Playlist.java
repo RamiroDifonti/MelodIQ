@@ -20,14 +20,12 @@ public class Playlist extends SearchTemplate {
 
     @Override
     public boolean hasSong() {
-        return true;
-       // return _songs.isEmpty();
+        return !_songs.isEmpty();
     }
 
     @Override
     public void fetchSong() {
         Track track = _songs.get(0);
-        System.out.println("entra2");
         _songs.remove(0);
         Song song = new Song(track);
         System.out.println("Song: " + track.getName());
