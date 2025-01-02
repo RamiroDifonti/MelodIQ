@@ -2,7 +2,6 @@ package dap.spotifyAPI.strategy;
 
 import dap.spotifyAPI.proxy.SpotifyInterface;
 import dap.spotifyAPI.utils.Song;
-import se.michaelthelin.spotify.model_objects.specification.TrackSimplified;
 
 import javax.swing.*;
 import java.awt.*;
@@ -19,25 +18,20 @@ public class SongStrategy implements Strategy {
 
     @Override
     public void execute(String artistName) {
-        List<TrackSimplified> tracks = spotify.getTracksByArtist(artistName);
-        if (tracks == null || tracks.isEmpty()) {
+        List<Song> songs = spotify.getTracksByArtist(artistName);
+        if (songs == null || songs.isEmpty()) {
             System.out.println("No se encontraron canciones para el artista: " + artistName);
             return;
         }
 
-        System.out.println("Canciones encontradas:" + tracks.size());
-        for (TrackSimplified track : tracks) {
-            System.out.println(track.getName());
-        }
+        List<Song> selectedSongs = selectSongs(songs);
 
-        List<TrackSimplified> selectedTracks = selectTracks(tracks);
-
-        if (!selectedTracks.isEmpty()) {
-            savePlaylist(selectedTracks);
+        if (!selectedSongs.isEmpty()) {
+            savePlaylist(selectedSongs);
         }
     }
 
-    private List<TrackSimplified> selectTracks(List<TrackSimplified> tracks) {
+    private List<Song> selectSongs(List<Song> songs) {
         JFrame frame = new JFrame("Seleccionar Canciones");
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.setSize(400, 500);
@@ -46,24 +40,24 @@ public class SongStrategy implements Strategy {
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 
         List<JCheckBox> checkboxes = new ArrayList<>();
-        for (TrackSimplified track : tracks) {
-            JCheckBox checkbox = new JCheckBox(track.getName());
+        for (Song song : songs) {
+            JCheckBox checkbox = new JCheckBox(song.name);
             checkbox.setAlignmentX(Component.LEFT_ALIGNMENT);
             panel.add(checkbox);
             checkboxes.add(checkbox);
         }
 
         JScrollPane scrollPane = new JScrollPane(panel);
-        frame.add(scrollPane, BorderLayout.CENTER);
+        frame.add(scrollPane);
 
         JButton confirmButton = new JButton("Confirmar Selección");
         frame.add(confirmButton, BorderLayout.SOUTH);
 
-        List<TrackSimplified> selectedTracks = new ArrayList<>();
+        List<Song> selectedSongs = new ArrayList<>();
         confirmButton.addActionListener(e -> {
             for (int i = 0; i < checkboxes.size(); i++) {
                 if (checkboxes.get(i).isSelected()) {
-                    selectedTracks.add(tracks.get(i));
+                    selectedSongs.add(songs.get(i));
                 }
             }
             frame.dispose();
@@ -73,19 +67,18 @@ public class SongStrategy implements Strategy {
 
 //        while (frame.isDisplayable()) {
 //            try {
-//                Thread.sleep(100); // Espera hasta que se cierre la ventana
+//                Thread.sleep(100);
 //            } catch (InterruptedException ignored) {
 //            }
 //        }
 
-        return selectedTracks;
+        return selectedSongs;
     }
 
-
-    private void savePlaylist(List<TrackSimplified> tracks) {
+    private void savePlaylist(List<Song> songs) {
         try (FileWriter writer = new FileWriter("playlist.txt")) {
-            for (TrackSimplified track : tracks) {
-                writer.write(track.getName() + "\n");
+            for (Song song : songs) {
+                writer.write(song.name + "\n");
             }
             System.out.println("Playlist guardada correctamente.");
         } catch (Exception e) {
