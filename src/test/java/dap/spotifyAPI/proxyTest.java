@@ -26,10 +26,15 @@ public class proxyTest {
 //        for (Song t2 : manager.getAlbumTracks(id)) {
 //            System.out.println("Track name: " + t2.name);
 //        }
-        String playlistId = "4aao0tTCslyiYQqBkh5K1g";
-        int i = 0;
-        for (Song t : manager.getPlaylistTracks(playlistId)) {
-            System.out.println(i++ + "Track name: " + t.name);
+//        String playlistId = "4aao0tTCslyiYQqBkh5K1g";
+//        int i = 0;
+//        for (Song t : manager.getPlaylistTracks(playlistId)) {
+//            System.out.println(i++ + "Track name: " + t.name);
+//        }
+        List<Song> test = manager.getTracksByArtist("Bad Bunny");
+        test.size();
+        for (Song t : test) {
+            System.out.println(test.size());
         }
     }
 }

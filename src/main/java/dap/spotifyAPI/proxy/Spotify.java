@@ -89,36 +89,52 @@ public class Spotify implements SpotifyInterface {
 
     @Override
     public List<Song> getTracksByArtist(String artistName) {
-        List<AlbumSimplified> albums = getAlbumsByArtist(artistName);
         List<Song> tracks = new ArrayList<>();
-        for (AlbumSimplified album : albums) {
-            int limit = 50;
-            int offset = 0;
-            try {
-                while (true) {
-                    GetAlbumsTracksRequest tracksRequest = _spotifyApi
-                            .getAlbumsTracks(album.getId())
+        SearchItemRequest searchRequest = _spotifyApi.searchItem(artistName, "artist").limit(1).build();
+        try {
+            Paging<Artist> artistPaging = searchRequest.execute().getArtists();
+            Artist artist = artistPaging.getItems()[0];
+            String artistId = artist.getId();
+            int limit = 50; // Máximo por solicitud
+            int offset = 0; // Desplazamiento inicial
+
+            while (true) {
+                    GetArtistsAlbumsRequest albumsRequest = _spotifyApi
+                            .getArtistsAlbums(artistId)
                             .limit(limit)
                             .offset(offset)
                             .build();
-                    Paging<TrackSimplified> trackPaging;
+                    Paging<AlbumSimplified> albumsPaging = albumsRequest.execute();
 
-                    trackPaging = tracksRequest.execute();
-                    for (TrackSimplified tmp : trackPaging.getItems()) {
-                        Track track = _spotifyApi.getTrack(tmp.getId()).build().execute();
-                        tracks.add(new Song(track));
+                    // Agregar los álbumes obtenidos a la lista
+                    for (AlbumSimplified album : albumsPaging.getItems()) {
+                        for (ArtistSimplified artist2 : album.getArtists()) {
+                            if (artistId.equals(artist2.getId())) {
+                                GetAlbumsTracksRequest tracksRequest = _spotifyApi
+                                        .getAlbumsTracks(album.getId())
+                                        .limit(limit)
+                                        .offset(offset)
+                                        .build();
+                                Paging<TrackSimplified> tracksPaging = tracksRequest.execute();
+                                // Agregar los tracks obtenidos
+                                TrackSimplified[] items = tracksPaging.getItems();
+                                for (TrackSimplified tmp : items) {
+                                    Track track = _spotifyApi.getTrack(tmp.getId()).build().execute();
+                                    tracks.add(new Song(track));
+                                }
+                                break;
+                            }
+                        }
                     }
-                    if (trackPaging.getNext() == null) {
-
+                    if (albumsPaging.getNext() == null) {
                         break;
                     }
 
                     offset += limit;
-                }
-            } catch (Exception e) {
-                System.out.println("Error: " + e.getMessage());
-                return null;
             }
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
+            return null;
         }
         return tracks;
     }
