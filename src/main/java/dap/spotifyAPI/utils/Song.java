@@ -31,6 +31,9 @@ public class Song {
   /** Etiqueta que muestra la portada del álbum de la canción */
   private JLabel _albumCoverLabel;
 
+  // TEMPORAL
+  public String name;
+
   /**
    * Constructor de la clase Song.
    * Este constructor inicializa los componentes visuales necesarios para mostrar la información
@@ -38,25 +41,27 @@ public class Song {
    *
    * @param song El objeto Track que contiene la información de la canción.
    */
-  public Song(TrackSimplified song) {
+  public Song(Track song) {
+    name = song.getName();
+
     _cover = new JPanel();
     _cover.setLayout(new BoxLayout(_cover, BoxLayout.Y_AXIS)); // Layout vertical para las canciones
 
     // Cargar datos de la canción
     String songName = song.getName();
     String artists = String.join(", ", song.getArtists()[0].getName());
-//    String albumCoverUrl = song.getAlbum().getImages()[0].getUrl();
+    String albumCoverUrl = song.getAlbum().getImages()[0].getUrl();
 
     // Crear y agregar la imagen de portada de la canción
-//    _albumCoverLabel = new JLabel();
-//    try {
-//      // Cargar y redimensionar la imagen a 64x64 píxeles
-//      BufferedImage albumCoverImage = ImageIO.read(new URL(albumCoverUrl));
-//      Image scaledImage = albumCoverImage.getScaledInstance(64, 64, Image.SCALE_SMOOTH);
-//      _albumCoverLabel.setIcon(new ImageIcon(scaledImage));
-//    } catch (IOException e) {
-//      System.err.println("Error loading album cover image: " + e.getMessage());
-//    }
+    _albumCoverLabel = new JLabel();
+    try {
+      // Cargar y redimensionar la imagen a 64x64 píxeles
+      BufferedImage albumCoverImage = ImageIO.read(new URL(albumCoverUrl));
+      Image scaledImage = albumCoverImage.getScaledInstance(64, 64, Image.SCALE_SMOOTH);
+      _albumCoverLabel.setIcon(new ImageIcon(scaledImage));
+    } catch (IOException e) {
+      System.err.println("Error loading album cover image: " + e.getMessage());
+    }
 
     // Crear un panel de GridLayout para el nombre de la canción y los artistas
     JPanel songInfoPanel = new JPanel();
