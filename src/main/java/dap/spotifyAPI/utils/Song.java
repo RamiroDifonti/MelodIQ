@@ -1,6 +1,7 @@
 package dap.spotifyAPI.utils;
 
 import se.michaelthelin.spotify.model_objects.specification.Track;
+import se.michaelthelin.spotify.model_objects.specification.TrackSimplified;
 
 import javax.swing.*;
 import java.awt.*;
@@ -30,6 +31,9 @@ public class Song {
   /** Etiqueta que muestra la portada del álbum de la canción */
   private JLabel _albumCoverLabel;
 
+  // TEMPORAL
+  public String name;
+
   /**
    * Constructor de la clase Song.
    * Este constructor inicializa los componentes visuales necesarios para mostrar la información
@@ -38,6 +42,8 @@ public class Song {
    * @param song El objeto Track que contiene la información de la canción.
    */
   public Song(Track song) {
+    name = song.getName();
+
     _cover = new JPanel();
     _cover.setLayout(new BoxLayout(_cover, BoxLayout.Y_AXIS)); // Layout vertical para las canciones
 
