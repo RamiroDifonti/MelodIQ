@@ -1,6 +1,8 @@
 package dap.spotifyAPI.proxy;
 
+import dap.spotifyAPI.utils.Song;
 import se.michaelthelin.spotify.SpotifyApi;
+import se.michaelthelin.spotify.enums.AlbumType;
 import se.michaelthelin.spotify.model_objects.IPlaylistItem;
 import se.michaelthelin.spotify.model_objects.specification.*;
 import se.michaelthelin.spotify.requests.data.albums.GetAlbumsTracksRequest;
@@ -36,7 +38,7 @@ public class Spotify implements SpotifyInterface {
             Artist artist = artistPaging.getItems()[0];
             String artistId = artist.getId();
             List<AlbumSimplified> allAlbums = new ArrayList<>();
-            int limit = 10; // Máximo por solicitud
+            int limit = 50; // Máximo por solicitud
             int offset = 0; // Desplazamiento inicial
 
             while (true) {
@@ -49,10 +51,22 @@ public class Spotify implements SpotifyInterface {
                 Paging<AlbumSimplified> albumsPaging = albumsRequest.execute();
 
                 // Agregar los álbumes obtenidos a la lista
-                AlbumSimplified[] items = albumsPaging.getItems();
-                for (AlbumSimplified album : items) {
-                    allAlbums.add(album);
+                for (AlbumSimplified album : albumsPaging.getItems()) {
+                    boolean isPrimaryArtist = false;
+                    for (ArtistSimplified artist2 : album.getArtists()) {
+                        if (artistId.equals(artist2.getId())) {
+                            isPrimaryArtist = true;
+                            break;
+                        }
+                    }
+                    if (!(album.getAlbumType() == AlbumType.ALBUM)) {
+                        isPrimaryArtist = false;
+                    }
+                    if (isPrimaryArtist) {
+                        allAlbums.add(album);
+                    }
                 }
+
 
                 // Verificar si hay más páginas
                 if (albumsPaging.getNext() == null) {
@@ -69,11 +83,11 @@ public class Spotify implements SpotifyInterface {
     }
 
     @Override
-    public List<TrackSimplified> getTracksByArtist(String artistName) {
+    public List<Song> getTracksByArtist(String artistName) {
         List<AlbumSimplified> albums = getAlbumsByArtist(artistName);
-        List<TrackSimplified> tracks = new ArrayList<>();
+        List<Song> tracks = new ArrayList<>();
         for (AlbumSimplified album : albums) {
-            int limit = 10;
+            int limit = 50;
             int offset = 0;
 
             while (true) {
@@ -89,9 +103,11 @@ public class Spotify implements SpotifyInterface {
                     System.out.println("Error: " + e.getMessage());
                     return null;
                 }
-                tracks.addAll(Arrays.asList(trackPaging.getItems()));
-
+                for (TrackSimplified track : trackPaging.getItems()) {
+                    tracks.add(new Song(track));
+                }
                 if (trackPaging.getNext() == null) {
+
                     break;
                 }
 
@@ -104,7 +120,7 @@ public class Spotify implements SpotifyInterface {
     @Override
     public List<PlaylistSimplified> getPlaylistsByUser(String userId) {
         List<PlaylistSimplified> allPlaylists = new ArrayList<>();
-        int limit = 10; // Máximo por solicitud
+        int limit = 50; // Máximo por solicitud
         int offset = 0; // Desplazamiento inicial
 
         while (true) {
@@ -139,19 +155,61 @@ public class Spotify implements SpotifyInterface {
     }
 
     @Override
-    public List<Track> getPlaylistTracks(String playlistId) {
-        List<Track> allTracks = new ArrayList<>();
+    public List<Song> getPlaylistTracks(String playlistId) {
+        List<Song> allTracks = new ArrayList<>();
         try {
             Playlist pl = _spotifyApi.getPlaylist(playlistId).build().execute();
-            for (PlaylistTrack playlistTrack : pl.getTracks().getItems()) {
-                String trackId = playlistTrack.getTrack().getId();
-                Track track = _spotifyApi.getTrack(trackId).build().execute();
-                allTracks.add(track);
-            }
+            // TODO Implementar paginación
+//            for (PlaylistTrack playlistTrack : pl.getTracks().getItems()) {
+//                String trackId = playlistTrack.getTrack().getId();
+//                Track track = _spotifyApi.getTrack(trackId).build().execute();
+//                allTracks.add(track);
+//                ++i;
+//            }
+            System.out.println(pl.getTracks().getLimit());//.getItems().length);
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());
             return null;
         }
+        return allTracks;
+    }
+
+    @Override
+    public List<Song> getAlbumTracks(String albumId) {
+        List<Song> allTracks = new ArrayList<>();
+        int limit = 50; // Máximo por solicitud
+        int offset = 0; // Desplazamiento inicial
+
+        while (true) {
+            // Crear y ejecutar la solicitud de tracks
+            GetAlbumsTracksRequest tracksRequest = _spotifyApi
+                    .getAlbumsTracks(albumId)
+                    .limit(limit)
+                    .offset(offset)
+                    .build();
+
+            Paging<TrackSimplified> tracksPaging;
+            try {
+                tracksPaging = tracksRequest.execute();
+            } catch (Exception e) {
+                System.out.println("Error: " + e.getMessage());
+                return null;
+            }
+
+            // Agregar los tracks obtenidos
+            TrackSimplified[] items = tracksPaging.getItems();
+            for (TrackSimplified track : items) {
+                allTracks.add(new Song(track));
+            }
+
+            // Verificar si hay más páginas
+            if (tracksPaging.getNext() == null) {
+                break;
+            }
+
+            offset += limit;
+        }
+
         return allTracks;
     }
 }

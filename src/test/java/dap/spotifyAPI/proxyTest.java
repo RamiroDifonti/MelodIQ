@@ -3,6 +3,9 @@ package dap.spotifyAPI;
 import dap.spotifyAPI.proxy.Proxy;
 import dap.spotifyAPI.proxy.Spotify;
 import dap.spotifyAPI.proxy.SpotifyInterface;
+import se.michaelthelin.spotify.model_objects.specification.AlbumSimplified;
+
+import java.util.List;
 
 public class proxyTest {
     public static void main(String[] args) {
@@ -12,7 +15,11 @@ public class proxyTest {
         SpotifyInterface spotify = new Spotify(client_id, client_secret);
         SpotifyInterface manager = new Proxy(spotify);
 
-        String artistId = "grela2235";
-        System.out.println("Track name: " + manager.getPlaylistsByUser(artistId));
+        // https://open.spotify.com/intl-es/artist/4q3ewBCX7sLwd24euuV69X?si=92ec8e434e234049
+        String artistId = "Bad Bunny";
+        List<AlbumSimplified> t = manager.getAlbumsByArtist(artistId);
+        for (AlbumSimplified album : t) {
+            System.out.println("Album name: " + album.getName());
+        }
     }
 }
