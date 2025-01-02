@@ -67,12 +67,12 @@ public class AlbumStrategy implements Strategy {
 
         frame.setVisible(true);
 
-        while (frame.isDisplayable()) {
-            try {
-                Thread.sleep(100);
-            } catch (InterruptedException ignored) {
-            }
-        }
+//        while (frame.isDisplayable()) {
+//            try {
+//                Thread.sleep(100);
+//            } catch (InterruptedException ignored) {
+//            }
+//        }
 
         return selectedAlbums;
     }

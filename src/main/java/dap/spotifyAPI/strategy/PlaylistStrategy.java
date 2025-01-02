@@ -3,7 +3,6 @@ package dap.spotifyAPI.strategy;
 import dap.spotifyAPI.proxy.SpotifyInterface;
 import dap.spotifyAPI.utils.Song;
 import se.michaelthelin.spotify.model_objects.specification.PlaylistSimplified;
-import se.michaelthelin.spotify.model_objects.specification.TrackSimplified;
 
 import javax.swing.*;
 import java.awt.*;
@@ -27,7 +26,7 @@ public class PlaylistStrategy implements Strategy {
         }
 
         List<PlaylistSimplified> selectedPlaylists = selectPlaylists(playlists);
-        List<TrackSimplified> playlistTracks = mergeTracks(selectedPlaylists);
+        List<Song> playlistTracks = mergeTracks(selectedPlaylists);
 
         if (!playlistTracks.isEmpty()) {
             savePlaylist(playlistTracks);
@@ -70,7 +69,7 @@ public class PlaylistStrategy implements Strategy {
 
 //        while (frame.isDisplayable()) {
 //            try {
-//                Thread.sleep(100); // Espera hasta que se cierre la ventana
+//                Thread.sleep(100);
 //            } catch (InterruptedException ignored) {
 //            }
 //        }
@@ -78,11 +77,10 @@ public class PlaylistStrategy implements Strategy {
         return selectedPlaylists;
     }
 
-
-    private List<TrackSimplified> mergeTracks(List<PlaylistSimplified> playlists) {
-        List<TrackSimplified> allTracks = new ArrayList<>();
+    private List<Song> mergeTracks(List<PlaylistSimplified> playlists) {
+        List<Song> allTracks = new ArrayList<>();
         for (PlaylistSimplified playlist : playlists) {
-            List<TrackSimplified> tracks = spotify.getTracksByArtist(playlist.getId());
+            List<Song> tracks = spotify.getPlaylistTracks(playlist.getId());
             if (tracks != null) {
                 allTracks.addAll(tracks);
             }
@@ -90,10 +88,10 @@ public class PlaylistStrategy implements Strategy {
         return allTracks;
     }
 
-    private void savePlaylist(List<TrackSimplified> tracks) {
+    private void savePlaylist(List<Song> tracks) {
         try (FileWriter writer = new FileWriter("playlist.txt")) {
-            for (TrackSimplified track : tracks) {
-                writer.write(track.getName() + "\n");
+            for (Song track : tracks) {
+                writer.write(track.name + "\n");
             }
             System.out.println("Playlist guardada correctamente.");
         } catch (Exception e) {
