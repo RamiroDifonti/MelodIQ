@@ -1,5 +1,6 @@
 package dap.spotifyAPI.proxy;
 
+import dap.spotifyAPI.utils.Song;
 import se.michaelthelin.spotify.model_objects.specification.*;
 
 import java.util.HashMap;
@@ -9,9 +10,10 @@ import java.util.Map;
 public class Proxy implements SpotifyInterface {
     private final SpotifyInterface _spotify;
     private final Map<String, List<AlbumSimplified>> _albumcache = new HashMap<>();
-    private final Map<String, List<TrackSimplified>> _trackcache = new HashMap<>();
+    private final Map<String, List<Song>> _trackcache = new HashMap<>();
     private final Map<String, List<PlaylistSimplified>> _playlistcache = new HashMap<>();
-    private final Map<String, List<Track>> _playlistTracksCache = new HashMap<>();
+    private final Map<String, List<Song>> _playlistTracksCache = new HashMap<>();
+    private final Map<String, List<Song>> _albumTracksCache = new HashMap<>();
 
     public Proxy(SpotifyInterface spotify) {
         this._spotify = spotify;
@@ -30,8 +32,8 @@ public class Proxy implements SpotifyInterface {
     }
 
     @Override
-    public List<TrackSimplified> getTracksByArtist(String artistId) {
-        List<TrackSimplified> tracks = _trackcache.get(artistId);
+    public List<Song> getTracksByArtist(String artistId) {
+        List<Song> tracks = _trackcache.get(artistId);
         if (tracks != null) {
             return tracks;
         } else {
@@ -54,13 +56,25 @@ public class Proxy implements SpotifyInterface {
     }
 
     @Override
-    public List<Track> getPlaylistTracks(String playlistId) {
-        List<Track> tracks = _playlistTracksCache.get(playlistId);
+    public List<Song> getPlaylistTracks(String playlistId) {
+        List<Song> tracks = _playlistTracksCache.get(playlistId);
         if (tracks != null) {
             return tracks;
         } else {
             tracks = _spotify.getPlaylistTracks(playlistId);
             _playlistTracksCache.put(playlistId, tracks);
+            return tracks;
+        }
+    }
+
+    @Override
+    public List<Song> getAlbumTracks(String albumId) {
+        List<Song> tracks = _albumTracksCache.get(albumId);
+        if (tracks != null) {
+            return tracks;
+        } else {
+            tracks = _spotify.getAlbumTracks(albumId);
+            _albumTracksCache.put(albumId, tracks);
             return tracks;
         }
     }
