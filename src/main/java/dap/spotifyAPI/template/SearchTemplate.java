@@ -14,7 +14,7 @@ public abstract class SearchTemplate {
     public final void Search(SpotifyInterface manager, String name, String searchField) {
         _manager = manager;
         apiCall(name, searchField);
-        if (hasSong()) {
+        while (hasSong()) {
             fetchSong();
         }
     }
