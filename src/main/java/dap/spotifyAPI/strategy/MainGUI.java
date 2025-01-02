@@ -3,6 +3,7 @@ package dap.spotifyAPI.strategy;
 import dap.spotifyAPI.proxy.Proxy;
 import dap.spotifyAPI.proxy.Spotify;
 import dap.spotifyAPI.proxy.SpotifyInterface;
+import dap.spotifyAPI.utils.Song;
 
 import javax.swing.*;
 import java.awt.*;

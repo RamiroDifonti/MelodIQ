@@ -1,6 +1,7 @@
 package dap.spotifyAPI.strategy;
 
 import dap.spotifyAPI.proxy.SpotifyInterface;
+import dap.spotifyAPI.utils.Song;
 import se.michaelthelin.spotify.model_objects.specification.PlaylistSimplified;
 import se.michaelthelin.spotify.model_objects.specification.TrackSimplified;
 
