@@ -25,6 +25,6 @@ public class Album extends SearchTemplate {
     protected void fetchSong() {
         Song song = _songs.get(0);
         _songs.remove(0);
-        _scrollpane.add(song.getLayout());
+        _panel.add(song.getLayout());
     }
 }
