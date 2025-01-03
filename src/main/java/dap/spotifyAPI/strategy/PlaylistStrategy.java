@@ -6,7 +6,6 @@ import se.michaelthelin.spotify.model_objects.specification.PlaylistSimplified;
 
 import javax.swing.*;
 import java.awt.*;
-import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,24 +18,32 @@ public class PlaylistStrategy implements Strategy {
 
     @Override
     public void execute(String userId) {
+        System.out.println("Buscando playlists para el usuario: " + userId);
         List<PlaylistSimplified> playlists = spotify.getPlaylistsByUser(userId);
         if (playlists == null || playlists.isEmpty()) {
             System.out.println("No se encontraron playlists para el usuario: " + userId);
             return;
         }
 
-        List<PlaylistSimplified> selectedPlaylists = selectPlaylists(playlists);
-        List<Song> playlistTracks = mergeTracks(selectedPlaylists);
+        System.out.println("Playlists encontradas:");
+        for (PlaylistSimplified playlist : playlists) {
+            System.out.println(playlist.getName());
+        }
 
-        if (!playlistTracks.isEmpty()) {
-            savePlaylist(playlistTracks);
+        List<PlaylistSimplified> selectedPlaylists = selectPlaylists(playlists);
+        if (!selectedPlaylists.isEmpty()) {
+            showPlaylistTracks(selectedPlaylists);
+        } else {
+            System.out.println("No se seleccionaron playlists.");
         }
     }
 
     private List<PlaylistSimplified> selectPlaylists(List<PlaylistSimplified> playlists) {
-        JFrame frame = new JFrame("Seleccionar Playlists");
-        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        frame.setSize(400, 500);
+        JDialog dialog = new JDialog();
+        dialog.setTitle("Seleccionar Playlists");
+        dialog.setSize(400, 500);
+        dialog.setModal(true);
+        dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
@@ -50,10 +57,10 @@ public class PlaylistStrategy implements Strategy {
         }
 
         JScrollPane scrollPane = new JScrollPane(panel);
-        frame.add(scrollPane, BorderLayout.CENTER);
+        dialog.add(scrollPane, BorderLayout.CENTER);
 
         JButton confirmButton = new JButton("Confirmar Selección");
-        frame.add(confirmButton, BorderLayout.SOUTH);
+        dialog.add(confirmButton, BorderLayout.SOUTH);
 
         List<PlaylistSimplified> selectedPlaylists = new ArrayList<>();
         confirmButton.addActionListener(e -> {
@@ -62,40 +69,38 @@ public class PlaylistStrategy implements Strategy {
                     selectedPlaylists.add(playlists.get(i));
                 }
             }
-            frame.dispose();
+            dialog.dispose();
         });
 
-        frame.setVisible(true);
-
-//        while (frame.isDisplayable()) {
-//            try {
-//                Thread.sleep(100);
-//            } catch (InterruptedException ignored) {
-//            }
-//        }
+        dialog.setVisible(true);
 
         return selectedPlaylists;
     }
 
-    private List<Song> mergeTracks(List<PlaylistSimplified> playlists) {
+    private void showPlaylistTracks(List<PlaylistSimplified> playlists) {
+        System.out.println("Mostrando canciones de las playlists seleccionadas");
         List<Song> allTracks = new ArrayList<>();
         for (PlaylistSimplified playlist : playlists) {
-            List<Song> tracks = spotify.getPlaylistTracks(playlist.getId());
-            if (tracks != null) {
-                allTracks.addAll(tracks);
+            List<Song> playlistTracks = spotify.getPlaylistTracks(playlist.getId());
+            if (playlistTracks != null) {
+                allTracks.addAll(playlistTracks);
             }
         }
-        return allTracks;
-    }
 
-    private void savePlaylist(List<Song> tracks) {
-        try (FileWriter writer = new FileWriter("playlist.txt")) {
-            for (Song track : tracks) {
-                writer.write(track.name + "\n");
-            }
-            System.out.println("Playlist guardada correctamente.");
-        } catch (Exception e) {
-            e.printStackTrace();
+        JFrame frame = new JFrame("Canciones de las Playlists Seleccionadas");
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frame.setSize(400, 500);
+
+        JPanel panel = new JPanel();
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+
+        for (Song track : allTracks) {
+            panel.add(track.getLayout());
         }
+
+        JScrollPane scrollPane = new JScrollPane(panel);
+        frame.add(scrollPane, BorderLayout.CENTER);
+
+        frame.setVisible(true);
     }
 }
