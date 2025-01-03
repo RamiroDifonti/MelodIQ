@@ -31,6 +31,7 @@ public class proxyTest {
 //        for (Song t : manager.getPlaylistTracks(playlistId)) {
 //            System.out.println(i++ + "Track name: " + t.name);
 //        }
+
         List<Song> test = manager.getTracksByArtist("Bad Bunny");
         test.size();
         for (Song t : test) {
