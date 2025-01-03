@@ -18,6 +18,7 @@ public class AlbumStrategy implements Strategy {
 
     @Override
     public void execute(String artistName) {
+        System.out.println("Buscando álbumes para el artista: " + artistName);
         List<AlbumSimplified> albums = spotify.getAlbumsByArtist(artistName);
         if (albums == null || albums.isEmpty()) {
             System.out.println("No se encontraron álbumes para el artista: " + artistName);
@@ -31,6 +32,7 @@ public class AlbumStrategy implements Strategy {
     }
 
     private List<AlbumSimplified> selectAlbums(List<AlbumSimplified> albums) {
+        System.out.println("Seleccionando álbumes");
         JFrame frame = new JFrame("Seleccionar Álbumes");
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.setSize(400, 500);
@@ -75,6 +77,7 @@ public class AlbumStrategy implements Strategy {
     }
 
     private void showAlbumTracks(List<AlbumSimplified> albums) {
+        System.out.println("Mostrando canciones de los álbumes seleccionados");
         List<Song> allTracks = new ArrayList<>();
         for (AlbumSimplified album : albums) {
             List<Song> albumTracks = spotify.getAlbumTracks(album.getId());
