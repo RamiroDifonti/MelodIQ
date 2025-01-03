@@ -31,15 +31,13 @@ public class Artist extends Subject {
     }
 
     public void addAlbum(String albumId) {
-        List<AlbumSimplified> albumList = spotify.getAlbumsByArtist(artistName);
-        for (AlbumSimplified album : albumList) {
-            if (album.getId().equals(albumId) && !albums.contains(album)) {
-                albums.add(album);
-                notifyObservers("Álbum agregado: " + album.getName());
-                return;
-            }
+        AlbumSimplified album = spotify.getAlbumById(albumId);
+        if (album != null && !albums.contains(album)) {
+            albums.add(album);
+            notifyObservers("Álbum agregado: " + album.getName());
+        } else {
+            JOptionPane.showMessageDialog(null, "Álbum no encontrado o ya existente.", "Error", JOptionPane.ERROR_MESSAGE);
         }
-        JOptionPane.showMessageDialog(null, "Álbum no encontrado.", "Error", JOptionPane.ERROR_MESSAGE);
     }
 
     public List<AlbumSimplified> getLatestAlbums(int count) {
