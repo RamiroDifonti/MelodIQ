@@ -5,7 +5,6 @@ import dap.spotifyAPI.utils.Song;
 
 import javax.swing.*;
 import java.awt.*;
-import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,9 +24,8 @@ public class SongStrategy implements Strategy {
         }
 
         List<Song> selectedSongs = selectSongs(songs);
-
         if (!selectedSongs.isEmpty()) {
-            savePlaylist(selectedSongs);
+            showSelectedSongs(selectedSongs);
         }
     }
 
@@ -48,7 +46,7 @@ public class SongStrategy implements Strategy {
         }
 
         JScrollPane scrollPane = new JScrollPane(panel);
-        frame.add(scrollPane);
+        frame.add(scrollPane, BorderLayout.CENTER);
 
         JButton confirmButton = new JButton("Confirmar Selección");
         frame.add(confirmButton, BorderLayout.SOUTH);
@@ -75,14 +73,21 @@ public class SongStrategy implements Strategy {
         return selectedSongs;
     }
 
-    private void savePlaylist(List<Song> songs) {
-        try (FileWriter writer = new FileWriter("playlist.txt")) {
-            for (Song song : songs) {
-                writer.write(song.name + "\n");
-            }
-            System.out.println("Playlist guardada correctamente.");
-        } catch (Exception e) {
-            e.printStackTrace();
+    private void showSelectedSongs(List<Song> selectedSongs) {
+        JFrame frame = new JFrame("Canciones Seleccionadas");
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frame.setSize(400, 500);
+
+        JPanel panel = new JPanel();
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+
+        for (Song song : selectedSongs) {
+            panel.add(song.getLayout());
         }
+
+        JScrollPane scrollPane = new JScrollPane(panel);
+        frame.add(scrollPane, BorderLayout.CENTER);
+
+        frame.setVisible(true);
     }
 }
