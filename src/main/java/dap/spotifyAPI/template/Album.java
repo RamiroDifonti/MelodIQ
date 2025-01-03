@@ -7,7 +7,7 @@ import java.util.List;
 
 public class Album extends SearchTemplate {
     @Override
-    public void apiCall(String name, String searchField) {
+    protected void apiCall(String name, String searchField) {
         List<AlbumSimplified> albums = _manager.getAlbumsByArtist(name);
         for (AlbumSimplified album : albums) {
             if (album.getName().contains(searchField)) {
@@ -17,14 +17,14 @@ public class Album extends SearchTemplate {
         }
     }
     @Override
-    public boolean hasSong() {
+    protected boolean hasSong() {
         return !_songs.isEmpty();
     }
 
     @Override
-    public void fetchSong() {
+    protected void fetchSong() {
         Song song = _songs.get(0);
         _songs.remove(0);
-        System.out.println("Song: " + song.getName());
+        _scrollpane.add(song.getLayout());
     }
 }
