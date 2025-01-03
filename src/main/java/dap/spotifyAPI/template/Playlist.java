@@ -25,9 +25,8 @@ public class Playlist extends SearchTemplate {
 
     @Override
     public void fetchSong() {
-        Track track = _songs.get(0);
+        Song song = _songs.get(0);
         _songs.remove(0);
-        Song song = new Song(track);
-        System.out.println("Song: " + track.getName());
+        System.out.println("Song: " + song.getName());
     }
 }
