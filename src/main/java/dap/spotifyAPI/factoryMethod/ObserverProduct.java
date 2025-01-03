@@ -20,13 +20,13 @@ public class ObserverProduct implements PatternProduct {
     public JPanel display(SpotifyInterface manager) {
         JPanel panel = new JPanel();
         panel.setLayout(new BorderLayout());
-        panel.setBackground(new Color(240, 240, 240)); // Fondo claro
+        panel.setBackground(new Color(20, 140, 90)); // Fondo claro
 
         // Panel de contenido central
         JPanel contentPanel = new JPanel();
         contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.Y_AXIS));
         contentPanel.setBorder(new EmptyBorder(40, 40, 20, 40));
-        contentPanel.setBackground(new Color(240, 240, 240));
+        contentPanel.setBackground(new Color(20, 140, 90));
 
         // Entrada de texto y botones
         JLabel artistLabel = new JLabel("Nombre del Artista:");

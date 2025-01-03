@@ -14,6 +14,7 @@ public class StrategyProduct implements PatternProduct {
     public JPanel display(SpotifyInterface manager) {
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+        panel.setBackground(new Color(20, 140, 90));
 
         JLabel titleLabel = new JLabel("Seleccione una estrategia para crear su Playlist");
         titleLabel.setAlignmentX(Component.CENTER_ALIGNMENT);

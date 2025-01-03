@@ -20,11 +20,16 @@ public class TemplateProduct implements PatternProduct {
         _manager = manager;
         _panel = new JPanel();
         _panel.setLayout(new BoxLayout(_panel, BoxLayout.Y_AXIS));
+        _panel.setBackground(new Color(20, 140, 90));
         JLabel chooseLabel = new JLabel("¿Que desea buscar?");
         chooseLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         JRadioButton playlistButton = new JRadioButton("Playlist");
         JRadioButton songButton = new JRadioButton("Canción");
         JRadioButton albumButton = new JRadioButton("Álbum");
+
+        playlistButton.setBackground(new Color(20, 140, 90));
+        songButton.setBackground(new Color(20, 140, 90));
+        albumButton.setBackground(new Color(20, 140, 90));
 
         // Crear un ButtonGroup para exclusividad mutua
         ButtonGroup group = new ButtonGroup();
@@ -44,6 +49,7 @@ public class TemplateProduct implements PatternProduct {
         search.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         JPanel radioPanel = new JPanel();
+        radioPanel.setBackground(new Color(20, 140, 90));
         radioPanel.setMaximumSize(new Dimension(600, 20));
         radioPanel.setLayout(new GridLayout(1, 3));
         radioPanel.add(Box.createHorizontalGlue());
