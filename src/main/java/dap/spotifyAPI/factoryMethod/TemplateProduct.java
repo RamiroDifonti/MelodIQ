@@ -83,13 +83,14 @@ public class TemplateProduct implements PatternProduct {
                     JOptionPane.showMessageDialog(panel, "Por favor, seleccione una opción de búsqueda", "Error", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
-                JScrollPane scrollPane = template.Search(manager, user, song);
+                JScrollPane scrollPane = new JScrollPane(template.Search(manager, user, song));
                 panel.removeAll();
                 panel.add(scrollPane);
                 JButton backButton = new JButton("Volver");
                 backButton.setAlignmentX(Component.CENTER_ALIGNMENT);
                 panel.add(backButton);
                 backButton.addActionListener(e1 -> {
+                    panel.removeAll();
                     display(manager);
                 });
                 panel.revalidate();
