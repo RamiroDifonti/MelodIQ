@@ -9,6 +9,7 @@ import java.util.Map;
 
 public class Proxy implements SpotifyInterface {
     private final SpotifyInterface _spotify;
+    private final Map<String, AlbumSimplified> _albumCacheById = new HashMap<>();
     private final Map<String, List<AlbumSimplified>> _albumcache = new HashMap<>();
     private final Map<String, List<Song>> _trackcache = new HashMap<>();
     private final Map<String, List<PlaylistSimplified>> _playlistcache = new HashMap<>();
@@ -76,6 +77,20 @@ public class Proxy implements SpotifyInterface {
             tracks = _spotify.getAlbumTracks(albumId);
             _albumTracksCache.put(albumId, tracks);
             return tracks;
+        }
+    }
+
+    @Override
+    public AlbumSimplified getAlbumById(String albumId) {
+        AlbumSimplified album = _albumCacheById.get(albumId);
+        if (album != null) {
+            return album;
+        } else {
+            album = _spotify.getAlbumById(albumId);
+            if (album != null) {
+                _albumCacheById.put(albumId, album);
+            }
+            return album;
         }
     }
 }
