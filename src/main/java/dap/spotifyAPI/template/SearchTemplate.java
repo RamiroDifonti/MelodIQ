@@ -9,17 +9,20 @@ import java.util.List;
 public abstract class SearchTemplate {
     protected List<Song> _songs;
     protected SpotifyInterface _manager;
-    protected JScrollPane _scrollpane;
+    protected JPanel _panel;
     protected abstract void apiCall (String name, String searchField);
     protected abstract boolean hasSong();
     protected abstract void fetchSong();
-    public final JScrollPane Search(SpotifyInterface manager, String name, String searchField) {
+    public final JPanel Search(SpotifyInterface manager, String name, String searchField) {
         _manager = manager;
-        _scrollpane = new JScrollPane();
+        _panel = new JPanel();
+        _panel.setLayout(new BoxLayout(_panel, BoxLayout.Y_AXIS));
+
         apiCall(name, searchField);
+
         while (hasSong()) {
             fetchSong();
         }
-        return _scrollpane;
+        return _panel;
     }
 }
