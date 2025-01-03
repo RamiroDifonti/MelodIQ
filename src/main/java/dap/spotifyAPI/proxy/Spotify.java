@@ -80,7 +80,7 @@ public class Spotify implements SpotifyInterface {
             Paging<Artist> artistPaging = searchRequest.execute().getArtists();
             Artist artist = artistPaging.getItems()[0];
             String artistId = artist.getId();
-            int limit = 50; // Máximo por solicitud
+            int limit = 25; // Máximo por solicitud
             int offset = 0; // Desplazamiento inicial
 
             GetArtistsAlbumsRequest albumsRequest = _spotifyApi
@@ -91,12 +91,13 @@ public class Spotify implements SpotifyInterface {
             Paging<AlbumSimplified> albumsPaging = albumsRequest.execute();
 
             // Agregar los álbumes obtenidos a la lista
+            int limitAlbum = 5; // Máximo por solicitud
             for (AlbumSimplified album : albumsPaging.getItems()) {
                 for (ArtistSimplified artist2 : album.getArtists()) {
                     if (artistId.equals(artist2.getId())) {
                         GetAlbumsTracksRequest tracksRequest = _spotifyApi
                                 .getAlbumsTracks(album.getId())
-                                .limit(limit)
+                                .limit(limitAlbum)
                                 .offset(offset)
                                 .build();
                         Paging<TrackSimplified> tracksPaging = tracksRequest.execute();
@@ -198,7 +199,6 @@ public class Spotify implements SpotifyInterface {
             System.out.println("Error: " + e.getMessage());
             return null;
         }
-
         return allTracks;
     }
 }
