@@ -31,8 +31,8 @@ public class Song {
   /** Etiqueta que muestra la portada del álbum de la canción */
   private JLabel _albumCoverLabel;
 
-  // TEMPORAL
-  public String name;
+  /** Nombre de la canción */
+  private String _name;
 
   /**
    * Constructor de la clase Song.
@@ -42,7 +42,7 @@ public class Song {
    * @param song El objeto Track que contiene la información de la canción.
    */
   public Song(Track song) {
-    name = song.getName();
+    _name = song.getName();
 
     _cover = new JPanel();
     _cover.setLayout(new BoxLayout(_cover, BoxLayout.Y_AXIS)); // Layout vertical para las canciones
@@ -117,5 +117,8 @@ public class Song {
    */
   public JPanel getLayout() {
     return _cover;
+  }
+  public String getName() {
+    return _name;
   }
 }
