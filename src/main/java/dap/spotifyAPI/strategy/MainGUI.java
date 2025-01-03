@@ -65,6 +65,7 @@ public class MainGUI {
     }
 
     public static void main(String[] args) {
+        // Nuevo token
         String client_id = "c9072e3391954da9b7caf8cdcb0e8d34";
         String client_secret = "acbab08c63964194bf8989dc832b2947";
 
