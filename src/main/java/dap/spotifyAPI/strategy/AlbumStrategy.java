@@ -25,17 +25,25 @@ public class AlbumStrategy implements Strategy {
             return;
         }
 
+        System.out.println("Álbumes encontrados:");
+        for (AlbumSimplified album : albums) {
+            System.out.println(album.getName());
+        }
+
         List<AlbumSimplified> selectedAlbums = selectAlbums(albums);
         if (!selectedAlbums.isEmpty()) {
             showAlbumTracks(selectedAlbums);
+        } else {
+            System.out.println("No se seleccionaron álbumes.");
         }
     }
 
     private List<AlbumSimplified> selectAlbums(List<AlbumSimplified> albums) {
-        System.out.println("Seleccionando álbumes");
-        JFrame frame = new JFrame("Seleccionar Álbumes");
-        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        frame.setSize(400, 500);
+        JDialog dialog = new JDialog();
+        dialog.setTitle("Seleccionar Álbumes");
+        dialog.setSize(400, 500);
+        dialog.setModal(true);
+        dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
@@ -49,10 +57,10 @@ public class AlbumStrategy implements Strategy {
         }
 
         JScrollPane scrollPane = new JScrollPane(panel);
-        frame.add(scrollPane, BorderLayout.CENTER);
+        dialog.add(scrollPane, BorderLayout.CENTER);
 
         JButton confirmButton = new JButton("Confirmar Selección");
-        frame.add(confirmButton, BorderLayout.SOUTH);
+        dialog.add(confirmButton, BorderLayout.SOUTH);
 
         List<AlbumSimplified> selectedAlbums = new ArrayList<>();
         confirmButton.addActionListener(e -> {
@@ -61,17 +69,10 @@ public class AlbumStrategy implements Strategy {
                     selectedAlbums.add(albums.get(i));
                 }
             }
-            frame.dispose();
+            dialog.dispose();
         });
 
-        frame.setVisible(true);
-
-//        while (frame.isDisplayable()) {
-//            try {
-//                Thread.sleep(100);
-//            } catch (InterruptedException ignored) {
-//            }
-//        }
+        dialog.setVisible(true);
 
         return selectedAlbums;
     }
