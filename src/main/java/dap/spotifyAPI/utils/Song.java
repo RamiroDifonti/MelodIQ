@@ -42,7 +42,7 @@ public class Song {
    * @param song El objeto Track que contiene la información de la canción.
    */
   public Song(Track song) {
-    name = song.getName();
+    _name = song.getName();
 
     _cover = new JPanel();
     _cover.setLayout(new BoxLayout(_cover, BoxLayout.Y_AXIS)); // Layout vertical para las canciones
