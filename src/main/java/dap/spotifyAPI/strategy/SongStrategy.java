@@ -26,7 +26,7 @@ public class SongStrategy implements Strategy {
 
         System.out.println("Canciones encontradas:");
         for (Song song : songs) {
-            System.out.println(song.name);
+            System.out.println(song.getName()); // Uso de getName() en lugar de song.name
         }
 
         List<Song> selectedSongs = selectSongs(songs);
@@ -49,7 +49,7 @@ public class SongStrategy implements Strategy {
 
         List<JCheckBox> checkboxes = new ArrayList<>();
         for (Song song : songs) {
-            JCheckBox checkbox = new JCheckBox(song.name);
+            JCheckBox checkbox = new JCheckBox(song.getName()); // Uso de getName() aquí también
             checkbox.setAlignmentX(Component.LEFT_ALIGNMENT);
             panel.add(checkbox);
             checkboxes.add(checkbox);
