@@ -6,7 +6,6 @@ import se.michaelthelin.spotify.model_objects.specification.AlbumSimplified;
 
 import javax.swing.*;
 import java.awt.*;
-import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,10 +25,8 @@ public class AlbumStrategy implements Strategy {
         }
 
         List<AlbumSimplified> selectedAlbums = selectAlbums(albums);
-        List<Song> playlistTracks = mergeTracks(selectedAlbums);
-
-        if (!playlistTracks.isEmpty()) {
-            savePlaylist(playlistTracks);
+        if (!selectedAlbums.isEmpty()) {
+            showAlbumTracks(selectedAlbums);
         }
     }
 
@@ -77,25 +74,29 @@ public class AlbumStrategy implements Strategy {
         return selectedAlbums;
     }
 
-    private List<Song> mergeTracks(List<AlbumSimplified> albums) {
+    private void showAlbumTracks(List<AlbumSimplified> albums) {
         List<Song> allTracks = new ArrayList<>();
         for (AlbumSimplified album : albums) {
-            List<Song> tracks = spotify.getAlbumTracks(album.getId());
-            if (tracks != null) {
-                allTracks.addAll(tracks);
+            List<Song> albumTracks = spotify.getAlbumTracks(album.getId());
+            if (albumTracks != null) {
+                allTracks.addAll(albumTracks);
             }
         }
-        return allTracks;
-    }
 
-    private void savePlaylist(List<Song> tracks) {
-        try (FileWriter writer = new FileWriter("playlist.txt")) {
-            for (Song track : tracks) {
-                writer.write(track.name + "\n");
-            }
-            System.out.println("Playlist guardada correctamente.");
-        } catch (Exception e) {
-            e.printStackTrace();
+        JFrame frame = new JFrame("Canciones de los Álbumes Seleccionados");
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frame.setSize(400, 500);
+
+        JPanel panel = new JPanel();
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+
+        for (Song track : allTracks) {
+            panel.add(track.getLayout());
         }
+
+        JScrollPane scrollPane = new JScrollPane(panel);
+        frame.add(scrollPane, BorderLayout.CENTER);
+
+        frame.setVisible(true);
     }
 }
