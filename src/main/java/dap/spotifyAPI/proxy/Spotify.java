@@ -201,4 +201,19 @@ public class Spotify implements SpotifyInterface {
         }
         return allTracks;
     }
+
+    @Override
+    public AlbumSimplified getAlbumById(String albumId) {
+        try {
+            Album album = _spotifyApi.getAlbum(albumId).build().execute();
+            return new AlbumSimplified.Builder()
+                    .setId(album.getId())
+                    .setName(album.getName())
+                    .setArtists(album.getArtists())
+                    .build();
+        } catch (Exception e) {
+            System.out.println("Error al obtener el álbum: " + e.getMessage());
+            return null;
+        }
+    }
 }
