@@ -65,8 +65,8 @@ public class MainGUI {
     }
 
     public static void main(String[] args) {
-        String client_id = "75399c2bdb7948b882f6647795204070";
-        String client_secret = "484b0ac5151f4288a40c06e8ae7a4dc4";
+        String client_id = "c9072e3391954da9b7caf8cdcb0e8d34";
+        String client_secret = "acbab08c63964194bf8989dc832b2947";
 
         // Pasar el Proxy conectado a la API real
         SpotifyInterface proxy = new Proxy(new Spotify(client_id, client_secret));
