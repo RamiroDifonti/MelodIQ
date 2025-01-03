@@ -31,8 +31,8 @@ public class Song {
   /** Etiqueta que muestra la portada del álbum de la canción */
   private JLabel _albumCoverLabel;
 
-  // TEMPORAL
-  public String name;
+  /** Nombre de la canción */
+  private String _name;
 
   /**
    * Constructor de la clase Song.
@@ -117,5 +117,8 @@ public class Song {
    */
   public JPanel getLayout() {
     return _cover;
+  }
+  public String getName() {
+    return _name;
   }
 }
