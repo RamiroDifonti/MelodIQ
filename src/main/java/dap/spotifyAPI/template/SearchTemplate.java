@@ -4,10 +4,11 @@ import dap.spotifyAPI.proxy.SpotifyInterface;
 import dap.spotifyAPI.utils.Song;
 
 import javax.swing.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public abstract class SearchTemplate {
-    protected List<Song> _songs;
+    protected List<Song> _songs = new ArrayList<>();
     protected SpotifyInterface _manager;
     protected JPanel _panel;
     protected abstract void apiCall (String name, String searchField);
@@ -19,10 +20,14 @@ public abstract class SearchTemplate {
         _panel.setLayout(new BoxLayout(_panel, BoxLayout.Y_AXIS));
 
         apiCall(name, searchField);
-
-        while (hasSong()) {
-            fetchSong();
+        if (hasSong()) {
+            while (hasSong()) {
+                fetchSong();
+            }
+            return _panel;
+        } else {
+            JOptionPane.showMessageDialog(_panel.getParent(), "Error 404: No encontrado", "Error", JOptionPane.ERROR_MESSAGE);
         }
-        return _panel;
+        return null;
     }
 }

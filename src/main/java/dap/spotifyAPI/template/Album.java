@@ -3,6 +3,7 @@ package dap.spotifyAPI.template;
 import dap.spotifyAPI.utils.Song;
 import se.michaelthelin.spotify.model_objects.specification.AlbumSimplified;
 
+import javax.swing.*;
 import java.util.List;
 
 public class Album extends SearchTemplate {

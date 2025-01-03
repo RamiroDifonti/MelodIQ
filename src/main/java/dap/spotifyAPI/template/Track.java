@@ -10,6 +10,7 @@ public class Track extends SearchTemplate {
     protected void apiCall(String name, String searchField) {
         List<Song> songs = _manager.getTracksByArtist(name);
         for (Song song : songs) {
+            System.out.println("Found song: " + song.getName());
             if (song.getName().contains(searchField)) {
                 System.out.println("Found song: " + song.getName());
                 _songs.add(song);
@@ -20,10 +21,6 @@ public class Track extends SearchTemplate {
 
     @Override
     protected boolean hasSong() {
-        if (_songs == null) {
-            JOptionPane.showMessageDialog(_panel.getParent(), "Canción no encontrada", "Error", JOptionPane.ERROR_MESSAGE);
-            return false;
-        }
         return !_songs.isEmpty();
     }
 
