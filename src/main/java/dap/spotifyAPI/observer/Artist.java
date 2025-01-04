@@ -31,19 +31,25 @@ public class Artist extends Subject {
         if (albums.isEmpty()) {
             fetchAlbums();
         }
-        // Devuelve los últimos 'count' álbumes
         return albums.subList(0, Math.min(count, albums.size()));
     }
 
     /**
-     * Obtiene álbumes del artista desde Spotify y los almacena localmente.
+     * Obtiene álbumes del artista desde Spotify y notifica si hay nuevos álbumes.
      */
     public void fetchAlbums() {
+        List<AlbumSimplified> previousAlbums = new ArrayList<>(albums);
         albums.clear();
         AlbumSimplified[] fetchedAlbums = spotify.getAlbumsByArtist(name).toArray(new AlbumSimplified[0]);
         if (fetchedAlbums != null) {
             for (AlbumSimplified album : fetchedAlbums) {
                 albums.add(album);
+            }
+        }
+        // Notificar solo si hay álbumes nuevos
+        for (AlbumSimplified album : albums) {
+            if (!previousAlbums.contains(album)) {
+                notifyObservers("Nuevo álbum: " + album.getName() + " del artista " + name);
             }
         }
     }
@@ -57,7 +63,7 @@ public class Artist extends Subject {
         AlbumSimplified album = spotify.getAlbumById(albumId);
         if (album != null) {
             albums.add(0, album); // Agregar al inicio para mantener los más recientes primero
-            notifyObservers("El artista " + name + " ha agregado un nuevo álbum: " + album.getName());
+            notifyObservers("El artista " + album.getArtists()[0].getName() + " ha agregado un nuevo álbum: " + album.getName());
         }
     }
 }

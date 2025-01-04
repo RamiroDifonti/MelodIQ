@@ -98,7 +98,7 @@ public class ObserverProduct extends JPanel {
             Artist artist = artists.get(artistName);
             artist.addAlbum(albumId);
 
-            notificationArea.append("Álbum con ID " + albumId + " agregado a " + artistName + "\n");
+            notificationArea.append("Álbum con ID " + albumId + " agregado" + "\n");
         });
 
         artistPanel.add(artistLabel);

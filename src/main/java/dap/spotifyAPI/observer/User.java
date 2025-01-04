@@ -3,7 +3,7 @@ package dap.spotifyAPI.observer;
 import javax.swing.*;
 
 public class User implements Observer {
-    private String name;
+    private final String name;
 
     public User(String name) {
         this.name = name;
@@ -11,6 +11,10 @@ public class User implements Observer {
 
     @Override
     public void update(String message) {
-        JOptionPane.showMessageDialog(null, "Notificación para " + name + ": " + message, "Nueva Notificación", JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(null, "Usuario: " + name + "\nNotificación: " + message);
+    }
+
+    public String getName() {
+        return name;
     }
 }
