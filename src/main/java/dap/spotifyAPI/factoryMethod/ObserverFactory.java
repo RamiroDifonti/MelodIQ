@@ -1,7 +1,7 @@
 package dap.spotifyAPI.factoryMethod;
 
 import dap.spotifyAPI.mvc.MainController;
-import dap.spotifyAPI.mvc.ObserverProduct;
+//import dap.spotifyAPI.mvc.ObserverProduct;
 
 import javax.swing.*;
 

@@ -1,9 +1,11 @@
-package dap.spotifyAPI.mvc;
+package dap.spotifyAPI.factoryMethod;
 
-import dap.spotifyAPI.proxy.SpotifyInterface;
+
+import dap.spotifyAPI.mvc.MainController;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 
 public class StrategyProduct extends JPanel {
     private final MainController controller;

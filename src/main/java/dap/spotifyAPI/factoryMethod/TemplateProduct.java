@@ -1,4 +1,6 @@
-package dap.spotifyAPI.mvc;
+package dap.spotifyAPI.factoryMethod;
+
+import dap.spotifyAPI.mvc.MainController;
 
 import javax.swing.*;
 import java.awt.*;
