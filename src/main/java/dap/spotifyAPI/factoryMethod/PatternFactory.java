@@ -1,5 +1,7 @@
 package dap.spotifyAPI.factoryMethod;
 
+import javax.swing.*;
+
 public interface PatternFactory {
-    public PatternProduct createPattern();
+    JPanel createProduct();
 }

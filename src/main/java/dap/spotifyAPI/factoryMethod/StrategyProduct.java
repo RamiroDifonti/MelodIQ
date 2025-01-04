@@ -1,23 +1,23 @@
-package dap.spotifyAPI.factoryMethod;
+package dap.spotifyAPI.mvc;
 
 import dap.spotifyAPI.proxy.SpotifyInterface;
-import dap.spotifyAPI.strategy.ContextStrategy;
-import dap.spotifyAPI.strategy.AlbumStrategy;
-import dap.spotifyAPI.strategy.SongStrategy;
-import dap.spotifyAPI.strategy.PlaylistStrategy;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class StrategyProduct implements PatternProduct {
-    @Override
-    public JPanel display(SpotifyInterface manager) {
-        JPanel panel = new JPanel();
-        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-        panel.setBackground(new Color(20, 140, 90));
+public class StrategyProduct extends JPanel {
+    private final MainController controller;
 
-        JLabel titleLabel = new JLabel("Seleccione una estrategia para crear su Playlist");
-        titleLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+    public StrategyProduct(MainController controller) {
+        this.controller = controller;
+        setupUI();
+    }
+
+    private void setupUI() {
+        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        JLabel title = new JLabel("Seleccione una Estrategia para Crear su Playlist");
+        title.setAlignmentX(Component.CENTER_ALIGNMENT);
+
         JButton albumButton = new JButton("Álbumes");
         JButton songButton = new JButton("Canciones");
         JButton playlistButton = new JButton("Playlists");
@@ -26,45 +26,35 @@ public class StrategyProduct implements PatternProduct {
         songButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         playlistButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        panel.add(Box.createVerticalGlue());
-        panel.add(titleLabel);
-        panel.add(Box.createVerticalStrut(20));
-        panel.add(albumButton);
-        panel.add(Box.createVerticalStrut(10));
-        panel.add(songButton);
-        panel.add(Box.createVerticalStrut(10));
-        panel.add(playlistButton);
-        panel.add(Box.createVerticalGlue());
-
         albumButton.addActionListener(e -> {
-            ContextStrategy context = new ContextStrategy();
-            context.setStrategy(new AlbumStrategy(manager));
-            String artistName = JOptionPane.showInputDialog(panel, "Introduce el nombre del artista:", "Álbumes", JOptionPane.QUESTION_MESSAGE);
+            String artistName = JOptionPane.showInputDialog(this, "Introduce el nombre del artista:");
             if (artistName != null && !artistName.trim().isEmpty()) {
-                context.executeStrategy(artistName);
+                controller.handleStrategy("Album", artistName);
             }
         });
 
         songButton.addActionListener(e -> {
-            ContextStrategy context = new ContextStrategy();
-            context.setStrategy(new SongStrategy(manager));
-            String artistName = JOptionPane.showInputDialog(panel, "Introduce el nombre del artista:", "Canciones", JOptionPane.QUESTION_MESSAGE);
+            String artistName = JOptionPane.showInputDialog(this, "Introduce el nombre del artista:");
             if (artistName != null && !artistName.trim().isEmpty()) {
-                context.executeStrategy(artistName);
+                controller.handleStrategy("Song", artistName);
             }
         });
 
         playlistButton.addActionListener(e -> {
-            ContextStrategy context = new ContextStrategy();
-            context.setStrategy(new PlaylistStrategy(manager));
-            String userId = JOptionPane.showInputDialog(panel, "Introduce el nombre del usuario:", "Playlists", JOptionPane.QUESTION_MESSAGE);
+            String userId = JOptionPane.showInputDialog(this, "Introduce el nombre del usuario:");
             if (userId != null && !userId.trim().isEmpty()) {
-                context.executeStrategy(userId);
+                controller.handleStrategy("Playlist", userId);
             }
         });
 
-        panel.revalidate();
-        panel.repaint();
-        return panel;
+        add(Box.createVerticalGlue());
+        add(title);
+        add(Box.createVerticalStrut(20));
+        add(albumButton);
+        add(Box.createVerticalStrut(10));
+        add(songButton);
+        add(Box.createVerticalStrut(10));
+        add(playlistButton);
+        add(Box.createVerticalGlue());
     }
 }

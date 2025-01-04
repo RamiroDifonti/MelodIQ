@@ -1,9 +1,7 @@
 package dap.spotifyAPI.factoryMethod;
 
-import dap.spotifyAPI.proxy.SpotifyInterface;
-
 import javax.swing.*;
 
-public interface PatternProduct {
-    public JPanel display(SpotifyInterface manager);
+public abstract class PatternProduct extends JPanel {
+    // Posiblemente define funcionalidades comunes para los productos
 }
