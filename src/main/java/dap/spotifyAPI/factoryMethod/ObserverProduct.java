@@ -53,6 +53,7 @@ public class ObserverProduct extends JPanel {
         JTextField artistField = new JTextField();
         JButton subscribeButton = new JButton("Suscribirse");
         JButton notifyButton = new JButton("Notificar Nuevos Álbumes");
+        JButton addAlbumButton = new JButton("Agregar Álbum por ID");
 
         subscribeButton.addActionListener(e -> {
             String artistName = artistField.getText().trim();
@@ -63,11 +64,9 @@ public class ObserverProduct extends JPanel {
                 return;
             }
 
-            // Registrar al artista si no existe
             artists.putIfAbsent(artistName, new Artist(spotify, artistName));
             Artist artist = artists.get(artistName);
 
-            // Registrar al usuario como observador
             User user = new User(userName);
             artist.addObserver(user);
 
@@ -87,10 +86,26 @@ public class ObserverProduct extends JPanel {
             notificationArea.append("Se ha notificado a los suscriptores de " + artistName + "\n");
         });
 
+        addAlbumButton.addActionListener(e -> {
+            String artistName = artistField.getText().trim();
+            String albumId = JOptionPane.showInputDialog(this, "Introduce el ID del álbum:");
+
+            if (artistName.isEmpty() || albumId == null || albumId.trim().isEmpty() || !artists.containsKey(artistName)) {
+                JOptionPane.showMessageDialog(this, "Por favor, introduce un nombre de artista válido y un ID de álbum.");
+                return;
+            }
+
+            Artist artist = artists.get(artistName);
+            artist.addAlbum(albumId);
+
+            notificationArea.append("Álbum con ID " + albumId + " agregado a " + artistName + "\n");
+        });
+
         artistPanel.add(artistLabel);
         artistPanel.add(artistField);
         artistPanel.add(subscribeButton);
         artistPanel.add(notifyButton);
+        artistPanel.add(addAlbumButton);
 
         // Área de notificaciones
         JPanel notificationPanel = new JPanel();

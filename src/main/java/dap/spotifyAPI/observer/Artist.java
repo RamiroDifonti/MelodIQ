@@ -3,44 +3,61 @@ package dap.spotifyAPI.observer;
 import dap.spotifyAPI.proxy.SpotifyInterface;
 import se.michaelthelin.spotify.model_objects.specification.AlbumSimplified;
 
-import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Artist extends Subject {
-    private SpotifyInterface spotify;
-    private String artistName;
-    private List<AlbumSimplified> albums;
+    private final SpotifyInterface spotify;
+    private final String name;
+    private final List<AlbumSimplified> albums;
 
-    public Artist(SpotifyInterface spotify, String artistName) {
+    public Artist(SpotifyInterface spotify, String name) {
         this.spotify = spotify;
-        this.artistName = artistName;
+        this.name = name;
         this.albums = new ArrayList<>();
     }
 
-    public void fetchAlbums() {
-        List<AlbumSimplified> newAlbums = spotify.getAlbumsByArtist(artistName);
-        if (newAlbums == null) return;
+    public String getName() {
+        return name;
+    }
 
-        for (AlbumSimplified album : newAlbums) {
-            if (!albums.contains(album)) {
+    /**
+     * Devuelve una lista de los últimos álbumes del artista.
+     *
+     * @param count Número máximo de álbumes a devolver.
+     * @return Lista de los álbumes más recientes.
+     */
+    public List<AlbumSimplified> getLatestAlbums(int count) {
+        if (albums.isEmpty()) {
+            fetchAlbums();
+        }
+        // Devuelve los últimos 'count' álbumes
+        return albums.subList(0, Math.min(count, albums.size()));
+    }
+
+    /**
+     * Obtiene álbumes del artista desde Spotify y los almacena localmente.
+     */
+    public void fetchAlbums() {
+        albums.clear();
+        AlbumSimplified[] fetchedAlbums = spotify.getAlbumsByArtist(name).toArray(new AlbumSimplified[0]);
+        if (fetchedAlbums != null) {
+            for (AlbumSimplified album : fetchedAlbums) {
                 albums.add(album);
-                notifyObservers("Nuevo álbum de " + artistName + ": " + album.getName());
             }
         }
     }
 
+    /**
+     * Agrega un nuevo álbum al artista y notifica a los observadores.
+     *
+     * @param albumId ID del álbum a agregar.
+     */
     public void addAlbum(String albumId) {
         AlbumSimplified album = spotify.getAlbumById(albumId);
-        if (album != null && !albums.contains(album)) {
-            albums.add(album);
-            notifyObservers("Álbum agregado: " + album.getName());
-        } else {
-            JOptionPane.showMessageDialog(null, "Álbum no encontrado o ya existente.", "Error", JOptionPane.ERROR_MESSAGE);
+        if (album != null) {
+            albums.add(0, album); // Agregar al inicio para mantener los más recientes primero
+            notifyObservers("El artista " + name + " ha agregado un nuevo álbum: " + album.getName());
         }
-    }
-
-    public List<AlbumSimplified> getLatestAlbums(int count) {
-        return albums.subList(Math.max(albums.size() - count, 0), albums.size());
     }
 }
