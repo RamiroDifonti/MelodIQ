@@ -1,4 +1,4 @@
-package dap.spotifyAPI;
+package dap.spotifyAPI.gui;
 
 import dap.spotifyAPI.factoryMethod.*;
 import dap.spotifyAPI.proxy.Proxy;
