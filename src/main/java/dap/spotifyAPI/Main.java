@@ -16,8 +16,8 @@ public class Main {
         Proxy proxy = new Proxy(new Spotify(client_id, client_secret));
         MainController controller = new MainController(proxy);
 
+        PatternFactory observerFactory = new ObserverFactory(proxy); // Pasa el Proxy como dependencia
         PatternFactory templateFactory = new TemplateFactory(controller);
-        PatternFactory observerFactory = new ObserverFactory(controller);
         PatternFactory strategyFactory = new StrategyFactory(controller);
 
         JFrame frame = new JFrame("MelodIQ");

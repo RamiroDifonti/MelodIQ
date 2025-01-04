@@ -1,37 +1,108 @@
 package dap.spotifyAPI.factoryMethod;
 
-import dap.spotifyAPI.mvc.MainController;
+import dap.spotifyAPI.observer.Artist;
+import dap.spotifyAPI.observer.User;
+import dap.spotifyAPI.proxy.SpotifyInterface;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ObserverProduct extends JPanel {
-    private final MainController controller;
+    private final SpotifyInterface spotify;
+    private final Map<String, Artist> artists;
+    private final DefaultListModel<String> userListModel;
+    private final JTextArea notificationArea;
 
-    public ObserverProduct(MainController controller) {
-        this.controller = controller;
+    public ObserverProduct(SpotifyInterface spotify) {
+        this.spotify = spotify;
+        this.artists = new HashMap<>();
+        this.userListModel = new DefaultListModel<>();
+        this.notificationArea = new JTextArea(10, 30);
+
         setupUI();
     }
 
     private void setupUI() {
-        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-        JLabel title = new JLabel("Notificaciones de Álbumes");
-        title.setAlignmentX(Component.CENTER_ALIGNMENT);
+        setLayout(new BorderLayout());
 
-        JButton notifyButton = new JButton("Notificar Álbumes");
-        notifyButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        // Panel izquierdo para gestionar usuarios
+        JPanel userPanel = new JPanel();
+        userPanel.setLayout(new BoxLayout(userPanel, BoxLayout.Y_AXIS));
+        JLabel userLabel = new JLabel("Usuarios:");
+        JList<String> userList = new JList<>(userListModel);
+        JButton addUserButton = new JButton("Agregar Usuario");
 
-        notifyButton.addActionListener(e -> {
-            String artistName = JOptionPane.showInputDialog(this, "Introduce el nombre del artista:");
-            if (artistName != null && !artistName.trim().isEmpty()) {
-                controller.handleObserverNotification(artistName);
+        addUserButton.addActionListener(e -> {
+            String userName = JOptionPane.showInputDialog(this, "Introduce el nombre del usuario:");
+            if (userName != null && !userName.trim().isEmpty()) {
+                userListModel.addElement(userName);
+                notificationArea.append("Usuario agregado: " + userName + "\n");
             }
         });
 
-        add(Box.createVerticalGlue());
-        add(title);
-        add(Box.createVerticalStrut(20));
-        add(notifyButton);
-        add(Box.createVerticalGlue());
+        userPanel.add(userLabel);
+        userPanel.add(new JScrollPane(userList));
+        userPanel.add(addUserButton);
+
+        // Panel derecho para gestionar artistas y notificaciones
+        JPanel artistPanel = new JPanel();
+        artistPanel.setLayout(new BoxLayout(artistPanel, BoxLayout.Y_AXIS));
+        JLabel artistLabel = new JLabel("Artistas:");
+        JTextField artistField = new JTextField();
+        JButton subscribeButton = new JButton("Suscribirse");
+        JButton notifyButton = new JButton("Notificar Nuevos Álbumes");
+
+        subscribeButton.addActionListener(e -> {
+            String artistName = artistField.getText().trim();
+            String userName = userList.getSelectedValue();
+
+            if (artistName.isEmpty() || userName == null) {
+                JOptionPane.showMessageDialog(this, "Por favor, selecciona un usuario y escribe el nombre de un artista.");
+                return;
+            }
+
+            // Registrar al artista si no existe
+            artists.putIfAbsent(artistName, new Artist(spotify, artistName));
+            Artist artist = artists.get(artistName);
+
+            // Registrar al usuario como observador
+            User user = new User(userName);
+            artist.addObserver(user);
+
+            notificationArea.append(userName + " ahora está suscrito a " + artistName + "\n");
+        });
+
+        notifyButton.addActionListener(e -> {
+            String artistName = artistField.getText().trim();
+
+            if (artistName.isEmpty() || !artists.containsKey(artistName)) {
+                JOptionPane.showMessageDialog(this, "El artista no existe o no se ha registrado.");
+                return;
+            }
+
+            Artist artist = artists.get(artistName);
+            artist.fetchAlbums();
+            notificationArea.append("Se ha notificado a los suscriptores de " + artistName + "\n");
+        });
+
+        artistPanel.add(artistLabel);
+        artistPanel.add(artistField);
+        artistPanel.add(subscribeButton);
+        artistPanel.add(notifyButton);
+
+        // Área de notificaciones
+        JPanel notificationPanel = new JPanel();
+        notificationPanel.setLayout(new BorderLayout());
+        JLabel notificationLabel = new JLabel("Notificaciones:");
+        notificationArea.setEditable(false);
+        notificationPanel.add(notificationLabel, BorderLayout.NORTH);
+        notificationPanel.add(new JScrollPane(notificationArea), BorderLayout.CENTER);
+
+        // Añadir los paneles al producto
+        add(userPanel, BorderLayout.WEST);
+        add(artistPanel, BorderLayout.CENTER);
+        add(notificationPanel, BorderLayout.SOUTH);
     }
 }

@@ -1,19 +1,19 @@
 package dap.spotifyAPI.factoryMethod;
 
 import dap.spotifyAPI.mvc.MainController;
-//import dap.spotifyAPI.mvc.ObserverProduct;
+import dap.spotifyAPI.proxy.SpotifyInterface;
 
 import javax.swing.*;
 
 public class ObserverFactory implements PatternFactory {
-    private final MainController controller;
+    private final SpotifyInterface spotify;
 
-    public ObserverFactory(MainController controller) {
-        this.controller = controller;
+    public ObserverFactory(SpotifyInterface spotify) {
+        this.spotify = spotify;
     }
 
     @Override
     public JPanel createProduct() {
-        return new ObserverProduct(controller);
+        return new ObserverProduct(spotify);
     }
 }

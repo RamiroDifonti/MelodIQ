@@ -1,7 +1,15 @@
 package dap.spotifyAPI.mvc;
 
 import dap.spotifyAPI.proxy.SpotifyInterface;
-import dap.spotifyAPI.utils.Song;
+import dap.spotifyAPI.strategy.ContextStrategy;
+import dap.spotifyAPI.strategy.AlbumStrategy;
+import dap.spotifyAPI.strategy.SongStrategy;
+import dap.spotifyAPI.strategy.PlaylistStrategy;
+import dap.spotifyAPI.template.Album;
+import dap.spotifyAPI.template.Playlist;
+import dap.spotifyAPI.template.Track;
+import dap.spotifyAPI.observer.Artist;
+import se.michaelthelin.spotify.model_objects.specification.AlbumSimplified;
 
 import javax.swing.*;
 import java.util.List;
@@ -13,28 +21,59 @@ public class MainController {
         this.spotify = spotify;
     }
 
+    /**
+     * Maneja eventos relacionados con el patrón Observer
+     */
     public void handleObserverNotification(String artistName) {
-        // Lógica para manejar notificaciones de álbumes nuevos
-        JOptionPane.showMessageDialog(null, "Notificar nuevos álbumes de: " + artistName);
-    }
-
-    public JPanel handleSearchTemplate(String searchType, String name, String searchField) {
-        // Lógica para manejar las búsquedas (template pattern)
-        switch (searchType) {
-            case "Album":
-                return new dap.spotifyAPI.template.Album().Search(spotify, name, searchField);
-            case "Playlist":
-                return new dap.spotifyAPI.template.Playlist().Search(spotify, name, searchField);
-            case "Track":
-                return new dap.spotifyAPI.template.Track().Search(spotify, name, searchField);
-            default:
-                JOptionPane.showMessageDialog(null, "Tipo de búsqueda no reconocida.");
-                return null;
+        Artist artist = new Artist(spotify, artistName);
+        List<AlbumSimplified> latestAlbums = artist.getLatestAlbums(3);
+        if (latestAlbums.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "No se encontraron álbumes recientes para " + artistName);
+        } else {
+            StringBuilder message = new StringBuilder("Últimos álbumes de " + artistName + ":\n");
+            for (AlbumSimplified album : latestAlbums) {
+                message.append("- ").append(album).append("\n");
+            }
+            JOptionPane.showMessageDialog(null, message.toString());
         }
     }
 
+    /**
+     * Maneja eventos relacionados con el patrón Strategy
+     */
     public void handleStrategy(String strategyType, String parameter) {
-        // Lógica para manejar estrategias
-        JOptionPane.showMessageDialog(null, "Ejecutar estrategia: " + strategyType + " con parámetro: " + parameter);
+        ContextStrategy context = new ContextStrategy();
+        switch (strategyType) {
+            case "Album":
+                context.setStrategy(new AlbumStrategy(spotify));
+                break;
+            case "Song":
+                context.setStrategy(new SongStrategy(spotify));
+                break;
+            case "Playlist":
+                context.setStrategy(new PlaylistStrategy(spotify));
+                break;
+            default:
+                JOptionPane.showMessageDialog(null, "Tipo de estrategia no reconocido.");
+                return;
+        }
+        context.executeStrategy(parameter);
+    }
+
+    /**
+     * Maneja eventos relacionados con el patrón Template
+     */
+    public JPanel handleSearchTemplate(String searchType, String name, String searchField) {
+        switch (searchType) {
+            case "Album":
+                return new Album().Search(spotify, name, searchField);
+            case "Playlist":
+                return new Playlist().Search(spotify, name, searchField);
+            case "Track":
+                return new Track().Search(spotify, name, searchField);
+            default:
+                JOptionPane.showMessageDialog(null, "Tipo de búsqueda no reconocido.");
+                return null;
+        }
     }
 }
