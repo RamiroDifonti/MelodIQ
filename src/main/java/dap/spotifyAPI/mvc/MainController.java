@@ -1,5 +1,6 @@
 package dap.spotifyAPI.mvc;
 
+import dap.spotifyAPI.facade.VideoReproducer;
 import dap.spotifyAPI.proxy.SpotifyInterface;
 import dap.spotifyAPI.strategy.ContextStrategy;
 import dap.spotifyAPI.strategy.AlbumStrategy;
@@ -109,5 +110,13 @@ public class MainController {
                 JOptionPane.showMessageDialog(null, "Tipo de búsqueda no reconocido.");
                 return null;
         }
+    }
+
+    /**
+     * Maneja eventos relacionados con el patrón Facade
+     */
+    public void handleReproduceVideo(String name) {
+        VideoReproducer reproducer = new VideoReproducer(spotify, "AIzaSyC4TFkCYgOZeXeAUYpfmM2A6XFMqtRXSqI");
+        reproducer.SongReproducer(name);
     }
 }
