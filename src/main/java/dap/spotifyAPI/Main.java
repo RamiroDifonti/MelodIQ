@@ -16,18 +16,27 @@ public class Main {
         Proxy proxy = new Proxy(new Spotify(client_id, client_secret));
         MainController controller = new MainController(proxy);
 
-        PatternFactory observerFactory = new ObserverFactory(proxy);
-        PatternFactory templateFactory = new TemplateFactory(proxy); // Pasa el Proxy como dependencia
-        PatternFactory strategyFactory = new StrategyFactory(controller);
+        PatternFactory factory = new ObserverFactory(proxy);
+        PatternProduct observerProduct = factory.createProduct();
+
+        factory = new TemplateFactory(controller);
+        PatternProduct templateProduct = factory.createProduct();
+
+        factory = new FacadeFactory(controller);
+        PatternProduct facadeProduct = factory.createProduct();
+
+        factory = new StrategyFactory(controller);
+        PatternProduct strategyProduct = factory.createProduct();
 
         JFrame frame = new JFrame("MelodIQ");
         frame.setSize(1920, 1080);
         frame.setLayout(new GridLayout(2, 2));
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        frame.add(observerFactory.createProduct());
-        frame.add(templateFactory.createProduct());
-        frame.add(strategyFactory.createProduct());
+        frame.add(observerProduct.display());
+        frame.add(templateProduct.display());
+        frame.add(facadeProduct.display());
+        frame.add(strategyProduct.display());
 
         frame.setVisible(true);
     }
