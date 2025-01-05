@@ -32,7 +32,9 @@ public class VideoReproducer {
                 // Step 2: Search the song on Youtube
                 String videoId = SearchYoutubeVideo(callback);
                 // Step 3: Play the song
-                PlayVideo(videoId);
+                Thread playVideo = new Thread(() -> PlayVideo(videoId));
+                playVideo.setDaemon(true);
+                playVideo.start();
             } catch (Exception e) {
                 e.printStackTrace();
             }
