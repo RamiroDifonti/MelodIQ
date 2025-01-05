@@ -25,6 +25,7 @@ public class VideoReproducer {
         this._manager = manager;
         this._youtubeApiKey = youtubeApiKey;
     }
+
     public void SongReproducer(String artistName) {
         // Step 1: Request the song from an artist
         SongFinder(artistName, callback -> {
