@@ -13,8 +13,3 @@ public interface SpotifyInterface {
     List<Song> getAlbumTracks(String albumId);
     AlbumSimplified getAlbumById(String albumId);
 }
-
-// 1. Añadir canciones al subject (las antiguas)
-// 2. Cada x tiempo hacer una llama de getTracksByArtist a la API
-// 3. Añadir canciones nuevas al subject (IMPORTANTE NO AÑADIR DUPLICADOS)
-// 4. Notificar a los observadores

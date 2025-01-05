@@ -2,7 +2,6 @@ package dap.spotifyAPI.utils;
 
 import se.michaelthelin.spotify.model_objects.specification.ArtistSimplified;
 import se.michaelthelin.spotify.model_objects.specification.Track;
-import se.michaelthelin.spotify.model_objects.specification.TrackSimplified;
 
 import javax.swing.*;
 import java.awt.*;

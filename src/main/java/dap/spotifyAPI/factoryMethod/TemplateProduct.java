@@ -8,16 +8,12 @@ import dap.spotifyAPI.template.Track;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.ArrayList;
 
 public class TemplateProduct implements PatternProduct {
     private JPanel _songPanel;
     private JPanel _panel;
-    private SpotifyInterface _manager;
-    private Component[] _components = new Component[20];
     @Override
     public JPanel display(SpotifyInterface manager) {
-        _manager = manager;
         _panel = new JPanel();
         _panel.setLayout(new BoxLayout(_panel, BoxLayout.Y_AXIS));
         _panel.setBackground(new Color(20, 140, 90));
@@ -75,21 +71,6 @@ public class TemplateProduct implements PatternProduct {
         _panel.add(Box.createVerticalStrut(20));
         _panel.add(search);
         _panel.add(Box.createVerticalGlue());
-
-        _components[0] = chooseLabel;
-        _components[1] = Box.createVerticalStrut(10);
-        _components[2] = radioPanel;
-        _components[3] = Box.createVerticalStrut(20);
-        _components[4] = userLabel;
-        _components[5] = Box.createVerticalStrut(10);
-        _components[6] = userField;
-        _components[7] = Box.createVerticalStrut(20);
-        _components[8] = songLabel;
-        _components[9] = Box.createVerticalStrut(10);
-        _components[10] = songField;
-        _components[11] = Box.createVerticalStrut(20);
-        _components[12] = search;
-        _components[13] = Box.createVerticalGlue();
 
         search.addActionListener(e -> {
             String user = userField.getText();

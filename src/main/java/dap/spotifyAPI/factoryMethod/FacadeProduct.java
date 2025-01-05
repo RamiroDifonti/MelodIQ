@@ -2,14 +2,9 @@ package dap.spotifyAPI.factoryMethod;
 
 import dap.spotifyAPI.facade.VideoReproducer;
 import dap.spotifyAPI.proxy.SpotifyInterface;
-import dap.spotifyAPI.template.Album;
-import dap.spotifyAPI.template.Playlist;
-import dap.spotifyAPI.template.SearchTemplate;
-import dap.spotifyAPI.template.Track;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.ArrayList;
 
 public class FacadeProduct implements PatternProduct {
     private JPanel _songPanel;

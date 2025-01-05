@@ -1,4 +1,3 @@
-
 package dap.spotifyAPI.observer;
 
 public interface Observer {

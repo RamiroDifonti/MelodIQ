@@ -2,7 +2,6 @@ package dap.spotifyAPI.template;
 
 import dap.spotifyAPI.utils.Song;
 
-import javax.swing.*;
 import java.util.List;
 
 public class Track extends SearchTemplate {
