@@ -1,18 +1,16 @@
 package dap.spotifyAPI.factoryMethod;
 
-import dap.spotifyAPI.proxy.SpotifyInterface;
-
-import javax.swing.*;
+import dap.spotifyAPI.mvc.MainController;
 
 public class TemplateFactory implements PatternFactory {
-    private final SpotifyInterface spotify;
+    private final MainController _controller;
 
-    public TemplateFactory(SpotifyInterface spotify) {
-        this.spotify = spotify;
+    public TemplateFactory(MainController controller) {
+        this._controller = controller;
     }
 
     @Override
-    public JPanel createProduct() {
-        return new TemplateProduct(spotify);
+    public PatternProduct createProduct() {
+        return new TemplateProduct(_controller);
     }
 }

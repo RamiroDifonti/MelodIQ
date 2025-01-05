@@ -1,9 +1,6 @@
 package dap.spotifyAPI.factoryMethod;
 
 import dap.spotifyAPI.mvc.MainController;
-//import dap.spotifyAPI.mvc.StrategyProduct;
-
-import javax.swing.*;
 
 public class StrategyFactory implements PatternFactory {
     private final MainController controller;
@@ -13,7 +10,7 @@ public class StrategyFactory implements PatternFactory {
     }
 
     @Override
-    public JPanel createProduct() {
+    public PatternProduct createProduct() {
         return new StrategyProduct(controller);
     }
 }
