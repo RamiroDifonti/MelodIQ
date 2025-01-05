@@ -1,6 +1,7 @@
 package dap.spotifyAPI.mvc;
 
 import dap.spotifyAPI.facade.VideoReproducer;
+import dap.spotifyAPI.observer.User;
 import dap.spotifyAPI.proxy.SpotifyInterface;
 import dap.spotifyAPI.strategy.ContextStrategy;
 import dap.spotifyAPI.strategy.AlbumStrategy;
@@ -26,13 +27,28 @@ public class MainController {
         this.artists = new HashMap<>();
     }
 
+
+    public boolean handleAddArtist(String artistName, String username) {
+        if (artistName.isEmpty() || username == null) {
+            JOptionPane.showMessageDialog(null, "Por favor, selecciona un usuario y escribe el nombre de un artista.");
+            return false;
+        }
+
+        artists.putIfAbsent(artistName, new Artist(spotify, artistName));
+
+        Artist artist = artists.get(artistName);
+
+        User user = new User(username);
+        artist.addObserver(user);
+        return true;
+    }
     /**
      * Maneja eventos relacionados con el patrón Observer
      */
-    public void handleObserverNotification(String artistName) {
+    public String handleObserverNotification(String artistName) {
         if (artistName == null || artistName.trim().isEmpty()) {
             JOptionPane.showMessageDialog(null, "El nombre del artista no puede estar vacío.");
-            return;
+            return null;
         }
 
         // Registrar el artista si no existe
@@ -42,26 +58,28 @@ public class MainController {
         List<AlbumSimplified> latestAlbums = artist.getLatestAlbums(3);
         if (latestAlbums.isEmpty()) {
             JOptionPane.showMessageDialog(null, "No se encontraron álbumes recientes para " + artistName);
+            return null;
         } else {
             StringBuilder message = new StringBuilder("Últimos álbumes de " + artistName + ":\n");
             for (AlbumSimplified album : latestAlbums) {
                 message.append("- ").append(album.getName()).append("\n");
             }
             JOptionPane.showMessageDialog(null, message.toString());
+            return message.toString();
         }
     }
 
     /**
      * Agrega un álbum por su ID al artista y notifica a los observadores.
      */
-    public void handleAddAlbum(String artistName, String albumId) {
+    public boolean handleAddAlbum(String artistName, String albumId) {
         if (artistName == null || artistName.trim().isEmpty()) {
             JOptionPane.showMessageDialog(null, "El nombre del artista no puede estar vacío.");
-            return;
+            return false;
         }
         if (albumId == null || albumId.trim().isEmpty()) {
             JOptionPane.showMessageDialog(null, "El ID del álbum no puede estar vacío.");
-            return;
+            return false;
         }
 
         // Registrar el artista si no existe
@@ -71,6 +89,7 @@ public class MainController {
         // Agregar el álbum y notificar
         artist.addAlbum(albumId);
         JOptionPane.showMessageDialog(null, "Álbum agregado y suscriptores notificados para " + artistName);
+        return true;
     }
 
     /**

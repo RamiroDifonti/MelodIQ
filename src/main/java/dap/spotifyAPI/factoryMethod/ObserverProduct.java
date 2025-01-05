@@ -1,5 +1,6 @@
 package dap.spotifyAPI.factoryMethod;
 
+import dap.spotifyAPI.mvc.MainController;
 import dap.spotifyAPI.observer.Artist;
 import dap.spotifyAPI.observer.User;
 import dap.spotifyAPI.proxy.SpotifyInterface;
@@ -10,20 +11,25 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ObserverProduct extends JPanel implements PatternProduct {
-    private final SpotifyInterface spotify;
-    private final Map<String, Artist> artists;
-    private final DefaultListModel<String> userListModel;
-    private final JTextArea notificationArea;
+//    private final SpotifyInterface spotify;
+//    private final Map<String, Artist> artists;
+//    private final DefaultListModel<String> userListModel;
+//    private final JTextArea notificationArea;
+    private final MainController _controller;
 
-    public ObserverProduct(SpotifyInterface spotify) {
-        this.spotify = spotify;
-        this.artists = new HashMap<>();
-        this.userListModel = new DefaultListModel<>();
-        this.notificationArea = new JTextArea(10, 30);
+    public ObserverProduct(MainController controller) {
+        this._controller = controller;
+        //        this.spotify = spotify;
+//        this.artists = new HashMap<>();
+//        this.userListModel = new DefaultListModel<>();
+//        this.notificationArea = new JTextArea(10, 30);
     }
 
     @Override
     public Component display() {
+        Map<String, Artist> artists = new HashMap<>();
+        DefaultListModel<String> userListModel = new DefaultListModel<>();
+        JTextArea notificationArea = new JTextArea(10, 30);
         setLayout(new BorderLayout());
 
         // Panel izquierdo para gestionar usuarios
@@ -57,47 +63,25 @@ public class ObserverProduct extends JPanel implements PatternProduct {
         subscribeButton.addActionListener(e -> {
             String artistName = artistField.getText().trim();
             String userName = userList.getSelectedValue();
-
-            if (artistName.isEmpty() || userName == null) {
-                JOptionPane.showMessageDialog(this, "Por favor, selecciona un usuario y escribe el nombre de un artista.");
-                return;
+            if(_controller.handleAddArtist(artistName, userName)) {
+                notificationArea.append(userName + " ahora está suscrito a " + artistName + "\n");
             }
-
-            artists.putIfAbsent(artistName, new Artist(spotify, artistName));
-            Artist artist = artists.get(artistName);
-
-            User user = new User(userName);
-            artist.addObserver(user);
-
-            notificationArea.append(userName + " ahora está suscrito a " + artistName + "\n");
         });
 
         notifyButton.addActionListener(e -> {
             String artistName = artistField.getText().trim();
-
-            if (artistName.isEmpty() || !artists.containsKey(artistName)) {
-                JOptionPane.showMessageDialog(this, "El artista no existe o no se ha registrado.");
-                return;
+            String msg = _controller.handleObserverNotification(artistName);
+            if (msg != null) {
+                notificationArea.append("Se ha notificado a los suscriptores de " + msg + "\n");
             }
-
-            Artist artist = artists.get(artistName);
-            artist.fetchAlbums();
-            notificationArea.append("Se ha notificado a los suscriptores de " + artistName + "\n");
         });
 
         addAlbumButton.addActionListener(e -> {
             String artistName = artistField.getText().trim();
             String albumId = JOptionPane.showInputDialog(this, "Introduce el ID del álbum:");
-
-            if (artistName.isEmpty() || albumId == null || albumId.trim().isEmpty() || !artists.containsKey(artistName)) {
-                JOptionPane.showMessageDialog(this, "Por favor, introduce un nombre de artista válido y un ID de álbum.");
-                return;
+            if(_controller.handleAddAlbum(artistName, albumId)) {
+                notificationArea.append("Álbum con ID " + albumId + " agregado" + "\n");
             }
-
-            Artist artist = artists.get(artistName);
-            artist.addAlbum(albumId);
-
-            notificationArea.append("Álbum con ID " + albumId + " agregado" + "\n");
         });
 
         artistPanel.add(artistLabel);

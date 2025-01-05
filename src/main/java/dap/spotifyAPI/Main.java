@@ -16,7 +16,7 @@ public class Main {
         Proxy proxy = new Proxy(new Spotify(client_id, client_secret));
         MainController controller = new MainController(proxy);
 
-        PatternFactory factory = new ObserverFactory(proxy);
+        PatternFactory factory = new ObserverFactory(controller);
         PatternProduct observerProduct = factory.createProduct();
 
         factory = new TemplateFactory(controller);
