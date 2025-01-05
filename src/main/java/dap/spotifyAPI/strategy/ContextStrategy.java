@@ -1,7 +1,5 @@
 package dap.spotifyAPI.strategy;
 
-import dap.spotifyAPI.utils.Song;
-
 public class ContextStrategy {
     private Strategy strategy;
 
