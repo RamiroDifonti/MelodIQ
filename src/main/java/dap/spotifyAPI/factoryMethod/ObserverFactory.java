@@ -1,7 +1,6 @@
 package dap.spotifyAPI.factoryMethod;
 
 import dap.spotifyAPI.mvc.MainController;
-import dap.spotifyAPI.proxy.SpotifyInterface;
 
 public class ObserverFactory implements PatternFactory {
     private final MainController _controller;

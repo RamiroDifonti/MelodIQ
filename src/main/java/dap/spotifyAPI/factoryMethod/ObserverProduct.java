@@ -11,23 +11,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ObserverProduct extends JPanel implements PatternProduct {
-//    private final SpotifyInterface spotify;
-//    private final Map<String, Artist> artists;
-//    private final DefaultListModel<String> userListModel;
-//    private final JTextArea notificationArea;
     private final MainController _controller;
 
     public ObserverProduct(MainController controller) {
         this._controller = controller;
-        //        this.spotify = spotify;
-//        this.artists = new HashMap<>();
-//        this.userListModel = new DefaultListModel<>();
-//        this.notificationArea = new JTextArea(10, 30);
     }
 
     @Override
     public Component display() {
-        Map<String, Artist> artists = new HashMap<>();
         DefaultListModel<String> userListModel = new DefaultListModel<>();
         JTextArea notificationArea = new JTextArea(10, 30);
         setLayout(new BorderLayout());
