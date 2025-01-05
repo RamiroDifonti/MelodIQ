@@ -5,17 +5,16 @@ import dap.spotifyAPI.mvc.MainController;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 
-public class StrategyProduct extends JPanel {
+public class StrategyProduct extends JPanel implements PatternProduct {
     private final MainController controller;
 
     public StrategyProduct(MainController controller) {
         this.controller = controller;
-        setupUI();
     }
 
-    private void setupUI() {
+    @Override
+    public Component display() {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         JLabel title = new JLabel("Seleccione una Estrategia para Crear su Playlist");
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -58,5 +57,6 @@ public class StrategyProduct extends JPanel {
         add(Box.createVerticalStrut(10));
         add(playlistButton);
         add(Box.createVerticalGlue());
+        return this;
     }
 }

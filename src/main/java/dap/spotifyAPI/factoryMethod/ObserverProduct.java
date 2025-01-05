@@ -9,7 +9,7 @@ import java.awt.*;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ObserverProduct extends JPanel {
+public class ObserverProduct extends JPanel implements PatternProduct {
     private final SpotifyInterface spotify;
     private final Map<String, Artist> artists;
     private final DefaultListModel<String> userListModel;
@@ -20,11 +20,10 @@ public class ObserverProduct extends JPanel {
         this.artists = new HashMap<>();
         this.userListModel = new DefaultListModel<>();
         this.notificationArea = new JTextArea(10, 30);
-
-        setupUI();
     }
 
-    private void setupUI() {
+    @Override
+    public Component display() {
         setLayout(new BorderLayout());
 
         // Panel izquierdo para gestionar usuarios
@@ -119,5 +118,6 @@ public class ObserverProduct extends JPanel {
         add(userPanel, BorderLayout.WEST);
         add(artistPanel, BorderLayout.CENTER);
         add(notificationPanel, BorderLayout.SOUTH);
+        return this;
     }
 }

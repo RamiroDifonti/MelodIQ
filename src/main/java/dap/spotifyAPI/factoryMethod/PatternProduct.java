@@ -1,7 +1,7 @@
 package dap.spotifyAPI.factoryMethod;
 
-import javax.swing.*;
+import java.awt.*;
 
-public abstract class PatternProduct extends JPanel {
-    // Posiblemente define funcionalidades comunes para los productos
+public interface PatternProduct {
+    public Component display();
 }
