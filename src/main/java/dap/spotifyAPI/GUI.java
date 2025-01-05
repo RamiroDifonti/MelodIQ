@@ -24,7 +24,7 @@ public class GUI extends JFrame {
 
         add(observer());
         add(template());
-        //add(mediator());
+        add(facade());
         add(strategy());
 
         setVisible(true);
@@ -36,8 +36,11 @@ public class GUI extends JFrame {
 
         return product.display(_manager);
     }
-    public JPanel mediator() {
-        return new JPanel();
+    public JPanel facade() {
+        PatternFactory factory = new FacadeFactory();
+        PatternProduct product = factory.createPattern();
+
+        return product.display(_manager);
     }
     public JPanel observer() {
         PatternFactory factory = new ObserverFactory();
