@@ -41,7 +41,7 @@ public class VideoReproducer {
 
     private void SongFinder(String artistName, Consumer<String> callback) {
         JFrame searchFrame = new JFrame("Selecciona una canción");
-        searchFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        searchFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         searchFrame.setSize(800, 600);
         searchFrame.setLayout(new BorderLayout());
 
@@ -49,6 +49,10 @@ public class VideoReproducer {
         searchFrame.add(chooseLabel, BorderLayout.NORTH);
 
         List<Song> artistSongs = _manager.getTracksByArtist(artistName);
+        if (artistSongs == null || artistSongs.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "No se encontraron canciones para el artista " + artistName);
+            return;
+        }
 
         JPanel songPanel = new JPanel();
         songPanel.setLayout(new BoxLayout(songPanel, BoxLayout.Y_AXIS));
