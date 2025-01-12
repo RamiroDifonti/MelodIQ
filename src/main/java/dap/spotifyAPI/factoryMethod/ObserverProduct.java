@@ -1,14 +1,10 @@
 package dap.spotifyAPI.factoryMethod;
 
 import dap.spotifyAPI.mvc.MainController;
-import dap.spotifyAPI.observer.Artist;
-import dap.spotifyAPI.observer.User;
-import dap.spotifyAPI.proxy.SpotifyInterface;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.HashMap;
-import java.util.Map;
+import javax.swing.border.Border;
 
 public class ObserverProduct extends JPanel implements PatternProduct {
     private final MainController _controller;
@@ -22,10 +18,15 @@ public class ObserverProduct extends JPanel implements PatternProduct {
         DefaultListModel<String> userListModel = new DefaultListModel<>();
         JTextArea notificationArea = new JTextArea(10, 30);
         setLayout(new BorderLayout());
+        setBackground(new Color(20, 140, 90));
+        Border grayBorder = BorderFactory.createLineBorder(Color.GRAY, 1);
+        setBorder(grayBorder);
 
         // Panel izquierdo para gestionar usuarios
         JPanel userPanel = new JPanel();
         userPanel.setLayout(new BoxLayout(userPanel, BoxLayout.Y_AXIS));
+        userPanel.setBackground(new Color(20, 140, 90));
+
         JLabel userLabel = new JLabel("Usuarios:");
         JList<String> userList = new JList<>(userListModel);
         JButton addUserButton = new JButton("Agregar Usuario");
@@ -37,14 +38,20 @@ public class ObserverProduct extends JPanel implements PatternProduct {
                 notificationArea.append("Usuario agregado: " + userName + "\n");
             }
         });
+        userList.setBackground(new Color(140, 220, 180));
+        userList.setBorder(grayBorder);
 
         userPanel.add(userLabel);
-        userPanel.add(new JScrollPane(userList));
+        JScrollPane userPane = new JScrollPane(userList);
+        userPane.setBorder(BorderFactory.createEmptyBorder());
+        userPanel.add(userPane);
         userPanel.add(addUserButton);
 
         // Panel derecho para gestionar artistas y notificaciones
         JPanel artistPanel = new JPanel();
         artistPanel.setLayout(new BoxLayout(artistPanel, BoxLayout.Y_AXIS));
+        artistPanel.setBackground(new Color(20, 140, 90));
+
         JLabel artistLabel = new JLabel("Artistas:");
         JTextField artistField = new JTextField();
         JButton subscribeButton = new JButton("Suscribirse");
@@ -74,6 +81,9 @@ public class ObserverProduct extends JPanel implements PatternProduct {
                 notificationArea.append("Álbum con ID " + albumId + " agregado" + "\n");
             }
         });
+        artistPanel.setBorder(BorderFactory.createEmptyBorder());
+        artistField.setBackground(new Color(140, 220, 180));
+        artistField.setBorder(grayBorder);
 
         artistPanel.add(artistLabel);
         artistPanel.add(artistField);
@@ -84,10 +94,16 @@ public class ObserverProduct extends JPanel implements PatternProduct {
         // Área de notificaciones
         JPanel notificationPanel = new JPanel();
         notificationPanel.setLayout(new BorderLayout());
+        notificationPanel.setBackground(new Color(20, 140, 90));
+        notificationArea.setBackground(new Color(140, 220, 180));
+        notificationArea.setBorder(grayBorder);
+
         JLabel notificationLabel = new JLabel("Notificaciones:");
         notificationArea.setEditable(false);
         notificationPanel.add(notificationLabel, BorderLayout.NORTH);
-        notificationPanel.add(new JScrollPane(notificationArea), BorderLayout.CENTER);
+        JScrollPane scrollPane = new JScrollPane(notificationArea);
+        notificationPanel.add(scrollPane, BorderLayout.CENTER);
+        scrollPane.setBorder(BorderFactory.createEmptyBorder());
 
         // Añadir los paneles al producto
         add(userPanel, BorderLayout.WEST);

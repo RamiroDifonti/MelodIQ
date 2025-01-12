@@ -4,6 +4,7 @@ package dap.spotifyAPI.factoryMethod;
 import dap.spotifyAPI.mvc.MainController;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import java.awt.*;
 
 public class StrategyProduct extends JPanel implements PatternProduct {
@@ -18,6 +19,9 @@ public class StrategyProduct extends JPanel implements PatternProduct {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         JLabel title = new JLabel("Seleccione una Estrategia para Crear su Playlist");
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
+        setBackground(new Color(20, 140, 90));
+        Border grayBorder = BorderFactory.createLineBorder(Color.GRAY, 1);
+        setBorder(grayBorder);
 
         JButton albumButton = new JButton("Álbumes");
         JButton songButton = new JButton("Canciones");

@@ -3,6 +3,7 @@ package dap.spotifyAPI.factoryMethod;
 import dap.spotifyAPI.mvc.MainController;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import java.awt.*;
 
 public class TemplateProduct extends JPanel implements PatternProduct {
@@ -17,6 +18,9 @@ public class TemplateProduct extends JPanel implements PatternProduct {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         JLabel title = new JLabel("Búsquedas");
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
+        setBackground(new Color(20, 140, 90));
+        Border grayBorder = BorderFactory.createLineBorder(Color.GRAY, 1);
+        setBorder(grayBorder);
 
         // Botones de búsqueda
         JButton searchAlbumButton = new JButton("Buscar Álbumes");
