@@ -63,7 +63,7 @@ public class Artist extends Subject {
         AlbumSimplified album = spotify.getAlbumById(albumId);
         if (album != null) {
             albums.add(0, album); // Agregar al inicio para mantener los más recientes primero
-            notifyObservers("El artista " + album.getArtists()[0].getName() + " ha agregado un nuevo álbum: " + album.getName());
+            notifyObservers("Se ha agregado un nuevo álbum: " + album.getName());
         }
     }
 }
